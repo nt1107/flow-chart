@@ -1,0 +1,136 @@
+/*
+* 自定义样式
+*/
+
+/* 文字省略 */
+//最大一行省略
+.ellipsis-1 {
+  max-width: 100%;
+  overflow: hidden; //超出的隐藏
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  /*! autoprefixer: off */
+  -webkit-box-orient: vertical;
+}
+//最大两行省略
+.ellipsis-2 {
+  overflow: hidden; //超出的隐藏
+  text-overflow: ellipsis; //省略号
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  /*! autoprefixer: off */
+  -webkit-box-orient: vertical;
+}
+
+/* custom card */
+.card {
+  box-sizing: border-box;
+  padding: var(--gap);
+  // overflow-x: hidden;
+  background-color: var(--el-bg-color);
+  // border: 1px solid var(--el-border-color-light);
+  border-radius: 5px;
+  box-shadow: 0 0 12px rgb(0 0 0 / 5%);
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+}
+
+/* table card */
+.base-table {
+  .action {
+    margin-bottom: var(--gap);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .el-table th.el-table__cell {
+    font-weight: bold;
+    color: var(--el-text-color-primary);
+    background: var(--el-fill-color-light);
+  }
+  .list-bottom {
+    margin-top: var(--gap);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-item-label {
+  font-size: var(--el-font-size-base);
+  color: var(--el-text-color-regular);
+  padding-right: 12px;
+}
+
+// layout样式
+.layout-list-content {
+  padding-top: 10px;
+  .s {
+    margin-bottom: var(--gap);
+  }
+  .r {
+    display: flex;
+    .r-left {
+      flex: 1;
+      margin-right: var(--gap);
+    }
+    .r-right {
+      flex: 3.5;
+    }
+  }
+}
+
+.layout-detail-content {
+  padding: var(--gap);
+  background-color: #ffffff;
+  --header-height: 70px;
+  .breadcrumb {
+    padding: var(--gap);
+  }
+  .header {
+    height: var(--header-height);
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--el-border-color-lighter);
+    padding: var(--gap) 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .title {
+      font-size: 20px;
+      max-width: 600px;
+    }
+  }
+  .content {
+    padding: var(--gap);
+    display: flex;
+    .l {
+      flex: 4;
+      margin-right: var(--gap);
+    }
+    .r {
+      flex: 1;
+    }
+  }
+}
+
+.tags-card {
+  padding-bottom: 0;
+  .tag {
+    margin-bottom: var(--gap);
+    margin-right: var(--gap);
+  }
+}

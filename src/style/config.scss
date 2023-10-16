@@ -1,0 +1,36 @@
+/*
+* 第三方组件样式
+*/
+
+/* element样式 */
+.el-message,
+.el-notification {
+  z-index: 99999999 !important;
+}
+
+/* nprogress */
+#nprogress .bar {
+  background: var(--el-color-primary) !important;
+}
+#nprogress .spinner-icon {
+  border-top-color: var(--el-color-primary) !important;
+  border-left-color: var(--el-color-primary) !important;
+}
+#nprogress .peg {
+  box-shadow: 0 0 10px var(--el-color-primary), 0 0 5px var(--el-color-primary) !important;
+}
+
+/* markdown样式 */
+.markdown-body {
+  box-sizing: border-box;
+  min-width: 200px;
+  // max-width: 980px;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+// @media (max-width: 767px) {
+//   .markdown-body {
+//     padding: 15px;
+//   }
+// }

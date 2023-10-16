@@ -1,0 +1,8 @@
+/node_modules/
+/public/
+.vscode
+.idea
+auto-import.d.ts
+components.d.ts
+vite-env.d.ts
+dist

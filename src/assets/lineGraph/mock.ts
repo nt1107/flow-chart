@@ -1,4 +1,4 @@
-import * as type from './type'
+import * as type from './type';
 
 const data: type.node[] = [
   {
@@ -153,6 +153,6 @@ const data: type.node[] = [
       }
     ]
   }
-]
+];
 
-export default data
+export default data;

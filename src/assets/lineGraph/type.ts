@@ -17,7 +17,8 @@ export type baseOptions = {
     horizontal: number;
   };
   shapeMap: typeMap;
-  repeatNodes: Map<nodeId, number>;
+  repeatNodes: Map<nodeId, nodeId>;
+  repeatMap: Map<nodeId, Map<nodeId, number>>;
 };
 export type node = {
   id: nodeId;
@@ -38,7 +39,11 @@ export type node = {
   childrenVheight?: number;
   fatherNode?: node;
   hasRepeatNode?: Boolean;
+  disallowChildrenRealignment?: Boolean;
+  repeatNodeId?: nodeId;
   parent?: nodeId;
+  hide?: Boolean;
+  triangle?: Boolean;
 };
 export type direction = 'left' | 'right' | 'bottom';
 
@@ -68,7 +73,7 @@ export interface renderNode extends Record<string, any> {
 
 export type bbox = {
   x: [number, number];
-  y: number;
+  y: [number, number];
 };
 
 export type gap = {

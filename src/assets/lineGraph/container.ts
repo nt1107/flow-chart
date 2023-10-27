@@ -11,7 +11,9 @@ class Container {
   fontSize: number;
   shapeMap: type.typeMap;
   baseOptions: type.baseOptions;
-  repeatNodes: Map<type.nodeId, number>;
+  containers: Container[];
+  repeatNodes: Map<type.nodeId, type.nodeId>;
+  repeatMap: Map<type.nodeId, Map<type.nodeId, number>>;
 
   constructor(
     node: type.node,
@@ -23,35 +25,33 @@ class Container {
     this.stringLen = baseOptions.stringLen;
     this.fontSize = baseOptions.fontSize;
     this.lines = lines;
+    this.containers = [];
     this.bbox = {
-      x: [0, 0],
-      y: 0
+      x: [Infinity, -Infinity],
+      y: [0, 0]
     };
     this.gap = baseOptions.gap;
     this.shapeMap = baseOptions.shapeMap;
     this.repeatNodes = baseOptions.repeatNodes;
+    this.repeatMap = baseOptions.repeatMap;
     this.parse();
   }
 
   parse() {
     if (!this.node.children?.length) {
-      EmitError('container node must contains at least one child node');
+      return EmitError('container node must contains at least one child node');
     }
     this.node.children!.forEach((childNode) => {
       childNode.parent = this.node.id;
       childNode.isEvent = true;
-      this.parseNode(childNode, 'bottom', this.node);
+      this.parseNode(childNode, 'bottom');
     });
     this.addEventLine(this.node.children!);
-    this.node.vheight = this.bbox.y;
+    this.node.vheight = this.bbox.y[1];
     this.node.vwidth = this.bbox.x;
   }
 
-  parseNode(
-    node: type.node,
-    direction: type.direction,
-    fatherNode?: type.node
-  ) {
+  parseNode(node: type.node, direction: type.direction) {
     let strArray: string[] | [] = [];
     const fontSize: number = node.style
       ? node.style['font-size']
@@ -68,7 +68,7 @@ class Container {
     );
     const nodeWidth = shapeSize.width;
     const nodeHight = shapeSize.height;
-    const positionX = this.calcPositonX(direction, nodeWidth, fatherNode);
+    const positionX = this.calcPositonX(direction, nodeWidth, node.fatherNode!);
 
     this.setNodeProperty(
       node,
@@ -76,15 +76,13 @@ class Container {
       nodeHight,
       positionX,
       strArray,
-      direction,
-      fatherNode
+      direction
     );
 
     this.setPositionY(node);
-    this.dealRepeat(node, fatherNode as type.node);
 
     if (node.isEvent) {
-      this.bbox.y = node.y! + node.vheight! / 2 + this.gap.vertical;
+      this.bbox.y[1] = node.y! + node.vheight! / 2 + this.gap.vertical;
     }
   }
 
@@ -98,113 +96,208 @@ class Container {
   }
 
   setChildrenPositionY(fatherNode: type.node, childrenNodes?: type.node[]) {
-    childrenNodes = childrenNodes
-      ? childrenNodes
-      : (fatherNode.children as type.node[]);
+    childrenNodes = childrenNodes ? childrenNodes : fatherNode.children!;
 
-    let restHeight = Math.max(fatherNode.childrenVheight!, fatherNode.height!);
-    const halfHeight = restHeight / 2;
-    const len = childrenNodes.length;
+    const restHeight = Math.max(
+      fatherNode.childrenVheight!,
+      fatherNode.height!
+    );
+    let len = 0;
     const baseY = fatherNode.y!;
 
+    childrenNodes.forEach((childNode) => {
+      if (!childNode.hide) len++;
+    });
+    if (len === 0) return;
     if (len === 1) {
-      childrenNodes[0].y = baseY;
-      if (childrenNodes[0].children) {
-        this.setChildrenPositionYPre(childrenNodes[0]);
-      }
+      childrenNodes.forEach((childNode) => {
+        if (!childNode.hide && childNode.y !== baseY) {
+          childNode.y = baseY;
+          if (childNode.children) {
+            this.setChildrenPositionYPre(childNode);
+          }
+        }
+      });
     } else {
       const extraGap = (restHeight - fatherNode.childrenVheight!) / (len - 1);
       if (
         childrenNodes.findIndex((childNode) => childNode.hasRepeatNode) > -1
       ) {
-        this.adjustRepeatNodes(
-          childrenNodes,
-          fatherNode,
-          baseY,
-          halfHeight,
-          restHeight,
-          extraGap
-        );
+        // if (fatherNode.id === 70) debugger;
+        this.adjustRepeatNodes(childrenNodes, baseY, restHeight, extraGap);
       } else {
-        for (let index = childrenNodes.length - 1; index >= 0; index--) {
-          const childNode = childrenNodes[index];
-          childNode.y =
-            baseY + restHeight - halfHeight - childNode.vheight! / 2;
-          if (childNode.children) {
-            this.setChildrenPositionYPre(childNode);
-          }
-          restHeight -= childNode.vheight!;
-          if (index > 0) {
-            restHeight -= this.gap.vertical + extraGap;
-          }
-        }
+        this.calcPositionY(childrenNodes, baseY, restHeight, extraGap);
       }
     }
   }
 
-  dealRepeat(node: type.node, fatherNode: type.node) {
-    if (this.repeatNodes.has(node.id)) {
-      if (!this.determineIsRepeat(node, fatherNode as type.node)) {
-        this.repeatNodes.delete(node.id);
-      } else {
-        let restNum = this.repeatNodes.get(node.id)!;
-        if (restNum > 1) {
-          this.repeatNodes.set(node.id, --restNum);
-        } else {
-          node.fatherNode!.hasRepeatNode = true;
+  calcPositionY(
+    nodes: type.node[],
+    baseY: number,
+    restHeight: number,
+    extraGap: number
+  ) {
+    const halfHeight = restHeight / 2;
+    for (let index = 0; index < nodes.length; index++) {
+      const childNode = nodes[index];
+      if (childNode.hide) continue;
+      childNode.y = baseY - restHeight + halfHeight + childNode.vheight! / 2;
+      if (childNode.hasRepeatNode && childNode.children![0].y !== baseY) {
+        childNode.children![0].y = baseY;
+        if (childNode.children![0].children) {
+          this.setChildrenPositionYPre(childNode.children![0]);
         }
+      } else {
+        if (childNode.children) {
+          this.setChildrenPositionYPre(childNode);
+        }
+      }
+      restHeight -= childNode.vheight!;
+      if (index < nodes.length - 1) {
+        restHeight -= this.gap.vertical + extraGap;
       }
     }
   }
 
-  determineIsRepeat(node: type.node, fatherNode: type.node) {
-    const repeatNodeId = node.id;
-    const grandNode = fatherNode.fatherNode;
-
-    return grandNode?.children?.every((father) => {
-      return (
-        father.children?.length === 1 && father.children[0].id === repeatNodeId
-      );
+  setNodeHide(fatherNode: type.node, nodeId: type.nodeId) {
+    fatherNode.children!.forEach((node) => {
+      if (node.id === nodeId) node.hide = true;
     });
+  }
+
+  dealRepeatHide(fatherNode: type.node, node: type.node) {
+    if (!this.repeatNodes.has(node.id)) return false;
+    if (node.triangle) return false;
+    const grandNode = fatherNode.fatherNode!;
+    if (
+      grandNode.id !== this.repeatNodes.get(node.id) ||
+      !fatherNode.hasRepeatNode ||
+      fatherNode.repeatNodeId !== node.id
+    ) {
+      this.setNodeHide(fatherNode, node.id);
+      return true;
+    }
+    const repeatMap = this.repeatMap.get(node.id);
+    if (repeatMap!.get(grandNode.id) === 1) {
+      node.fatherNode!.hasRepeatNode = false;
+    }
   }
 
   adjustRepeatNodes(
     childrenNodes: type.node[],
-    fatherNode: type.node,
     baseY: number,
-    halfHeight: number,
     restHeight: number,
     extraGap: number
   ) {
-    const len = childrenNodes.length;
-    let maxBoundary = 0;
-    childrenNodes.forEach((childNode, index) => {
-      childNode.y = baseY + restHeight - halfHeight - childNode.vheight! / 2;
-      maxBoundary = Math.max(maxBoundary, childNode.x! + childNode.width! / 2);
-      if (index === len - 1) {
-        const repeatNode = childNode.children![0];
-        repeatNode.y = fatherNode.y;
-        this.setPositionX(repeatNode, maxBoundary);
-        if (repeatNode.children) {
-          this.setChildrenPositionYPre(repeatNode);
-        }
-      } else {
-        delete childNode.children;
+    let XBoundary = 0;
+    const halfHeight = restHeight / 2;
+    let Yboundary = baseY - halfHeight;
+    let start = 0;
+    let end = start;
+    let repeatNodeId;
+    let accHeight = 0;
+
+    while (end < childrenNodes.length) {
+      // 如果是隐藏元素
+      if (childrenNodes[end].hide) {
+        ++end;
+        continue;
       }
-      restHeight -= childNode.vheight!;
-      if (index < len - 1) {
+      // 不包含重复节点的时候
+      if (!childrenNodes[end].hasRepeatNode) {
+        if (accHeight === 0) {
+          // 正常排
+          childrenNodes[end].y =
+            baseY - restHeight + halfHeight + childrenNodes[end].vheight! / 2;
+          Yboundary =
+            childrenNodes[end].y! +
+            childrenNodes[end].vheight! / 2 +
+            this.gap.vertical +
+            extraGap;
+          restHeight -= childrenNodes[end].vheight!;
+          if (childrenNodes[end].children) {
+            this.setChildrenPositionYPre(childrenNodes[end]);
+          }
+          start = ++end;
+        } else {
+          // 前面有一组重复节点需要先排掉
+          accHeight = Math.max(accHeight, childrenNodes[start].vheight!);
+          this.calcPositionY(
+            childrenNodes.slice(start, end),
+            Yboundary + accHeight / 2,
+            accHeight,
+            extraGap
+          );
+          this.setPositionX(childrenNodes[end - 1].children![0], XBoundary);
+          Yboundary += accHeight + extraGap;
+          XBoundary = 0;
+          restHeight -= accHeight;
+          accHeight = 0;
+          repeatNodeId = undefined;
+        }
+      } else if (repeatNodeId === undefined) {
+        // 开始遇到重复节点
+        repeatNodeId = childrenNodes[end].repeatNodeId;
+        accHeight += childrenNodes[end].height!;
+        XBoundary = this.calcXBoundary(childrenNodes[end], XBoundary);
+        ++end;
+        if (end === childrenNodes.length) {
+          accHeight = Math.max(accHeight, childrenNodes[start].vheight!);
+          this.calcPositionY(
+            childrenNodes.slice(start, end),
+            Yboundary + accHeight / 2,
+            accHeight,
+            extraGap
+          );
+          this.setPositionX(childrenNodes[end - 1].children![0], XBoundary);
+        }
+        continue;
+      } else if (repeatNodeId === childrenNodes[end].repeatNodeId) {
+        // 继续遇到重复节点
+        XBoundary = this.calcXBoundary(childrenNodes[end], XBoundary);
+        accHeight += childrenNodes[end].height! + this.gap.vertical + extraGap;
+        ++end;
+        if (end === childrenNodes.length) {
+          accHeight = Math.max(accHeight, childrenNodes[start].vheight!);
+          this.calcPositionY(
+            childrenNodes.slice(start, end),
+            Yboundary + accHeight / 2,
+            accHeight,
+            extraGap
+          );
+          this.setPositionX(childrenNodes[end - 1].children![0], XBoundary);
+        }
+        continue;
+      } else {
+        // 遇到的是新的一组重复节点
+        accHeight = Math.max(accHeight, childrenNodes[start].vheight!);
+        this.calcPositionY(
+          childrenNodes.slice(start, end),
+          Yboundary + accHeight / 2,
+          accHeight,
+          extraGap
+        );
+        Yboundary += accHeight + extraGap + this.gap.vertical;
+        restHeight -= accHeight;
+        start = end;
+        accHeight = 0;
+        XBoundary = 0;
+        repeatNodeId = undefined;
+      }
+
+      if (end < childrenNodes.length) {
         restHeight -= this.gap.vertical + extraGap;
       }
-    });
+    }
   }
 
   setPositionX(node: type.node, boundary?: number) {
     let nodeWidth = node.width!;
     if (node.type === 'container') {
       if (node.direction === 'left') {
-        nodeWidth = node.vwidth![1] - node.x!;
+        nodeWidth = (node.vwidth![1] - node.x!) * 2;
       } else if (node.direction === 'right') {
-        nodeWidth = node.x! - node.vwidth![0];
+        nodeWidth = (node.x! - node.vwidth![0]) * 2;
       }
     }
     if (node.direction === 'bottom') {
@@ -215,16 +308,20 @@ class Container {
         : node.fatherNode!.x! - node.fatherNode!.width! / 2;
 
       node.x = boundary - this.gap.horizontal - nodeWidth / 2;
+      this.bbox.x[0] = Math.min(this.bbox.x[0], node.x - nodeWidth / 2);
     } else {
       boundary = boundary
         ? boundary
         : node.fatherNode!.x! + node.fatherNode!.width! / 2;
 
       node.x = boundary + this.gap.horizontal + nodeWidth / 2;
+      this.bbox.x[1] = Math.max(this.bbox.x[0], node.x + nodeWidth / 2);
     }
     if (node.children) {
       node.children.forEach((nodeChild) => {
-        this.setPositionX(nodeChild);
+        if (!nodeChild.hide) {
+          this.setPositionX(nodeChild);
+        }
       });
     }
   }
@@ -235,8 +332,7 @@ class Container {
     height: number,
     x: number,
     label: string[],
-    direction: type.direction,
-    fatherNode?: type.node
+    direction: type.direction
   ) {
     node.height = height;
     node.vheight = height;
@@ -244,23 +340,77 @@ class Container {
     node.x = x;
     node.label = label.join('\n');
     node.direction = direction;
-    node.fatherNode = fatherNode;
+    this.bbox.x[0] = Math.min(this.bbox.x[0], x - width / 2);
+    this.bbox.x[1] = Math.max(this.bbox.x[1], x + width / 2);
   }
 
   getChildrenVheight(childrenNodes: type.node[]) {
     let sumHeight = 0;
+    let len = 0;
     if (childrenNodes.findIndex((childNode) => childNode.hasRepeatNode) > -1) {
-      childrenNodes.forEach((childNode) => {
-        sumHeight += childNode.height!;
-      });
-      sumHeight += this.gap.vertical * (childrenNodes.length - 1);
-      sumHeight = Math.max(sumHeight, childrenNodes[0].vheight!);
+      let index = 0;
+      let repeatNodeId;
+      let accHeight = 0;
+      let repeatNodeVheight = 0;
+      while (index < childrenNodes.length) {
+        if (childrenNodes[index].hide) {
+          ++index;
+          continue;
+        }
+        if (!childrenNodes[index].hasRepeatNode) {
+          // 正常点
+          if (accHeight > 0) {
+            // 加一下
+            if (sumHeight > 0) sumHeight += this.gap.vertical;
+            sumHeight += Math.max(
+              Math.max(accHeight, repeatNodeVheight),
+              childrenNodes[index - 1].vheight!
+            );
+            accHeight = 0;
+            repeatNodeVheight = 0;
+          }
+
+          sumHeight += childrenNodes[index].vheight!;
+          if (index > 0) sumHeight += this.gap.vertical;
+          index++;
+        } else if (repeatNodeId === undefined) {
+          // 开始遇到重复
+          repeatNodeId = childrenNodes[index].repeatNodeId;
+          accHeight += childrenNodes[index].height!;
+          repeatNodeVheight = childrenNodes[index]!.vheight!;
+          if (index > 0) sumHeight += this.gap.vertical;
+          index++;
+          if (index === childrenNodes.length) {
+            sumHeight += childrenNodes[index - 1].vheight!;
+          }
+        } else if (childrenNodes[index].repeatNodeId === repeatNodeId) {
+          // 继续遇到重复
+          accHeight += childrenNodes[index].height! + this.gap.vertical;
+          index++;
+          if (index === childrenNodes.length) {
+            sumHeight += Math.max(accHeight, childrenNodes[index - 1].vheight!);
+          }
+        } else {
+          // 遇到新的重复, 先加一下
+          sumHeight += Math.max(
+            Math.max(accHeight, repeatNodeVheight),
+            childrenNodes[index - 1].vheight!
+          );
+          repeatNodeId = undefined;
+          accHeight = 0;
+          repeatNodeVheight = 0;
+        }
+      }
     } else {
       childrenNodes.forEach((childNode) => {
-        sumHeight += childNode.vheight!;
+        if (!childNode.hide) {
+          sumHeight += childNode.vheight!;
+          len++;
+        }
       });
-      sumHeight += this.gap.vertical * (childrenNodes.length - 1);
+      sumHeight += this.gap.vertical * (len - 1);
     }
+
     return sumHeight;
   }
 
@@ -270,7 +420,7 @@ class Container {
     fatherNode?: type.node
   ) {
     const fatherX = fatherNode?.x || 0;
-    const fatherWidth = fatherNode?.width ? fatherNode.width / 2 : 0;
+    const fatherWidth = fatherNode?.width ? fatherNode.width : 0;
 
     if (direction === 'bottom') {
       return fatherX;
@@ -287,31 +437,46 @@ class Container {
     }
   }
 
+  calcXBoundary(node: type.node, XBoundary: number) {
+    if (node.direction === 'left') {
+      XBoundary = Math.min(XBoundary, node.x! - node.width! / 2);
+    } else if (node.direction === 'right') {
+      XBoundary = Math.max(XBoundary, node.x! + node.width! / 2);
+    }
+    return XBoundary;
+  }
+
   setPositionY(node: type.node) {
     const nodeHight = node.height!;
     if (node.children?.length) {
       if (node?.type === 'container') {
-        new Container(node, this.lines, this.baseOptions);
-        this.setPositionX(node);
+        const container = new Container(node, this.lines, this.baseOptions);
+        this.containers.push(container);
+        container.setPositionX(node);
+        this.bbox.x[0] = Math.min(this.bbox.x[0], container.bbox.x[0]);
+        this.bbox.x[1] = Math.max(this.bbox.x[1], container.bbox.x[1]);
       } else {
         node.children.forEach((childNode: type.node, index: number) => {
           this.addLine(node, childNode);
-          let childDirection: type.direction;
-          childNode.parent = node.parent;
-          if (node.isEvent) {
-            if (index % 2 === 0) {
-              childDirection = 'left';
-              node.left = node.left || [];
-              node.left.push(childNode);
+          if (!childNode.hide) {
+            if (this.dealRepeatHide(node, childNode)) return;
+            let childDirection: type.direction;
+            childNode.parent = node.parent;
+            if (node.isEvent) {
+              if (index % 2 === 0) {
+                childDirection = 'left';
+                node.left = node.left || [];
+                node.left.push(childNode);
+              } else {
+                childDirection = 'right';
+                node.right = node.right || [];
+                node.right.push(childNode);
+              }
             } else {
-              childDirection = 'right';
-              node.right = node.right || [];
-              node.right.push(childNode);
+              childDirection = node.direction!;
             }
-          } else {
-            childDirection = node.direction!;
+            this.parseNode(childNode, childDirection);
           }
-          this.parseNode(childNode, childDirection, node);
         });
       }
       if (node.isEvent) {
@@ -320,11 +485,14 @@ class Container {
         const chilrenVheight = this.getChildrenVheight(node.children);
         node.vheight = Math.max(nodeHight, chilrenVheight);
         node.childrenVheight = chilrenVheight;
-        node.y = this.bbox.y + node.vheight / 2;
-        this.setChildrenPositionYPre(node);
+        const newY = this.bbox.y[1] + node.vheight / 2;
+        if (newY !== node.y) {
+          node.y = newY;
+          this.setChildrenPositionYPre(node);
+        }
       }
     } else {
-      node.y = this.bbox.y + nodeHight / 2;
+      node.y = this.bbox.y[1] + nodeHight / 2;
     }
   }
   addEventLine(childNodes: type.node[]) {
@@ -358,8 +526,11 @@ class Container {
     const chilrenVheight = Math.max(leftVheight, rightVheight);
     node.vheight = Math.max(node.height!, chilrenVheight);
     node.childrenVheight = chilrenVheight;
-    node.y = this.bbox.y + node.vheight / 2;
-    if (node.children) this.setChildrenPositionYPre(node);
+    const newY = this.bbox.y[1] + node.vheight / 2;
+    if (newY !== node.y) {
+      node.y = newY;
+      if (node.children) this.setChildrenPositionYPre(node);
+    }
   }
 
   splitString(label: string) {

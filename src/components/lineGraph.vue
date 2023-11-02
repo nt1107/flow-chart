@@ -86,4 +86,3 @@ onMounted(() => {
   height: 800px;
 }
 </style>
-@/assets/lineGraph/mock/mock

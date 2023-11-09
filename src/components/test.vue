@@ -49,7 +49,7 @@ onMounted(() => {
       {
         selector: '#4',
         style: {
-          'background-image': ["url('../../public/img/cat.jpg')"],
+          'background-image': "url('/img/cat.jpg')",
           'background-height': '50%',
           'background-width': '50%',
           'background-repeat': 'no-repeat',

@@ -228,7 +228,7 @@ const data: type.node[] = [
                 id: 23,
                 label: '一把菜刀',
                 type: 'entity',
-                children: [{ id: 24, label: '菜刀', type: 'entity' }]
+                children: [{ id: 26, label: '菜刀', type: 'entity' }]
               },
               {
                 id: 25,

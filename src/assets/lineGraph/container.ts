@@ -1,5 +1,6 @@
 import * as type from './type';
-import * as Shape from './shape';
+import type Graph from './index';
+import { ShapeType } from './Shape/type';
 import { EmitError } from './helper';
 
 class Container {
@@ -14,6 +15,8 @@ class Container {
   containers: Container[];
   repeatNodes: Map<type.nodeId, type.nodeId>;
   repeatMap: Map<type.nodeId, Map<type.nodeId, number>>;
+  shape: ShapeType;
+  graph: Graph;
 
   constructor(
     node: type.node,
@@ -24,12 +27,14 @@ class Container {
     this.baseOptions = baseOptions;
     this.stringLen = baseOptions.stringLen;
     this.fontSize = baseOptions.fontSize;
+    this.graph = baseOptions.graph;
     this.lines = lines;
     this.containers = [];
     this.bbox = {
       x: [Infinity, -Infinity],
       y: [0, 0]
     };
+    this.shape = baseOptions.shape;
     this.gap = baseOptions.gap;
     this.shapeMap = baseOptions.shapeMap;
     this.repeatNodes = baseOptions.repeatNodes;
@@ -62,7 +67,8 @@ class Container {
     if (node.label) {
       strArray = this.splitString(node.label);
     }
-    const shapeSize = Shape[this.shapeMap[node.type]](
+    const calcFunc = this.shape[this.shapeMap[node.type]]!;
+    const shapeSize = calcFunc(
       strArray[0]?.length * fontSize,
       strArray[0]?.length * strArray.length
     );
@@ -123,7 +129,6 @@ class Container {
       if (
         childrenNodes.findIndex((childNode) => childNode.hasRepeatNode) > -1
       ) {
-        // if (fatherNode.id === 70) debugger;
         this.adjustRepeatNodes(childrenNodes, baseY, restHeight, extraGap);
       } else {
         this.calcPositionY(childrenNodes, baseY, restHeight, extraGap);
@@ -292,6 +297,7 @@ class Container {
   }
 
   setPositionX(node: type.node, boundary?: number) {
+    if (node.hide) return;
     let nodeWidth = node.width!;
     if (node.type === 'container') {
       if (node.direction === 'left') {
@@ -315,7 +321,7 @@ class Container {
         : node.fatherNode!.x! + node.fatherNode!.width! / 2;
 
       node.x = boundary + this.gap.horizontal + nodeWidth / 2;
-      this.bbox.x[1] = Math.max(this.bbox.x[0], node.x + nodeWidth / 2);
+      this.bbox.x[1] = Math.max(this.bbox.x[1], node.x + nodeWidth / 2);
     }
     if (node.children) {
       node.children.forEach((nodeChild) => {
@@ -498,19 +504,42 @@ class Container {
   addEventLine(childNodes: type.node[]) {
     if (childNodes.length <= 1) return;
     for (let i = 1; i < childNodes.length; i++) {
-      this.addLine(childNodes[i - 1], childNodes[i], '顺承');
+      this.addLine(childNodes[i - 1], childNodes[i]);
     }
   }
-  addLine(sourceNode: type.node, targetNode: type.node, label = '') {
+  addLine(sourceNode: type.node, targetNode: type.node) {
     this.lines.push({
       data: {
         source: sourceNode.id,
         target: targetNode.id
       },
       style: {
-        label
+        label: targetNode.lineLabel
       }
     });
+  }
+
+  addNode(node: type.node, fatherNode: type.node) {
+    if (!fatherNode.children) {
+      fatherNode.children = [];
+    }
+    fatherNode.children.push(node);
+    node.fatherNode = fatherNode;
+    let direction: type.direction;
+    if (fatherNode.type === 'container') {
+      direction = 'bottom';
+    } else if (fatherNode.isEvent) {
+      const index = fatherNode.children.length - 1;
+      if (index % 2 === 0) {
+        direction = 'left';
+      } else {
+        direction = 'right';
+      }
+    } else {
+      direction = fatherNode.direction!;
+    }
+    this.parseNode(node, direction);
+    this.update(node);
   }
 
   mergeLeftRightPositionY(node: type.node) {
@@ -540,6 +569,15 @@ class Container {
       i += this.stringLen;
     }
     return str;
+  }
+
+  update(node: type.node) {
+    const newLine = this.lines[this.lines.length];
+    this.graph.addRenderData(node);
+    this.graph.setLine(newLine);
+    const newNode = this.graph.renderData[this.graph.renderData.length - 1];
+    this.graph.cyRender!.add(newNode);
+    this.graph.cyRender!.add(newLine);
   }
 }
 

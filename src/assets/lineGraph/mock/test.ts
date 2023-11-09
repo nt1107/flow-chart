@@ -3,7 +3,7 @@ import * as type from '../type';
 const data: type.node[] = [
   {
     id: 0,
-    label: '',
+    label: '11',
     type: 'container',
     children: [
       {
@@ -12,115 +12,51 @@ const data: type.node[] = [
         type: 'event',
         children: [
           {
-            id: 70,
-            label: '抢劫',
+            id: 2,
+            label: 'b',
+            type: 'entity',
+            style: {
+              'background-image': "url('/img/cat.jpg')",
+              'background-repeat': 'no-repeat',
+              'background-fit': 'cover',
+              'text-valign': 'bottom'
+            }
+          },
+          {
+            id: 3,
+            label: 'c',
             type: 'description',
-            // disallowChildrenRealignment: true,
-            children: [
-              {
-                id: 71,
-                label: '1',
-                type: 'description',
-                children: [
-                  {
-                    id: 75,
-                    label: '被害人1',
-                    type: 'description'
-                  }
-                ]
-              },
-              {
-                id: 78,
-                label: '5',
-                type: 'description',
-                children: [
-                  {
-                    id: 90,
-                    label: '9',
-                    type: 'description',
-                    children: [
-                      {
-                        id: 91,
-                        label: '10',
-                        type: 'description',
-                        children: [
-                          {
-                            id: 92,
-                            label: '11',
-                            type: 'description'
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    id: 92,
-                    label: '11',
-                    type: 'description'
-                  }
-                ]
-              },
-              {
-                id: 72,
-                label: '2',
-                type: 'description',
-                children: [
-                  {
-                    id: 75,
-                    label: '被害人1',
-                    type: 'description'
-                  }
-                ]
-              },
-              {
-                id: 73,
-                label: '3',
-                type: 'description',
-                children: [
-                  {
-                    id: 77,
-                    label: '被害人2',
-                    type: 'description'
-                  }
-                ]
-              },
-              {
-                id: 79,
-                label: '6',
-                type: 'description',
-                children: [
-                  {
-                    id: 80,
-                    label: '7',
-                    type: 'description',
-                    children: [
-                      {
-                        id: 81,
-                        label: '8',
-                        type: 'description'
-                      }
-                    ]
-                  },
-                  {
-                    id: 81,
-                    label: '8',
-                    type: 'description'
-                  }
-                ]
-              },
-              {
-                id: 74,
-                label: '4',
-                type: 'description',
-                children: [
-                  {
-                    id: 77,
-                    label: '被害人2',
-                    type: 'description'
-                  }
-                ]
-              }
-            ]
+            style: {
+              'background-color': 'pink',
+              'text-valign': 'center'
+            }
+          }
+        ]
+      },
+      {
+        id: 4,
+        label: 'd',
+        type: 'event',
+        children: [
+          {
+            id: 5,
+            label: 'd',
+            type: 'entity',
+            style: {
+              'border-color': 'pink',
+              'text-valign': 'center'
+            }
+          },
+          {
+            id: 6,
+            label: 'f',
+            type: 'description',
+            style: {
+              'background-image': "url('/svg/upload.svg')",
+              'background-repeat': 'no-repeat',
+              'background-fit': 'cover',
+              'text-valign': 'bottom'
+            }
           }
         ]
       }

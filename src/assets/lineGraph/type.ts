@@ -1,5 +1,33 @@
+import type Graph from './index';
+import Shape from './Shape/shape';
 export type nodeType = 'container' | 'entity' | 'description' | 'event';
-export type renderType = 'rectangle' | 'ellipse' | 'round';
+export type renderType =
+  | 'rectangle'
+  | 'ellipse'
+  | 'round'
+  | 'triangle'
+  | 'round-triangle'
+  | 'round-rectangle'
+  | 'bottom-round-rectangle'
+  | 'cut-rectangle'
+  | 'barrel'
+  | 'rhomboid'
+  | 'right-rhomboid'
+  | 'diamond'
+  | 'round-diamond'
+  | 'pentagon'
+  | 'round-pentagon'
+  | 'hexagon'
+  | 'round-hexagon'
+  | 'concave-hexagon'
+  | 'heptagon'
+  | 'round-heptagon'
+  | 'octagon'
+  | 'round-octagon'
+  | 'star'
+  | 'tag'
+  | 'round-tag'
+  | 'vee';
 export type typeMap = Record<nodeType, renderType>;
 export type nodeId = string | number;
 export interface line extends Record<string, any> {
@@ -19,11 +47,15 @@ export type baseOptions = {
   shapeMap: typeMap;
   repeatNodes: Map<nodeId, nodeId>;
   repeatMap: Map<nodeId, Map<nodeId, number>>;
+  shape: Shape;
+  graph: Graph;
 };
+
 export type node = {
   id: nodeId;
   label: string;
   type: nodeType;
+  lineLabel?: string;
   direction?: direction;
   children?: node[];
   isEvent?: Boolean;
@@ -49,11 +81,11 @@ export type direction = 'left' | 'right' | 'bottom';
 
 export type Hook = (nodeList: renderNode[]) => renderNode[];
 
-export interface style extends Record<string, number | string> {
-  width: number;
-  height: number;
-  label: string;
-  'font-size': number;
+export interface style extends Record<string, number | string | undefined> {
+  width?: number;
+  height?: number;
+  label?: string;
+  'font-size'?: number;
 }
 
 export interface renderNode extends Record<string, any> {

@@ -1,6 +1,11 @@
 import * as type from './type';
+import type cytoscape from 'cytoscape';
+import * as shapeType from './Shape/type';
+import preProcess from './preProcess';
+import Shape from './Shape/shape';
 import Container from './container';
 import { EmitError, DeepCopy } from './helper';
+import cyRender from './cyRender';
 
 class Graph {
   data: type.node[];
@@ -10,6 +15,7 @@ class Graph {
   stringLen: number;
   fontSize: number;
   hook: Function | undefined;
+  shape: Shape;
   shapeMap: type.typeMap;
   lines: type.line[];
   nodeSet: Set<type.nodeId>;
@@ -17,6 +23,7 @@ class Graph {
   repeatNodes: Map<type.nodeId, type.nodeId>;
   nodeMap: Map<type.nodeId, type.node>;
   bbox: type.bbox;
+  cyRender?: cyRender;
 
   constructor(data: type.node[], shapeMap: type.typeMap) {
     this.data = data;
@@ -29,202 +36,53 @@ class Graph {
     };
     this.shapeMap = shapeMap;
     this.lines = [];
+    this.shape = new Shape();
     this.nodeSet = new Set();
     this.repeatNodes = new Map();
     this.repeatMap = new Map();
     this.nodeMap = new Map();
     this.containers = [];
-    this.preProcess(this.data);
-    this.dealRepeat(this.data);
-    this.setRepeatNodes();
     this.bbox = {
       x: [0, 0],
       y: [0, 0]
     };
+    this.preProcess();
   }
 
-  preProcess(nodes: type.node[], fatherNode?: type.node) {
-    nodes.forEach((node) => {
-      if (fatherNode) node.fatherNode = fatherNode;
-      if (this.nodeSet.has(node.id)) {
-        if (this.repeatMap.size === 0) {
-          this.signRepeat(this.nodeMap.get(node.id)!);
-        }
-        if (!this.repeatMap.has(node.id)) {
-          this.repeatMap.set(node.id, new Map());
-        }
-        this.signRepeat(node);
-        if (this.dealTriangle(node)) {
-          this.nodeMap.set(node.id, node);
-        }
-      } else {
-        this.nodeMap.set(node.id, node);
-        this.nodeSet.add(node.id);
+  addNode(node: type.node, fatherNodeId?: type.nodeId) {
+    if (fatherNodeId) {
+      let fatherNode;
+      for (let i = 0; i < this.containers.length; i++) {
+        const currentNode = this.containers[i].node;
+        fatherNode = this.findNode(currentNode, fatherNodeId);
+        if (!fatherNode) return EmitError('The specified node does not exist');
+        return this.containers[i].addNode(node, fatherNode);
       }
-      if (node.children) {
-        this.preProcess(node.children, node);
-      }
-    });
-  }
-
-  dealTriangle(node: type.node) {
-    const currentNode = node;
-    const lastNode = this.nodeMap.get(node.id)!;
-
-    let tag = currentNode;
-
-    while (tag.fatherNode!.type !== 'container') {
-      if (tag.fatherNode === lastNode?.fatherNode) {
-        lastNode.triangle = true;
-        this.signSingleNodeHide(currentNode);
-        return false;
-      }
-      tag = tag.fatherNode!;
-    }
-
-    tag = lastNode;
-
-    while (tag?.fatherNode?.type !== 'container') {
-      if (tag.fatherNode === currentNode?.fatherNode) {
-        currentNode.triangle = true;
-        this.signSingleNodeHide(lastNode);
-        return true;
-      }
-      tag = tag.fatherNode!;
     }
   }
 
-  setRepeatNodes() {
-    this.repeatMap.forEach((repeatMap, nodeId) => {
-      let max = 0;
-      let id: type.nodeId;
-      repeatMap.forEach((number, grandeNodeId) => {
-        if (number >= max) {
-          max = number;
-          id = grandeNodeId;
-        }
-      });
-      this.repeatNodes.set(nodeId, id!);
-    });
-  }
-
-  dealRepeat(nodes: type.node[]) {
-    nodes.forEach((node) => {
-      if (node.hasRepeatNode) {
-        this.realignment(node.fatherNode!, node.repeatNodeId!);
-        const repeatMap = this.repeatMap.get(node.repeatNodeId!);
-        repeatMap!.set(
-          node.fatherNode!.id,
-          this.getMaxSuccessivRepeat(node.repeatNodeId!, node.fatherNode!)
-        );
+  findNode(currentNode: type.node, nodeId: type.nodeId): type.node | false {
+    if (currentNode.id === nodeId && !currentNode.hide) {
+      return currentNode;
+    } else if (currentNode.children?.length) {
+      for (let i = 0; i < currentNode.children.length; i++) {
+        const res = this.findNode(currentNode.children[i], nodeId);
+        if (res) return res;
       }
-    });
-
-    nodes.forEach((node) => {
-      if (node.children) {
-        this.dealRepeat(node.children);
-      }
-    });
-  }
-
-  signRepeat(node: type.node) {
-    const repeatNodeId = node.id;
-    const grandNode = node.fatherNode!.fatherNode!;
-    const fatherNodes = grandNode.children!;
-    for (let i = 0; i < fatherNodes.length; i++) {
-      const father = fatherNodes[i];
-      if (
-        father.children &&
-        father.children.length === 1 &&
-        father.children[0].id === repeatNodeId &&
-        !father.children[0].hide
-      ) {
-        father.hasRepeatNode = true;
-        father.repeatNodeId = node.id;
-      }
-    }
-  }
-  signSingleNodeHide(node: type.node) {
-    const father = node.fatherNode!;
-    if (father.hasRepeatNode && father.repeatNodeId === node.id) {
-      father.hasRepeatNode = false;
-      delete father.hasRepeatNode;
-      delete father.repeatNodeId;
-    }
-    node.hide = true;
-  }
-
-  realignment(grandNode: type.node, repeatNodeId: type.nodeId) {
-    if (grandNode.disallowChildrenRealignment) return;
-    if (grandNode.type === 'container') return;
-    let start = 0;
-    const fatherNodes = grandNode.children!;
-    let end = fatherNodes.length - 1;
-
-    while (start < end) {
-      while (fatherNodes[start].hasRepeatNode && start < end) {
-        start++;
-      }
-      while (
-        (!fatherNodes[end].hasRepeatNode ||
-          fatherNodes[end].repeatNodeId !== repeatNodeId) &&
-        start < end
-      ) {
-        end--;
-      }
-      [fatherNodes[start], fatherNodes[end]] = [
-        fatherNodes[end],
-        fatherNodes[start]
-      ];
-      start++;
-      end--;
-    }
-  }
-
-  getMaxSuccessivRepeat(nodeId: type.nodeId, grandNode: type.node) {
-    let start = 0,
-      end = 0;
-    const fatherNodes = grandNode.children!;
-    if (grandNode.disallowChildrenRealignment) {
-      let max = 0;
-      while (start < fatherNodes.length) {
-        const res = this.calcSuccessivRepeat(start, end, nodeId, grandNode);
-        start = res.start;
-        end = res.end;
-        max = Math.max(max, end - start);
-        start = end;
-      }
-      return max;
+      return false;
     } else {
-      const res = this.calcSuccessivRepeat(start, end, nodeId, grandNode);
-      start = res.start;
-      end = res.end;
-      return end - start;
+      return false;
     }
   }
 
-  calcSuccessivRepeat(
-    start: number,
-    end: number,
-    nodeId: type.nodeId,
-    grandNode: type.node
-  ) {
-    const fatherNodes = grandNode.children!;
-    while (
-      start < fatherNodes.length &&
-      (!fatherNodes[start].hasRepeatNode ||
-        fatherNodes[start].repeatNodeId !== nodeId)
-    ) {
-      start++;
-    }
-    end = start;
-    while (
-      end < fatherNodes.length &&
-      fatherNodes[end].repeatNodeId === nodeId
-    ) {
-      end++;
-    }
-    return { start, end };
+  preProcess() {
+    new preProcess(
+      this.data,
+      this.nodeSet,
+      this.repeatMap,
+      this.nodeMap,
+      this.repeatNodes
+    );
   }
 
   parse() {
@@ -234,7 +92,9 @@ class Graph {
       gap: this.gap,
       shapeMap: this.shapeMap,
       repeatNodes: this.repeatNodes,
-      repeatMap: this.repeatMap
+      repeatMap: this.repeatMap,
+      shape: this.shape,
+      graph: this
     };
     this.data.forEach((node: type.node) => {
       this.containers.push(new Container(node, this.lines, baseOptions));
@@ -242,6 +102,7 @@ class Graph {
     if (this.data.length > 1) {
       this.setContainerPosition();
     }
+
     this.setRenderList();
     this.setLine();
     if (this.hook) {
@@ -302,6 +163,14 @@ class Graph {
     }
   }
 
+  registerInstance(cy: cytoscape.Core) {
+    this.cyRender = new cyRender(cy);
+  }
+
+  registerShape(shape: type.renderType, calcFunc: shapeType.CalcFunc) {
+    this.shape.customShape(shape, calcFunc);
+  }
+
   beforeRender(callback: Function) {
     if (typeof callback !== 'function') {
       return EmitError('beforeRender must take a function as an argument ');
@@ -309,8 +178,12 @@ class Graph {
     this.hook = callback;
   }
 
-  setLine() {
-    this.renderData.push(...this.lines);
+  setLine(line?: type.line) {
+    if (line) {
+      this.renderData.push(line);
+    } else {
+      this.renderData.push(...this.lines);
+    }
   }
 }
 

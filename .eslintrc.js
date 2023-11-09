@@ -30,6 +30,7 @@ module.exports = defineConfig({
   },
   plugins: ['vue', '@typescript-eslint'],
   rules: {
+    '@typescript-eslint/ban-ts-comment': 0,
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 

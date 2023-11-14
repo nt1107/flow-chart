@@ -50,13 +50,18 @@ class Graph {
   }
 
   addNode(node: type.node, fatherNodeId?: type.nodeId) {
+    if (this.nodeSet.has(node.id)) return EmitError('This node already exists');
+    this.nodeSet.add(node.id);
     if (fatherNodeId) {
       let fatherNode;
       for (let i = 0; i < this.containers.length; i++) {
         const currentNode = this.containers[i].node;
         fatherNode = this.findNode(currentNode, fatherNodeId);
-        if (!fatherNode) return EmitError('The specified node does not exist');
-        return this.containers[i].addNode(node, fatherNode);
+        if (fatherNode) return this.containers[i].addNode(node, fatherNode);
+      }
+      if (!fatherNode) {
+        this.nodeSet.delete(node.id);
+        return EmitError('The specified node does not exist');
       }
     }
   }
@@ -161,6 +166,7 @@ class Graph {
     if (node.children?.length) {
       node.children.forEach((childNode) => this.addRenderData(childNode));
     }
+    return renderNode;
   }
 
   registerInstance(cy: cytoscape.Core) {

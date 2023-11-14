@@ -498,7 +498,11 @@ class Container {
         }
       }
     } else {
-      node.y = this.bbox.y[1] + nodeHight / 2;
+      if (node.fatherNode!.y) {
+        node.y = node.fatherNode!.y;
+      } else {
+        node.y = this.bbox.y[1] + nodeHight / 2;
+      }
     }
   }
   addEventLine(childNodes: type.node[]) {
@@ -528,6 +532,7 @@ class Container {
     let direction: type.direction;
     if (fatherNode.type === 'container') {
       direction = 'bottom';
+      node.parent = fatherNode.id;
     } else if (fatherNode.isEvent) {
       const index = fatherNode.children.length - 1;
       if (index % 2 === 0) {
@@ -535,11 +540,48 @@ class Container {
       } else {
         direction = 'right';
       }
+      node.parent = fatherNode.parent;
     } else {
       direction = fatherNode.direction!;
+      node.parent = fatherNode.parent;
     }
     this.parseNode(node, direction);
+    this.setParentPositionY(node);
+    this.addLine(fatherNode, node);
     this.update(node);
+  }
+
+  setParentPositionY(node: type.node) {
+    const fatherNode = node.fatherNode!;
+    const childrenVheight = this.getChildrenVheight(fatherNode.children!);
+    if (
+      fatherNode.children!.length > 1 ||
+      node.vheight! > fatherNode.vheight!
+    ) {
+      if (node.isEvent) {
+        const index = this.node.children!.findIndex(
+          (eventNode) => eventNode.id === node.id
+        );
+        return this.adjustEventNodePostionY(index);
+      }
+      fatherNode.vheight = Math.max(childrenVheight, fatherNode.vheight!);
+      this.setParentPositionY(fatherNode);
+    } else {
+      this.setChildrenPositionYPre(node);
+    }
+  }
+
+  adjustEventNodePostionY(index: number) {
+    if (index === this.node.children!.length) return;
+    const lastEventNode = this.node.children![index - 1];
+    const boundary =
+      lastEventNode.y! + lastEventNode.vheight! / 2 + this.gap.vertical;
+    const currentEventNode = this.node.children![index];
+    if (currentEventNode.y! !== boundary + currentEventNode.vheight! / 2) {
+      currentEventNode.y = boundary + currentEventNode.vheight! / 2;
+      this.setChildrenPositionYPre(currentEventNode);
+      this.adjustEventNodePostionY(index + 1);
+    }
   }
 
   mergeLeftRightPositionY(node: type.node) {
@@ -572,10 +614,12 @@ class Container {
   }
 
   update(node: type.node) {
-    const newLine = this.lines[this.lines.length];
-    this.graph.addRenderData(node);
+    const newLine = this.lines[this.lines.length - 1];
+    const newNode = this.graph.addRenderData(node);
+    if (this.graph.hook) {
+      this.graph.hook([newNode, newLine]);
+    }
     this.graph.setLine(newLine);
-    const newNode = this.graph.renderData[this.graph.renderData.length - 1];
     this.graph.cyRender!.add(newNode);
     this.graph.cyRender!.add(newLine);
   }

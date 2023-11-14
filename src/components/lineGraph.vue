@@ -47,11 +47,12 @@ graph.beforeRender((list: type.renderNode[]) => {
   });
 });
 const elements = graph.parse();
-
+console.log(elements);
 const addNode = () => {
   graph.addNode(
     {
-      label: '新增节点',
+      label:
+        '蔡英文从2022年3月24日开始被留置了， 蔡英文从2022年3月24日开始被留置了，蔡英文从2022年3月24日开始被留置了， 蔡英文从2022年3月24日开始被留置了',
       type: 'description',
       id: 1000
     },
@@ -117,7 +118,7 @@ onMounted(() => {
   .left_content {
     width: 1500px;
     #cy {
-      width: 100%;
+      width: 1500px;
       height: 100%;
     }
   }

@@ -1,5 +1,6 @@
 import type Graph from './index';
 import Shape from './Shape/shape';
+import type Container from './container';
 export type nodeType = 'container' | 'entity' | 'description' | 'event';
 export type renderType =
   | 'rectangle'
@@ -76,6 +77,7 @@ export type node = {
   parent?: nodeId;
   hide?: Boolean;
   triangle?: Boolean;
+  container: Container;
 };
 export type direction = 'left' | 'right' | 'bottom';
 

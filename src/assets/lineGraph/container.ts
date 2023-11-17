@@ -53,7 +53,7 @@ class Container {
     });
     this.addEventLine(this.node.children!);
     this.node.vheight = this.bbox.y[1];
-    this.node.vwidth = this.bbox.x;
+    this.node.vwidth = [...this.bbox.x];
   }
 
   parseNode(node: type.node, direction: type.direction) {
@@ -119,6 +119,9 @@ class Container {
       childrenNodes.forEach((childNode) => {
         if (!childNode.hide && childNode.y !== baseY) {
           childNode.y = baseY;
+          if (this.graph.isEdit) {
+            this.graph.editNodes.add(childNode);
+          }
           if (childNode.children) {
             this.setChildrenPositionYPre(childNode);
           }
@@ -147,8 +150,18 @@ class Container {
       const childNode = nodes[index];
       if (childNode.hide) continue;
       childNode.y = baseY - restHeight + halfHeight + childNode.vheight! / 2;
-      if (childNode.hasRepeatNode && childNode.children![0].y !== baseY) {
+      if (this.graph.isEdit) {
+        this.graph.editNodes.add(childNode);
+      }
+      if (
+        childNode.hasRepeatNode &&
+        childNode.children![0].y !== baseY &&
+        !childNode.children![0].hide
+      ) {
         childNode.children![0].y = baseY;
+        if (this.graph.isEdit) {
+          this.graph.editNodes.add(childNode.children![0]);
+        }
         if (childNode.children![0].children) {
           this.setChildrenPositionYPre(childNode.children![0]);
         }
@@ -214,6 +227,9 @@ class Container {
           // 正常排
           childrenNodes[end].y =
             baseY - restHeight + halfHeight + childrenNodes[end].vheight! / 2;
+          if (this.graph.isEdit) {
+            this.graph.editNodes.add(childrenNodes[end]);
+          }
           Yboundary =
             childrenNodes[end].y! +
             childrenNodes[end].vheight! / 2 +
@@ -298,30 +314,57 @@ class Container {
 
   setPositionX(node: type.node, boundary?: number) {
     if (node.hide) return;
-    let nodeWidth = node.width!;
-    if (node.type === 'container') {
-      if (node.direction === 'left') {
-        nodeWidth = (node.vwidth![1] - node.x!) * 2;
-      } else if (node.direction === 'right') {
-        nodeWidth = (node.x! - node.vwidth![0]) * 2;
-      }
+    const nodeWidth = node.width!;
+    if (this.graph.isEdit) {
+      this.graph.editNodes.add(node);
     }
-    if (node.direction === 'bottom') {
-      node.x = node.fatherNode!.x!;
-    } else if (node.direction === 'left') {
-      boundary = boundary
-        ? boundary
-        : node.fatherNode!.x! - node.fatherNode!.width! / 2;
+    if (node.type === 'container') {
+      const xCache;
+      xCache = node.x!;
+      if (node.direction === 'bottom') {
+        node.x = node.fatherNode!.x!;
+      } else if (node.direction === 'left') {
+        boundary = boundary
+          ? boundary
+          : node.fatherNode!.x! - node.fatherNode!.width! / 2;
 
-      node.x = boundary - this.gap.horizontal - nodeWidth / 2;
-      this.bbox.x[0] = Math.min(this.bbox.x[0], node.x - nodeWidth / 2);
+        node.x = boundary - this.gap.horizontal - (node.vwidth![1] - node.x!);
+        this.bbox.x[0] = Math.min(
+          this.bbox.x[0],
+          node.x - (xCache - node.vwidth![0])
+        );
+      } else {
+        boundary = boundary
+          ? boundary
+          : node.fatherNode!.x! + node.fatherNode!.width! / 2;
+
+        node.x = boundary + this.gap.horizontal + (node.x! - node.vwidth![0]);
+        this.bbox.x[1] = Math.max(
+          this.bbox.x[1],
+          node.x + (node.vwidth![1] - xCache)
+        );
+      }
+      const xOffset = node.x - xCache;
+      node.vwidth![0] += xOffset;
+      node.vwidth![1] += xOffset;
     } else {
-      boundary = boundary
-        ? boundary
-        : node.fatherNode!.x! + node.fatherNode!.width! / 2;
+      if (node.direction === 'bottom') {
+        node.x = node.fatherNode!.x!;
+      } else if (node.direction === 'left') {
+        boundary = boundary
+          ? boundary
+          : node.fatherNode!.x! - node.fatherNode!.width! / 2;
 
-      node.x = boundary + this.gap.horizontal + nodeWidth / 2;
-      this.bbox.x[1] = Math.max(this.bbox.x[1], node.x + nodeWidth / 2);
+        node.x = boundary - this.gap.horizontal - nodeWidth / 2;
+        this.bbox.x[0] = Math.min(this.bbox.x[0], node.x - nodeWidth / 2);
+      } else {
+        boundary = boundary
+          ? boundary
+          : node.fatherNode!.x! + node.fatherNode!.width! / 2;
+
+        node.x = boundary + this.gap.horizontal + nodeWidth / 2;
+        this.bbox.x[1] = Math.max(this.bbox.x[1], node.x + nodeWidth / 2);
+      }
     }
     if (node.children) {
       node.children.forEach((nodeChild) => {
@@ -346,8 +389,7 @@ class Container {
     node.x = x;
     node.label = label.join('\n');
     node.direction = direction;
-    this.bbox.x[0] = Math.min(this.bbox.x[0], x - width / 2);
-    this.bbox.x[1] = Math.max(this.bbox.x[1], x + width / 2);
+    node.container = this;
   }
 
   getChildrenVheight(childrenNodes: type.node[]) {
@@ -429,6 +471,8 @@ class Container {
     const fatherWidth = fatherNode?.width ? fatherNode.width : 0;
 
     if (direction === 'bottom') {
+      this.bbox.x[0] = Math.min(this.bbox.x[0], fatherX - nodeWidth / 2);
+      this.bbox.x[1] = Math.max(this.bbox.x[1], fatherX + nodeWidth / 2);
       return fatherX;
     } else if (direction === 'left') {
       const x = fatherX - fatherWidth / 2 - nodeWidth / 2 - this.gap.horizontal;
@@ -485,17 +529,18 @@ class Container {
           }
         });
       }
+      let childrenVheight;
       if (node.isEvent) {
-        this.mergeLeftRightPositionY(node);
+        childrenVheight = this.mergeLeftRightVheight(node);
       } else {
-        const chilrenVheight = this.getChildrenVheight(node.children);
-        node.vheight = Math.max(nodeHight, chilrenVheight);
-        node.childrenVheight = chilrenVheight;
-        const newY = this.bbox.y[1] + node.vheight / 2;
-        if (newY !== node.y) {
-          node.y = newY;
-          this.setChildrenPositionYPre(node);
-        }
+        childrenVheight = this.getChildrenVheight(node.children);
+      }
+      node.vheight = Math.max(nodeHight, childrenVheight!);
+      node.childrenVheight = childrenVheight;
+      const newY = this.bbox.y[1] + node.vheight / 2;
+      if (newY !== node.y) {
+        node.y = newY;
+        this.setChildrenPositionYPre(node);
       }
     } else {
       if (node.fatherNode!.y) {
@@ -545,15 +590,30 @@ class Container {
       direction = fatherNode.direction!;
       node.parent = fatherNode.parent;
     }
+    const bboxXCache = [...this.bbox.x] as type.bbox['x'];
     this.parseNode(node, direction);
     this.setParentPositionY(node);
     this.addLine(fatherNode, node);
+    this.setNeighborContainerPositonX(bboxXCache);
     this.update(node);
   }
 
+  setNeighborContainerPositonX(bboxXCache: type.bbox['x']) {
+    if (this.bbox.x[0] < bboxXCache[0]) {
+      this.graph.setContainerPosition('left', this);
+    }
+    if (this.bbox.x[1] > bboxXCache[1]) {
+      this.graph.setContainerPosition('right', this);
+    }
+  }
   setParentPositionY(node: type.node) {
     const fatherNode = node.fatherNode!;
-    const childrenVheight = this.getChildrenVheight(fatherNode.children!);
+    let childrenVheight;
+    if (fatherNode.isEvent) {
+      childrenVheight = this.mergeLeftRightVheight(fatherNode);
+    } else {
+      childrenVheight = this.getChildrenVheight(fatherNode.children!);
+    }
     if (
       fatherNode.children!.length > 1 ||
       node.vheight! > fatherNode.vheight!
@@ -563,9 +623,10 @@ class Container {
           (eventNode) => eventNode.id === node.id
         );
         return this.adjustEventNodePostionY(index);
+      } else {
+        fatherNode.vheight = Math.max(childrenVheight!, fatherNode.vheight!);
+        this.setParentPositionY(fatherNode);
       }
-      fatherNode.vheight = Math.max(childrenVheight, fatherNode.vheight!);
-      this.setParentPositionY(fatherNode);
     } else {
       this.setChildrenPositionYPre(node);
     }
@@ -579,12 +640,13 @@ class Container {
     const currentEventNode = this.node.children![index];
     if (currentEventNode.y! !== boundary + currentEventNode.vheight! / 2) {
       currentEventNode.y = boundary + currentEventNode.vheight! / 2;
+      this.graph.editNodes.add(currentEventNode);
       this.setChildrenPositionYPre(currentEventNode);
       this.adjustEventNodePostionY(index + 1);
     }
   }
 
-  mergeLeftRightPositionY(node: type.node) {
+  mergeLeftRightVheight(node: type.node) {
     if (!node.children) return;
     let leftVheight = 0,
       rightVheight = 0;
@@ -594,14 +656,7 @@ class Container {
     if (node.right) {
       rightVheight = this.getChildrenVheight(node.right);
     }
-    const chilrenVheight = Math.max(leftVheight, rightVheight);
-    node.vheight = Math.max(node.height!, chilrenVheight);
-    node.childrenVheight = chilrenVheight;
-    const newY = this.bbox.y[1] + node.vheight / 2;
-    if (newY !== node.y) {
-      node.y = newY;
-      if (node.children) this.setChildrenPositionYPre(node);
-    }
+    return Math.max(leftVheight, rightVheight);
   }
 
   splitString(label: string) {
@@ -620,8 +675,9 @@ class Container {
       this.graph.hook([newNode, newLine]);
     }
     this.graph.setLine(newLine);
-    this.graph.cyRender!.add(newNode);
+    this.graph.cyRender!.add(newNode!);
     this.graph.cyRender!.add(newLine);
+    this.graph.cyRender!.updateNodes(this.graph.editNodes);
   }
 }
 

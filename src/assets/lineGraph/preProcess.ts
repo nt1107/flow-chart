@@ -27,10 +27,8 @@ export default class preProcess {
     nodes.forEach((node) => {
       if (fatherNode) node.fatherNode = fatherNode;
       if (this.nodeSet.has(node.id)) {
-        if (this.repeatMap.size === 0) {
-          this.signRepeat(this.nodeMap.get(node.id)!);
-        }
         if (!this.repeatMap.has(node.id)) {
+          this.signRepeat(this.nodeMap.get(node.id)!);
           this.repeatMap.set(node.id, new Map());
         }
         this.signRepeat(node);
@@ -98,6 +96,10 @@ export default class preProcess {
           this.getMaxSuccessivRepeat(node.repeatNodeId!, node.fatherNode!)
         );
       }
+      if (node.triangle) {
+        const repeatMap = this.repeatMap.get(node.id);
+        repeatMap!.set(node.fatherNode!.id, Infinity);
+      }
     });
 
     nodes.forEach((node) => {
@@ -143,6 +145,7 @@ export default class preProcess {
   realignment(grandNode: type.node, repeatNodeId: type.nodeId) {
     if (grandNode.disallowChildrenRealignment) return;
     if (grandNode.type === 'container') return;
+    if (grandNode.type === 'event') return;
     let start = 0;
     const fatherNodes = grandNode.children!;
     let end = fatherNodes.length - 1;

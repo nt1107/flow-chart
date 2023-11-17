@@ -11,4 +11,16 @@ export default class cyRender {
     // @ts-ignore
     this.cy.add(element);
   }
+
+  updateNodes(nodes: Set<type.node>) {
+    nodes.forEach((node) => {
+      this.updateNode(node);
+    });
+  }
+  updateNode(node: type.node) {
+    this.cy.nodes(`#${node.id}`).positions({
+      x: node.x!,
+      y: node.y!
+    });
+  }
 }

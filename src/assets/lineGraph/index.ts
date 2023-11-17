@@ -23,6 +23,8 @@ class Graph {
   repeatNodes: Map<type.nodeId, type.nodeId>;
   nodeMap: Map<type.nodeId, type.node>;
   bbox: type.bbox;
+  isEdit: Boolean;
+  editNodes: Set<type.node>;
   cyRender?: cyRender;
 
   constructor(data: type.node[], shapeMap: type.typeMap) {
@@ -42,6 +44,8 @@ class Graph {
     this.repeatMap = new Map();
     this.nodeMap = new Map();
     this.containers = [];
+    this.isEdit = false;
+    this.editNodes = new Set();
     this.bbox = {
       x: [0, 0],
       y: [0, 0]
@@ -51,6 +55,7 @@ class Graph {
 
   addNode(node: type.node, fatherNodeId?: type.nodeId) {
     if (this.nodeSet.has(node.id)) return EmitError('This node already exists');
+    this.isEdit = true;
     this.nodeSet.add(node.id);
     if (fatherNodeId) {
       let fatherNode;
@@ -105,7 +110,7 @@ class Graph {
       this.containers.push(new Container(node, this.lines, baseOptions));
     });
     if (this.data.length > 1) {
-      this.setContainerPosition();
+      this.setContainerPosition('right', this.containers[0]);
     }
 
     this.setRenderList();
@@ -116,24 +121,53 @@ class Graph {
     return this.renderData;
   }
 
-  setContainerPosition() {
+  setContainerPosition(direction: 'left' | 'right', baseContainer: Container) {
     const boundary: type.bbox = {
       x: [0, 0],
       y: [0, 0]
     };
     let xOffset = 0;
-    this.containers.forEach((container, index) => {
-      if (index > 0) {
+    let index = this.containers.findIndex(
+      (container) => container === baseContainer
+    );
+    let container: Container;
+    DeepCopy(baseContainer.bbox, boundary);
+
+    if (direction === 'right') {
+      while (++index < this.containers.length) {
+        container = this.containers[index];
         xOffset = boundary.x[1] + this.gap.horizontal * 3 - container.bbox.x[0];
+        if (xOffset === 0) break;
+        container.bbox.x[0] += xOffset;
+        container.bbox.x[1] += xOffset;
         container.node.children?.forEach((node) => {
           node.x! += xOffset;
+          if (this.isEdit) {
+            this.editNodes.add(node);
+          }
           node.children?.forEach((childNode) => {
             container.setPositionX(childNode);
           });
         });
+        DeepCopy(container.bbox, boundary);
       }
-      DeepCopy(container.bbox, boundary);
-    });
+    } else {
+      while (--index >= 0) {
+        container = this.containers[index];
+        xOffset = container.bbox.x[1] - boundary.x[0] + this.gap.horizontal * 3;
+        if (xOffset === 0) break;
+        container.node.children?.forEach((node) => {
+          node.x! -= xOffset;
+          if (this.isEdit) {
+            this.editNodes.add(node);
+          }
+          node.children?.forEach((childNode) => {
+            container.setPositionX(childNode);
+          });
+        });
+        DeepCopy(container.bbox, boundary);
+      }
+    }
   }
 
   setRenderList() {

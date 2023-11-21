@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import cytoscape from 'cytoscape';
-import mockData from '@/assets/lineGraph/mock/testbug';
+import mockData from '@/assets/lineGraph/mock/all';
 import Graph from '@/assets/lineGraph/index';
 import * as type from '@/assets/lineGraph/type';
 
@@ -56,7 +56,7 @@ const addNode = () => {
       type: 'description',
       id: 1000
     },
-    46
+    11
   );
 };
 

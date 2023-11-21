@@ -12,7 +12,6 @@ class Container {
   fontSize: number;
   shapeMap: type.typeMap;
   baseOptions: type.baseOptions;
-  containers: Container[];
   repeatNodes: Map<type.nodeId, type.nodeId>;
   repeatMap: Map<type.nodeId, Map<type.nodeId, number>>;
   shape: ShapeType;
@@ -29,7 +28,6 @@ class Container {
     this.fontSize = baseOptions.fontSize;
     this.graph = baseOptions.graph;
     this.lines = lines;
-    this.containers = [];
     this.bbox = {
       x: [Infinity, -Infinity],
       y: [0, 0]
@@ -46,6 +44,7 @@ class Container {
     if (!this.node.children?.length) {
       return EmitError('container node must contains at least one child node');
     }
+    this.node.container = this;
     this.node.children!.forEach((childNode) => {
       childNode.parent = this.node.id;
       childNode.isEvent = true;
@@ -53,7 +52,6 @@ class Container {
     });
     this.addEventLine(this.node.children!);
     this.node.vheight = this.bbox.y[1];
-    this.node.vwidth = [...this.bbox.x];
   }
 
   parseNode(node: type.node, direction: type.direction) {
@@ -319,8 +317,7 @@ class Container {
       this.graph.editNodes.add(node);
     }
     if (node.type === 'container') {
-      const xCache;
-      xCache = node.x!;
+      const xCache = node.x!;
       if (node.direction === 'bottom') {
         node.x = node.fatherNode!.x!;
       } else if (node.direction === 'left') {
@@ -328,25 +325,27 @@ class Container {
           ? boundary
           : node.fatherNode!.x! - node.fatherNode!.width! / 2;
 
-        node.x = boundary - this.gap.horizontal - (node.vwidth![1] - node.x!);
+        node.x =
+          boundary -
+          this.gap.horizontal -
+          (node.container!.bbox.x![1] - node.x!);
         this.bbox.x[0] = Math.min(
           this.bbox.x[0],
-          node.x - (xCache - node.vwidth![0])
+          node.x - (xCache - node.container!.bbox.x![0])
         );
       } else {
         boundary = boundary
           ? boundary
           : node.fatherNode!.x! + node.fatherNode!.width! / 2;
 
-        node.x = boundary + this.gap.horizontal + (node.x! - node.vwidth![0]);
-        this.bbox.x[1] = Math.max(
-          this.bbox.x[1],
-          node.x + (node.vwidth![1] - xCache)
-        );
+        node.x =
+          boundary +
+          this.gap.horizontal +
+          (node.x! - node.container!.bbox.x![0]);
+        const xOffset = node.x - xCache;
+        node.container!.bbox.x![0] += xOffset;
+        node.container!.bbox.x![1] += xOffset;
       }
-      const xOffset = node.x - xCache;
-      node.vwidth![0] += xOffset;
-      node.vwidth![1] += xOffset;
     } else {
       if (node.direction === 'bottom') {
         node.x = node.fatherNode!.x!;
@@ -501,7 +500,6 @@ class Container {
     if (node.children?.length) {
       if (node?.type === 'container') {
         const container = new Container(node, this.lines, this.baseOptions);
-        this.containers.push(container);
         container.setPositionX(node);
         this.bbox.x[0] = Math.min(this.bbox.x[0], container.bbox.x[0]);
         this.bbox.x[1] = Math.max(this.bbox.x[1], container.bbox.x[1]);
@@ -513,15 +511,7 @@ class Container {
             let childDirection: type.direction;
             childNode.parent = node.parent;
             if (node.isEvent) {
-              if (index % 2 === 0) {
-                childDirection = 'left';
-                node.left = node.left || [];
-                node.left.push(childNode);
-              } else {
-                childDirection = 'right';
-                node.right = node.right || [];
-                node.right.push(childNode);
-              }
+              childDirection = this.eventNodeAddChild(childNode, index);
             } else {
               childDirection = node.direction!;
             }
@@ -550,6 +540,22 @@ class Container {
       }
     }
   }
+  eventNodeAddChild(node: type.node, index?: number) {
+    const fatherNode = node.fatherNode!;
+    index = index === undefined ? fatherNode.children!.length - 1 : index;
+    let direction: type.direction;
+    if (index % 2 === 0) {
+      direction = 'left';
+      fatherNode.left = fatherNode.left || [];
+      fatherNode.left.push(node);
+    } else {
+      direction = 'right';
+      fatherNode.right = fatherNode.right || [];
+      fatherNode.right.push(node);
+    }
+    return direction;
+  }
+
   addEventLine(childNodes: type.node[]) {
     if (childNodes.length <= 1) return;
     for (let i = 1; i < childNodes.length; i++) {
@@ -579,18 +585,18 @@ class Container {
       direction = 'bottom';
       node.parent = fatherNode.id;
     } else if (fatherNode.isEvent) {
-      const index = fatherNode.children.length - 1;
-      if (index % 2 === 0) {
-        direction = 'left';
-      } else {
-        direction = 'right';
-      }
+      direction = this.eventNodeAddChild(node);
       node.parent = fatherNode.parent;
     } else {
       direction = fatherNode.direction!;
       node.parent = fatherNode.parent;
     }
-    const bboxXCache = [...this.bbox.x] as type.bbox['x'];
+    let parentContainer = this as Container;
+    while (parentContainer.node.parent !== undefined) {
+      parentContainer = parentContainer.node.fatherNode!.container!;
+    }
+
+    const bboxXCache = [...parentContainer.bbox.x] as type.bbox['x'];
     this.parseNode(node, direction);
     this.setParentPositionY(node);
     this.addLine(fatherNode, node);
@@ -599,13 +605,73 @@ class Container {
   }
 
   setNeighborContainerPositonX(bboxXCache: type.bbox['x']) {
-    if (this.bbox.x[0] < bboxXCache[0]) {
-      this.graph.setContainerPosition('left', this);
+    let parentContainer = this as Container;
+    while (parentContainer.node.parent !== undefined) {
+      parentContainer = parentContainer.node.fatherNode!.container!;
     }
-    if (this.bbox.x[1] > bboxXCache[1]) {
-      this.graph.setContainerPosition('right', this);
+    if (parentContainer.bbox.x[0] < bboxXCache[0]) {
+      this.graph.setContainerPosition('left', parentContainer);
+    }
+    if (parentContainer.bbox.x[1] > bboxXCache[1]) {
+      this.graph.setContainerPosition('right', parentContainer);
     }
   }
+
+  adjustParentContainerPositionX(node: type.node) {
+    if (node.type !== 'container') return;
+    if (!node.fatherNode) return;
+    const parentContainer = node.fatherNode.container!;
+    if (node.direction === 'bottom') {
+      return;
+    } else if (node.direction === 'right') {
+      const boundary =
+        node.fatherNode.x! + this.gap.horizontal + node.fatherNode.width! / 2;
+      if (
+        boundary !== this.bbox.x[0] ||
+        this.bbox.x[1] > parentContainer.bbox.x[1]
+      ) {
+        const xOffset = boundary - this.bbox.x[0];
+        this.bbox.x[0] += xOffset;
+        this.bbox.x[1] += xOffset;
+        parentContainer.bbox.x[1] = Math.max(
+          this.bbox.x[1],
+          parentContainer.bbox.x[1]
+        );
+        this.setContainerPositionX(xOffset);
+        this.graph.setContainerPosition('right', parentContainer);
+      }
+    } else {
+      const boundary =
+        node.fatherNode.x! - this.gap.horizontal - node.fatherNode.width! / 2;
+      if (
+        boundary !== this.bbox.x[1] ||
+        this.bbox.x[0] < parentContainer.bbox.x[0]
+      ) {
+        const xOffset = boundary - this.bbox.x[1];
+        this.bbox.x[1] += xOffset;
+        this.bbox.x[0] += xOffset;
+        parentContainer.bbox.x[0] = Math.min(
+          this.bbox.x[0],
+          parentContainer.bbox.x[0]
+        );
+        this.setContainerPositionX(xOffset);
+        this.graph.setContainerPosition('left', parentContainer);
+      }
+    }
+  }
+
+  setContainerPositionX(Xoffset: number) {
+    this.node.children?.forEach((node) => {
+      node.x! += Xoffset;
+      if (this.graph.isEdit) {
+        this.graph.editNodes.add(node);
+      }
+      node.children?.forEach((childNode) => {
+        this.setPositionX(childNode);
+      });
+    });
+  }
+
   setParentPositionY(node: type.node) {
     const fatherNode = node.fatherNode!;
     let childrenVheight;
@@ -616,13 +682,17 @@ class Container {
     }
     if (
       fatherNode.children!.length > 1 ||
-      node.vheight! > fatherNode.vheight!
+      node.vheight! > fatherNode.vheight! ||
+      node.isEvent
     ) {
       if (node.isEvent) {
         const index = this.node.children!.findIndex(
           (eventNode) => eventNode.id === node.id
         );
-        return this.adjustEventNodePostionY(index);
+        this.adjustEventNodePostionY(index);
+        if (node.fatherNode!.parent !== undefined) {
+          this.adjustParentContainerPositionX(node.fatherNode!);
+        }
       } else {
         fatherNode.vheight = Math.max(childrenVheight!, fatherNode.vheight!);
         this.setParentPositionY(fatherNode);
@@ -634,6 +704,7 @@ class Container {
 
   adjustEventNodePostionY(index: number) {
     if (index === this.node.children!.length) return;
+    if (index === 0) return;
     const lastEventNode = this.node.children![index - 1];
     const boundary =
       lastEventNode.y! + lastEventNode.vheight! / 2 + this.gap.vertical;

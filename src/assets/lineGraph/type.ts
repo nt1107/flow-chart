@@ -68,7 +68,6 @@ export type node = {
   width?: number;
   height?: number;
   vheight?: number;
-  vwidth?: [number, number];
   childrenVheight?: number;
   fatherNode?: node;
   hasRepeatNode?: Boolean;
@@ -77,7 +76,7 @@ export type node = {
   parent?: nodeId;
   hide?: Boolean;
   triangle?: Boolean;
-  container: Container;
+  container?: Container;
 };
 export type direction = 'left' | 'right' | 'bottom';
 

@@ -2,41 +2,54 @@ import * as type from '../type';
 
 const data: type.node[] = [
   {
-    id: 30,
-    label: '蔡英文受贿询问记录',
+    id: 0,
+    label: '第一阶段抢劫',
     type: 'container',
     children: [
       {
-        id: 42,
-        label: '问：（出示工作证件）我们是山北市新新区监委的调查人员，',
+        id: 7,
+        label: '翁某甲，李某甲，翁某某，李某流窜至扶风县马某某的加油站附近',
         type: 'event',
         children: [
           {
-            id: 43,
-            label: '知情权',
-            type: 'entity'
+            id: 8,
+            label: '8',
+            type: 'description'
           },
           {
-            id: 45,
-            label: '全程同步录音录像',
-            type: 'description',
+            id: 10,
+            label: '关系图',
+            type: 'container',
+            disallowChildrenRealignment: true,
             children: [
               {
-                id: 65,
-                type: 'container',
-                label: '22',
+                id: 11,
+                label: '翁某甲，李某甲，翁某某，李某',
+                type: 'event',
+                disallowChildrenRealignment: true,
                 children: [
                   {
-                    id: 46,
-                    label:
-                      '蔡英文从2022年3月24日开始被留置了， 蔡英文从2022年3月24日开始被留置了，蔡英文从2022年3月24日开始被留置了， 蔡英文从2022年3月24日开始被留置了',
-                    type: 'event'
+                    id: 12,
+                    label: '关系',
+                    type: 'description'
                   }
                 ]
               }
             ]
           }
         ]
+      }
+    ]
+  },
+  {
+    id: 31,
+    label: '第二阶段抢劫',
+    type: 'container',
+    children: [
+      {
+        id: 32,
+        label: '32',
+        type: 'event'
       }
     ]
   }

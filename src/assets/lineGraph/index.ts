@@ -62,7 +62,7 @@ class Graph {
       for (let i = 0; i < this.containers.length; i++) {
         const currentNode = this.containers[i].node;
         fatherNode = this.findNode(currentNode, fatherNodeId);
-        if (fatherNode) return this.containers[i].addNode(node, fatherNode);
+        if (fatherNode) return fatherNode.container!.addNode(node, fatherNode);
       }
       if (!fatherNode) {
         this.nodeSet.delete(node.id);
@@ -130,6 +130,7 @@ class Graph {
     let index = this.containers.findIndex(
       (container) => container === baseContainer
     );
+    if (index < 0) return;
     let container: Container;
     DeepCopy(baseContainer.bbox, boundary);
 
@@ -156,15 +157,7 @@ class Graph {
         container = this.containers[index];
         xOffset = container.bbox.x[1] - boundary.x[0] + this.gap.horizontal * 3;
         if (xOffset === 0) break;
-        container.node.children?.forEach((node) => {
-          node.x! -= xOffset;
-          if (this.isEdit) {
-            this.editNodes.add(node);
-          }
-          node.children?.forEach((childNode) => {
-            container.setPositionX(childNode);
-          });
-        });
+        container.setContainerPositionX(xOffset);
         DeepCopy(container.bbox, boundary);
       }
     }

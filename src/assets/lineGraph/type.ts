@@ -1,7 +1,15 @@
 import type Graph from './index';
 import Shape from './Shape/shape';
-import type Container from './container';
+import type Container from './newContainer';
 export type nodeType = 'container' | 'entity' | 'description' | 'event';
+export type layout = {
+  rows: number;
+  colomn: number;
+};
+export type GraphBbox = {
+  x: [number, number][];
+  y: [number, number][];
+};
 export type renderType =
   | 'rectangle'
   | 'ellipse'
@@ -60,6 +68,7 @@ export type node = {
   direction?: direction;
   children?: node[];
   isEvent?: Boolean;
+  isRoot?: Boolean;
   left?: node[];
   right?: node[];
   style?: style;

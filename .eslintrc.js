@@ -42,6 +42,7 @@ module.exports = defineConfig({
     '@typescript-eslint/no-non-null-assertion': 'off', // 不允许使用后缀运算符的非空断言(!)
 
     // vue (https://eslint.vuejs.org/rules)
-    'vue/no-mutating-props': 'off' // 不允许组件 prop的改变
+    'vue/no-mutating-props': 'off', // 不允许组件 prop的改变
+    '@typescript-eslint/no-this-alias': ['off']
   }
 });

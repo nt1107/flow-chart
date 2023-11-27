@@ -3,7 +3,7 @@ import type cytoscape from 'cytoscape';
 import * as shapeType from './Shape/type';
 import preProcess from './preProcess';
 import Shape from './Shape/shape';
-import Container from './container';
+import Container from './newContainer';
 import { EmitError, DeepCopy } from './helper';
 import cyRender from './cyRender';
 
@@ -22,12 +22,14 @@ class Graph {
   repeatMap: Map<type.nodeId, Map<type.nodeId, number>>;
   repeatNodes: Map<type.nodeId, type.nodeId>;
   nodeMap: Map<type.nodeId, type.node>;
-  bbox: type.bbox;
+  bbox: type.GraphBbox;
   isEdit: Boolean;
   editNodes: Set<type.node>;
   cyRender?: cyRender;
+  process: 'render' | 'edit';
+  mode: 'adjustY' | 'adjustX' | 'render' | 'edit';
 
-  constructor(data: type.node[], shapeMap: type.typeMap) {
+  constructor(data: type.node[], shapeMap: type.typeMap, layout?: type.layout) {
     this.data = data;
     this.renderData = [];
     this.stringLen = 15;
@@ -36,6 +38,8 @@ class Graph {
       vertical: 30,
       horizontal: 50
     };
+    this.process = 'render';
+    this.mode = 'render';
     this.shapeMap = shapeMap;
     this.lines = [];
     this.shape = new Shape();
@@ -46,11 +50,28 @@ class Graph {
     this.containers = [];
     this.isEdit = false;
     this.editNodes = new Set();
-    this.bbox = {
-      x: [0, 0],
-      y: [0, 0]
-    };
+    this.bbox = { x: [[0, 0]], y: [[0, 0]] };
+    this.setBbox(layout);
     this.preProcess();
+  }
+
+  setBbox(layout?: type.layout) {
+    if (layout) {
+      this.bbox.x = Array.from({ length: layout.colomn }, (_, i) => [
+        0 + i * this.gap.horizontal,
+        0 + i * this.gap.horizontal
+      ]);
+      this.bbox.y = Array.from({ length: layout.rows }, (_, i) => [
+        0 + i * this.gap.vertical,
+        0 + i * this.gap.vertical
+      ]);
+    } else {
+      this.bbox.x = Array.from({ length: this.data.length }, (_, i) => [
+        0 + i * this.gap.horizontal,
+        0 + i * this.gap.horizontal
+      ]);
+      this.bbox.y = [[0, 0]];
+    }
   }
 
   addNode(node: type.node, fatherNodeId?: type.nodeId) {
@@ -107,6 +128,7 @@ class Graph {
       graph: this
     };
     this.data.forEach((node: type.node) => {
+      node.isRoot = true;
       this.containers.push(new Container(node, this.lines, baseOptions));
     });
     if (this.data.length > 1) {

@@ -58,11 +58,7 @@ class Container {
     }
 
     if (!direction) {
-      if (node.isRoot || node.isEvent) {
-        direction = 'bottom';
-      } else {
-        direction = node.fatherNode!.direction!;
-      }
+      direction = this.calcNodeDirtion(node);
     }
 
     let strArray: string[] | [] = [];
@@ -90,11 +86,8 @@ class Container {
       strArray,
       direction
     );
-    if (node.isRoot) {
+    if (node.type === 'container') {
       node.y = this.bbox.y[0];
-    }
-    if (node.isEvent) {
-      this.bbox.y[1] = node.y! + node.vheight! / 2 + this.gap.vertical;
     }
   }
 
@@ -110,7 +103,6 @@ class Container {
     node.height = height;
     node.vheight = height;
     node.width = width;
-    node.x = x;
     node.label = label.join('\n');
     node.direction = direction;
     if (!node.isRoot) {
@@ -119,6 +111,7 @@ class Container {
         : node.fatherNode!.parent;
     }
     node.container = this;
+    node.x = x;
   }
 
   reactive(node: type.node) {
@@ -155,6 +148,9 @@ class Container {
         }
         if (that.graph.process === 'render' && that.graph.mode === 'render') {
           that.setY(node);
+          if (node.isEvent) {
+            that.bbox.y[1] = value + node.vheight! / 2 + that.gap.vertical;
+          }
         } else if (
           that.graph.process === 'render' &&
           that.graph.mode === 'adjustY'
@@ -171,17 +167,24 @@ class Container {
   setY(node: type.node) {
     const nodeHight = node.height!;
     if (node.children?.length) {
-      if (node?.type === 'container' && !node.isRoot) {
-        const container = new Container(node, this.lines, this.baseOptions);
-        this.graph.mode = 'adjustX';
-        this.setChildrenContainerX(container);
-        this.graph.mode = 'render';
-      } else {
-        node.children.forEach((childNode: type.node, index: number) => {
-          if (node.type !== 'container') {
-            this.addLine(node, childNode);
-          }
-          debugger;
+      node.children.forEach((childNode: type.node, index: number) => {
+        if (node.type !== 'container') {
+          this.addLine(node, childNode);
+        }
+        if (childNode?.type === 'container' && !childNode.isRoot) {
+          const container = new Container(
+            childNode,
+            this.lines,
+            this.baseOptions
+          );
+          Helper.runWidthModeChange(
+            this.graph,
+            this,
+            'adjustX',
+            this.setChildrenContainerX,
+            [container]
+          );
+        } else {
           if (!childNode.hide) {
             if (this.dealRepeatHide(node, childNode)) return;
             let childDirection: type.direction;
@@ -191,9 +194,11 @@ class Container {
               childDirection = node.direction!;
             }
             this.parseNode(childNode, childDirection);
+            childNode.y = node.y;
           }
-        });
-      }
+        }
+      });
+
       let childrenVheight;
       if (node.isEvent) {
         childrenVheight = this.mergeLeftRightVheight(node);
@@ -204,15 +209,13 @@ class Container {
       node.childrenVheight = childrenVheight;
 
       if (node.isRoot) {
-        this.graph.mode = 'adjustY';
-        this.setChildrenYPre(node);
-        this.graph.mode = 'render';
-      }
-    } else {
-      if (node.isEvent) {
-        node.y = node.fatherNode!.y;
-      } else {
-        node.y = this.bbox.y[1] + nodeHight / 2;
+        Helper.runWidthModeChange(
+          this.graph,
+          this,
+          'adjustY',
+          this.setChildrenYPre,
+          [node]
+        );
       }
     }
   }
@@ -220,7 +223,7 @@ class Container {
   setChildrenYPre(fatherNode: type.node) {
     if (fatherNode.left) this.setChildrenY(fatherNode, fatherNode.left);
     if (fatherNode.right) this.setChildrenY(fatherNode, fatherNode.right);
-    if (!fatherNode.left && !fatherNode.right) {
+    if (!fatherNode.left && !fatherNode.right && fatherNode.children) {
       this.setChildrenY(fatherNode);
     }
   }
@@ -231,14 +234,13 @@ class Container {
     const restHeight = fatherNode.vheight!;
     let len = 0;
     const baseY = fatherNode.y!;
-
     childrenNodes.forEach((childNode) => {
       if (!childNode.hide) len++;
     });
     if (len === 0) return;
     if (len === 1) {
       childrenNodes.forEach((childNode) => {
-        if (!childNode.hide && childNode.y !== baseY) {
+        if (!childNode.hide) {
           childNode.y = baseY;
         }
       });
@@ -599,6 +601,28 @@ class Container {
       direction = 'right';
       fatherNode.right = fatherNode.right || [];
       fatherNode.right.push(node);
+    }
+    return direction;
+  }
+
+  calcNodeDirtion(node: type.node, index?: number) {
+    const fatherNode = node.fatherNode;
+    let direction: type.direction = 'bottom';
+    if (fatherNode) {
+      index = index === undefined ? fatherNode.children!.length - 1 : index;
+      if (fatherNode.type === 'container') {
+        direction = 'bottom';
+      } else if (fatherNode.isEvent) {
+        if (index % 2 === 0) {
+          direction = 'left';
+        } else {
+          direction = 'right';
+        }
+      } else {
+        direction = fatherNode.direction!;
+      }
+    } else {
+      direction = 'bottom';
     }
     return direction;
   }

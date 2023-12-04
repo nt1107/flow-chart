@@ -49,12 +49,24 @@ const data: type.node[] = [
       {
         id: 32,
         label: '32',
+        type: 'event'
+      },
+      {
+        id: 34,
+        label: '34',
         type: 'event',
         children: [
           {
-            id: 33,
-            label: '33',
-            type: 'description'
+            id: 35,
+            label: '35',
+            type: 'container',
+            children: [
+              {
+                id: 36,
+                label: '36',
+                type: 'event'
+              }
+            ]
           }
         ]
       }

@@ -4,11 +4,12 @@ import * as shapeType from './Shape/type';
 import preProcess from './preProcess';
 import Shape from './Shape/shape';
 import Container from './container';
+import transformToTree from './transformToTree';
 import { EmitError, DeepCopy } from './helper';
 import cyRender from './cyRender';
 
 class Graph {
-  data: type.node[];
+  data: type.node[] | type.splitData;
   renderData: type.renderNode[];
   containers: Container[];
   gap: type.gap;
@@ -26,8 +27,15 @@ class Graph {
   isEdit: Boolean;
   editNodes: Set<type.node>;
   cyRender?: cyRender;
+  edges: type.splitEdge[];
+  repeatCloneConfig?: type.repeatCloneConfig;
+  cloneNodesMap?: Map<type.nodeId, Set<type.nodeId>>;
 
-  constructor(data: type.node[], shapeMap: type.typeMap) {
+  constructor(
+    data: type.node[] | type.splitData,
+    shapeMap: type.typeMap,
+    repeatCloneConfig?: type.repeatCloneConfig
+  ) {
     this.data = data;
     this.renderData = [];
     this.stringLen = 15;
@@ -46,6 +54,11 @@ class Graph {
     this.containers = [];
     this.isEdit = false;
     this.editNodes = new Set();
+    this.edges = [];
+    if (repeatCloneConfig) {
+      this.repeatCloneConfig = repeatCloneConfig;
+      this.cloneNodesMap = new Map();
+    }
     this.bbox = {
       x: [0, 0],
       y: [0, 0]
@@ -86,12 +99,17 @@ class Graph {
   }
 
   preProcess() {
+    if (!Array.isArray(this.data)) {
+      this.edges = this.data.edges;
+      this.data = transformToTree(this.data);
+    }
     new preProcess(
       this.data,
       this.nodeSet,
       this.repeatMap,
       this.nodeMap,
-      this.repeatNodes
+      this.repeatNodes,
+      this
     );
   }
 
@@ -106,13 +124,14 @@ class Graph {
       shape: this.shape,
       graph: this
     };
+    if (!Array.isArray(this.data)) return EmitError('data is not Array');
     this.data.forEach((node: type.node) => {
       this.containers.push(new Container(node, this.lines, baseOptions));
     });
     if (this.data.length > 1) {
       this.setContainerPosition('right', this.containers[0]);
     }
-
+    // debugger;
     this.setRenderList();
     this.setLine();
     if (this.hook) {
@@ -212,10 +231,24 @@ class Graph {
   }
 
   setLine(line?: type.line) {
-    if (line) {
-      this.renderData.push(line);
+    if (this.edges.length) {
+      this.edges.forEach((edge) => {
+        this.renderData.push({
+          data: {
+            source: edge.source_id,
+            target: edge.target_id
+          },
+          style: {
+            label: edge.label
+          }
+        });
+      });
     } else {
-      this.renderData.push(...this.lines);
+      if (line) {
+        this.renderData.push(line);
+      } else {
+        this.renderData.push(...this.lines);
+      }
     }
   }
 }

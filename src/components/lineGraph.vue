@@ -12,19 +12,27 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import cytoscape from 'cytoscape';
-import mockData from '@/assets/lineGraph/mock/all';
+import mockData from '@/assets/lineGraph/mock/split';
 import Graph from '@/assets/lineGraph/index';
 import * as type from '@/assets/lineGraph/type';
 
 let cy;
 const shapeTypeMap: type.typeMap = {
   container: 'rectangle',
-  description: 'ellipse',
-  entity: 'round-hexagon',
-  event: 'rectangle'
+  property: 'ellipse',
+  person: 'round-hexagon',
+  event: 'rectangle',
+  fact: 'rectangle',
+  reason: 'rectangle'
 };
 
-const graph = new Graph(mockData, shapeTypeMap);
+const repeatCloneConfig: type.repeatCloneConfig = {
+  match: {
+    type: ['person']
+  }
+};
+
+const graph = new Graph(mockData, shapeTypeMap, repeatCloneConfig);
 graph.registerShape(
   'round-hexagon',
   (contentWidth: number, contentHeight: number) => {
@@ -40,6 +48,12 @@ graph.beforeRender((list: type.renderNode[]) => {
       item.classes = 'class2';
     } else if (item.data.source) {
       item.classes = 'classLine';
+    } else if (item.data.type === 'person') {
+      item.classes = 'class3';
+    } else if (item.data.type === 'fact') {
+      item.classes = 'class4';
+    } else if (item.data.type === 'item') {
+      item.classes = 'class1';
     } else {
       item.classes = 'class1';
     }
@@ -86,7 +100,7 @@ onMounted(() => {
   });
   graph.registerInstance(cy);
   cy.style().selector('.class1').css({
-    'background-color': 'white',
+    'background-color': 'rgb(248,206,204)',
     'border-width': 1,
     'border-color': '#000',
     'font-size': 8,
@@ -104,7 +118,29 @@ onMounted(() => {
     'line-height': 1.2,
     color: 'black',
     'text-halign': 'center',
-    'text-valign': 'top',
+    'text-valign': 'center',
+    'text-wrap': 'wrap'
+  });
+  cy.style().selector('.class3').css({
+    'background-color': 'rgb(255,230,204)',
+    'border-width': 1,
+    'border-color': '#000',
+    'font-size': 8,
+    'line-height': 1.2,
+    color: 'black',
+    'text-halign': 'center',
+    'text-valign': 'center',
+    'text-wrap': 'wrap'
+  });
+  cy.style().selector('.class4').css({
+    'background-color': 'rgb(212,225,245)',
+    'border-width': 1,
+    'border-color': '#000',
+    'font-size': 8,
+    'line-height': 1.2,
+    color: 'black',
+    'text-halign': 'center',
+    'text-valign': 'center',
     'text-wrap': 'wrap'
   });
 });

@@ -1,7 +1,7 @@
 import type Graph from './index';
 import Shape from './Shape/shape';
 import type Container from './container';
-export type nodeType = 'container' | 'entity' | 'description' | 'event';
+export type nodeType = string;
 export type renderType =
   | 'rectangle'
   | 'ellipse'
@@ -28,15 +28,17 @@ export type renderType =
   | 'star'
   | 'tag'
   | 'round-tag'
-  | 'vee';
+  | 'vee'
+  | 'default';
 export type typeMap = Record<nodeType, renderType>;
 export type nodeId = string | number;
+export type edge = {
+  source?: nodeId;
+  target?: nodeId;
+  parent?: nodeId;
+};
 export interface line extends Record<string, any> {
-  data: {
-    source?: nodeId;
-    target?: nodeId;
-    parent?: nodeId;
-  };
+  data: edge;
 }
 export type baseOptions = {
   stringLen: number;
@@ -76,7 +78,9 @@ export type node = {
   parent?: nodeId;
   hide?: Boolean;
   triangle?: Boolean;
+  show?: Boolean;
   container?: Container;
+  next?: node;
 };
 export type direction = 'left' | 'right' | 'bottom';
 
@@ -112,4 +116,28 @@ export type bbox = {
 export type gap = {
   vertical: number;
   horizontal: number;
+};
+
+export type splitEdge = {
+  source_id: nodeId;
+  target_id: nodeId;
+  label: string;
+};
+
+export type splitNode = {
+  id: nodeId;
+  label: string;
+  type: nodeType;
+  parent?: nodeId;
+  layout_type?: 'event' | '';
+  attributes: Object;
+};
+export type splitData = {
+  edges: splitEdge[];
+  nodes: splitNode[];
+};
+
+export type repeatCloneConfig = {
+  ignore?: Record<string, any[]>;
+  match?: Record<string, any[]>;
 };

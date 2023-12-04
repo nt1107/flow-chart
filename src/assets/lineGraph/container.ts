@@ -64,9 +64,13 @@ class Container {
 
     if (node.label) {
       strArray = this.splitString(node.label);
+    } else {
+      strArray = [''];
     }
-    const calcFunc = this.shape[this.shapeMap[node.type]]!;
-    const shapeSize = calcFunc(
+    const calcFunc = this.shapeMap[node.type]
+      ? this.shape[this.shapeMap[node.type]]
+      : this.shape.default;
+    const shapeSize = calcFunc!(
       strArray[0]?.length * fontSize,
       strArray[0]?.length * strArray.length
     );
@@ -183,7 +187,10 @@ class Container {
 
   dealRepeatHide(fatherNode: type.node, node: type.node) {
     if (!this.repeatNodes.has(node.id)) return false;
-    if (node.triangle) return false;
+    if (node.triangle || node.show) {
+      if (node.hide) delete node.hide;
+      return false;
+    }
     const grandNode = fatherNode.fatherNode!;
     if (
       grandNode.id !== this.repeatNodes.get(node.id) ||
@@ -557,12 +564,14 @@ class Container {
   }
 
   addEventLine(childNodes: type.node[]) {
+    if (this.graph.edges.length) return;
     if (childNodes.length <= 1) return;
     for (let i = 1; i < childNodes.length; i++) {
       this.addLine(childNodes[i - 1], childNodes[i]);
     }
   }
   addLine(sourceNode: type.node, targetNode: type.node) {
+    if (this.graph.edges.length) return;
     this.lines.push({
       data: {
         source: sourceNode.id,
@@ -736,7 +745,7 @@ class Container {
       str.push(label.slice(i, i + this.stringLen + 1));
       i += this.stringLen;
     }
-    return str;
+    return str.length === 0 ? [''] : str;
   }
 
   update(node: type.node) {

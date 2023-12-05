@@ -5,6 +5,7 @@ import preProcess from './preProcess';
 import Shape from './Shape/shape';
 import Container from './newContainer';
 import { EmitError, DeepCopy } from './helper';
+import { pure, Helper } from './help/containerHelper';
 import cyRender from './cyRender';
 
 class Graph {
@@ -134,7 +135,6 @@ class Graph {
     if (this.data.length > 1) {
       this.setContainerPosition('right', this.containers[0]);
     }
-
     this.setRenderList();
     this.setLine();
     if (this.hook) {
@@ -163,15 +163,15 @@ class Graph {
         if (xOffset === 0) break;
         container.bbox.x[0] += xOffset;
         container.bbox.x[1] += xOffset;
-        container.node.children?.forEach((node) => {
-          node.x! += xOffset;
-          if (this.isEdit) {
-            this.editNodes.add(node);
-          }
-          node.children?.forEach((childNode) => {
-            container.setPositionX(childNode);
-          });
-        });
+        Helper.runWidthModeChange(
+          this,
+          container,
+          'adjustX',
+          () => {
+            container.node.x! += xOffset;
+          },
+          []
+        );
         DeepCopy(container.bbox, boundary);
       }
     } else {
@@ -179,7 +179,17 @@ class Graph {
         container = this.containers[index];
         xOffset = container.bbox.x[1] - boundary.x[0] + this.gap.horizontal * 3;
         if (xOffset === 0) break;
-        container.setContainerPositionX(xOffset);
+        container.bbox.x[0] += xOffset;
+        container.bbox.x[1] += xOffset;
+        Helper.runWidthModeChange(
+          this,
+          container,
+          'adjustX',
+          () => {
+            container.node.x! += xOffset;
+          },
+          []
+        );
         DeepCopy(container.bbox, boundary);
       }
     }

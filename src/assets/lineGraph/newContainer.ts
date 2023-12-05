@@ -31,7 +31,7 @@ class Container {
     this.lines = lines;
     this.bbox = {
       x: [Infinity, -Infinity],
-      y: [0, 0]
+      y: [Infinity, -Infinity]
     };
     this.shape = baseOptions.shape;
     this.gap = baseOptions.gap;
@@ -47,20 +47,15 @@ class Container {
     }
     this.parseNode(this.node);
     this.addEventLine(this.node.children!);
-    this.node.vheight = this.bbox.y[1];
   }
 
-  parseNode(node: type.node, direction?: type.direction) {
+  parseNode(node: type.node) {
     if (!node.fatherNode) {
       node.isRoot = true;
     } else if (node.fatherNode.type === 'container') {
       node.isEvent = true;
     }
-
-    if (!direction) {
-      direction = this.calcNodeDirtion(node);
-    }
-
+    const direction = this.calcNodeDirtion(node);
     let strArray: string[] | [] = [];
     const fontSize: number = node.style
       ? node.style['font-size'] || this.fontSize
@@ -87,7 +82,7 @@ class Container {
       direction
     );
     if (node.type === 'container') {
-      node.y = this.bbox.y[0];
+      node.y = 0;
     }
   }
 
@@ -146,6 +141,7 @@ class Container {
         if (that.graph.isEdit) {
           that.graph.editNodes.add(node);
         }
+        that.setBboxY(node);
         if (that.graph.process === 'render' && that.graph.mode === 'render') {
           that.setY(node);
           if (node.isEvent) {
@@ -172,6 +168,9 @@ class Container {
           this.addLine(node, childNode);
         }
         if (childNode?.type === 'container' && !childNode.isRoot) {
+          if (node.isEvent) {
+            this.eventNodeAddChild(childNode, index);
+          }
           const container = new Container(
             childNode,
             this.lines,
@@ -187,13 +186,10 @@ class Container {
         } else {
           if (!childNode.hide) {
             if (this.dealRepeatHide(node, childNode)) return;
-            let childDirection: type.direction;
             if (node.isEvent) {
-              childDirection = this.eventNodeAddChild(childNode, index);
-            } else {
-              childDirection = node.direction!;
+              this.eventNodeAddChild(childNode, index);
             }
-            this.parseNode(childNode, childDirection);
+            this.parseNode(childNode);
             childNode.y = node.y;
           }
         }
@@ -208,7 +204,7 @@ class Container {
       node.vheight = Math.max(nodeHight, childrenVheight!);
       node.childrenVheight = childrenVheight;
 
-      if (node.isRoot) {
+      if (node.type === 'container') {
         Helper.runWidthModeChange(
           this.graph,
           this,
@@ -412,6 +408,7 @@ class Container {
   }
 
   setX(node: type.node, boundary?: number) {
+    if (node.hide) return;
     const nodeWidth = node.width!;
     if (node.direction === 'bottom') {
       node.x = node.fatherNode!.x!;
@@ -421,14 +418,12 @@ class Container {
         : node.fatherNode!.x! - node.fatherNode!.width! / 2;
 
       node.x = boundary - this.gap.horizontal - nodeWidth / 2;
-      this.bbox.x[0] = Math.min(this.bbox.x[0], node.x - nodeWidth / 2);
     } else {
       boundary = boundary
         ? boundary
         : node.fatherNode!.x! + node.fatherNode!.width! / 2;
 
       node.x = boundary + this.gap.horizontal + nodeWidth / 2;
-      this.bbox.x[1] = Math.max(this.bbox.x[1], node.x + nodeWidth / 2);
     }
   }
 
@@ -437,22 +432,20 @@ class Container {
     if (container.node.direction === 'right') {
       const boundary =
         fatherNode.x! + fatherNode.width! / 2 + this.gap.horizontal;
-      if (boundary! === container.bbox.x[0]) {
-        const xOffset = boundary - this.bbox.x[0];
+      if (boundary !== container.bbox.x[0]) {
+        const xOffset = boundary - container.bbox.x[0];
         container.node.x! += xOffset;
         container.bbox.x[0] += xOffset;
         container.bbox.x[1] += xOffset;
-        this.bbox.x[1] = Math.max(this.bbox.x[1], container.bbox.x[1]);
       }
     } else if (container.node.direction === 'left') {
       const boundary =
         fatherNode.x! - fatherNode.width! / 2 - this.gap.horizontal;
-      if (boundary! === container.bbox.x[1]) {
-        const xOffset = boundary - this.bbox.x[0];
+      if (boundary !== container.bbox.x[1]) {
+        const xOffset = boundary - container.bbox.x[1];
         container.node.x! += xOffset;
         container.bbox.x[0] += xOffset;
         container.bbox.x[1] += xOffset;
-        this.bbox.x[0] = Math.min(this.bbox.x[0], container.bbox.x[0]);
       }
     }
   }
@@ -563,6 +556,11 @@ class Container {
     }
   }
 
+  setBboxY(node: type.node) {
+    if (node.type === 'container') return;
+    this.bbox.y[0] = Math.min(this.bbox.y[0], node.y! - node.vheight / 2);
+    this.bbox.y[1] = Math.max(this.bbox.y[1], node.y! + node.vheight / 2);
+  }
   calcX(direction: type.direction, nodeWidth: number, fatherNode?: type.node) {
     const fatherX = fatherNode?.x || 0;
     const fatherWidth = fatherNode?.width ? fatherNode.width : 0;
@@ -592,24 +590,27 @@ class Container {
   eventNodeAddChild(node: type.node, index?: number) {
     const fatherNode = node.fatherNode!;
     index = index === undefined ? fatherNode.children!.length - 1 : index;
-    let direction: type.direction;
     if (index % 2 === 0) {
-      direction = 'left';
       fatherNode.left = fatherNode.left || [];
       fatherNode.left.push(node);
     } else {
-      direction = 'right';
       fatherNode.right = fatherNode.right || [];
       fatherNode.right.push(node);
     }
-    return direction;
   }
 
   calcNodeDirtion(node: type.node, index?: number) {
     const fatherNode = node.fatherNode;
     let direction: type.direction = 'bottom';
     if (fatherNode) {
-      index = index === undefined ? fatherNode.children!.length - 1 : index;
+      if (index === undefined) {
+        index = fatherNode.children?.findIndex(
+          (childNode) => childNode.id === node.id
+        );
+        if (index === -1) {
+          index = fatherNode.children!.length - 1;
+        }
+      }
       if (fatherNode.type === 'container') {
         direction = 'bottom';
       } else if (fatherNode.isEvent) {

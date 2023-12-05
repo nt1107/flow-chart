@@ -20,7 +20,7 @@ let cy;
 const shapeTypeMap: type.typeMap = {
   container: 'rectangle',
   property: 'ellipse',
-  person: 'round-hexagon',
+  person: 'cut-rectangle',
   event: 'rectangle',
   fact: 'rectangle',
   reason: 'rectangle'
@@ -34,7 +34,7 @@ const repeatCloneConfig: type.repeatCloneConfig = {
 
 const graph = new Graph(mockData, shapeTypeMap, repeatCloneConfig);
 graph.registerShape(
-  'round-hexagon',
+  'cut-rectangle',
   (contentWidth: number, contentHeight: number) => {
     return {
       width: contentWidth + 20,
@@ -45,17 +45,17 @@ graph.registerShape(
 graph.beforeRender((list: type.renderNode[]) => {
   list.forEach((item: type.renderNode) => {
     if (item.data.type === 'container') {
-      item.classes = 'class2';
+      item.classes = 'classContainer';
     } else if (item.data.source) {
       item.classes = 'classLine';
     } else if (item.data.type === 'person') {
-      item.classes = 'class3';
+      item.classes = 'classPerson';
     } else if (item.data.type === 'fact') {
-      item.classes = 'class4';
+      item.classes = 'classEvent';
     } else if (item.data.type === 'item') {
-      item.classes = 'class1';
+      item.classes = 'classItem';
     } else {
-      item.classes = 'class1';
+      item.classes = 'classItem';
     }
     item.style!.shape = shapeTypeMap[item.data.type];
   });
@@ -84,8 +84,8 @@ onMounted(() => {
         style: {
           'font-size': 8,
           width: 1,
-          'line-color': '#000',
-          'target-arrow-color': '#000',
+          'line-color': '#ccc',
+          'target-arrow-color': '#ccc',
           'curve-style': 'bezier',
           'target-arrow-shape': 'vee',
           'text-halign': 'left',
@@ -99,10 +99,10 @@ onMounted(() => {
     }
   });
   graph.registerInstance(cy);
-  cy.style().selector('.class1').css({
-    'background-color': 'rgb(248,206,204)',
+  cy.style().selector('.classItem').css({
+    'background-color': '#FBE0DC',
     'border-width': 1,
-    'border-color': '#000',
+    'border-color': '#E89DAF',
     'font-size': 8,
     'line-height': 1.2,
     color: 'black',
@@ -110,10 +110,10 @@ onMounted(() => {
     'text-valign': 'center',
     'text-wrap': 'wrap'
   });
-  cy.style().selector('.class2').css({
+  cy.style().selector('.classContainer').css({
     'background-color': 'white',
     'border-width': 1,
-    'border-color': '#000',
+    'border-color': '#ccc',
     'font-size': 8,
     'line-height': 1.2,
     color: 'black',
@@ -121,10 +121,10 @@ onMounted(() => {
     'text-valign': 'center',
     'text-wrap': 'wrap'
   });
-  cy.style().selector('.class3').css({
-    'background-color': 'rgb(255,230,204)',
+  cy.style().selector('.classPerson').css({
+    'background-color': '#F8E7C1',
     'border-width': 1,
-    'border-color': '#000',
+    'border-color': '#F0CFAD',
     'font-size': 8,
     'line-height': 1.2,
     color: 'black',
@@ -132,10 +132,10 @@ onMounted(() => {
     'text-valign': 'center',
     'text-wrap': 'wrap'
   });
-  cy.style().selector('.class4').css({
-    'background-color': 'rgb(212,225,245)',
+  cy.style().selector('.classEvent').css({
+    'background-color': '#E8F7FD',
     'border-width': 1,
-    'border-color': '#000',
+    'border-color': '#57ACEA',
     'font-size': 8,
     'line-height': 1.2,
     color: 'black',

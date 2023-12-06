@@ -1,8 +1,7 @@
 import * as type from '../type';
-import { EmitError } from '../helper';
 import { ShapeType } from '../Shape/type';
 import Graph from '../index';
-import Container from '../newContainer';
+import Container from '../container';
 
 export const pure = {
   splitString(label: string, stringLen: number) {
@@ -15,16 +14,9 @@ export const pure = {
   },
 
   getCalcFunc(shape: ShapeType, shapeMap: type.typeMap, type: type.nodeType) {
-    const _shape = shapeMap[type];
-    if (!_shape) {
-      return EmitError(`type ${type} is not defined`);
-    }
+    const _shape = shapeMap[type] || 'default';
     const calcFunc = shape[_shape];
-    if (!calcFunc) {
-      return EmitError(
-        `The calculation method for this shape ${_shape} is not defined`
-      );
-    }
+
     return calcFunc;
   }
 };

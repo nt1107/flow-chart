@@ -1,4 +1,6 @@
 import * as type from './type';
+import { DeepCopy, EmitError } from './helper';
+import Graph from './index';
 
 export default class preProcess {
   data: type.node[];
@@ -6,26 +8,41 @@ export default class preProcess {
   repeatMap: Map<type.nodeId, Map<type.nodeId, number>>;
   nodeMap: Map<type.nodeId, type.node>;
   repeatNodes: Map<type.nodeId, type.nodeId>;
-
+  graph: Graph;
   constructor(
     data: type.node[],
     nodeSet: Set<type.nodeId>,
     repeatMap: Map<type.nodeId, Map<type.nodeId, number>>,
     nodeMap: Map<type.nodeId, type.node>,
-    repeatNodes: Map<type.nodeId, type.nodeId>
+    repeatNodes: Map<type.nodeId, type.nodeId>,
+    graph: Graph
   ) {
     this.data = data;
     this.nodeSet = nodeSet;
     this.repeatMap = repeatMap;
     this.nodeMap = nodeMap;
     this.repeatNodes = repeatNodes;
+    this.graph = graph;
     this.preProcess(this.data);
     this.dealRepeat(this.data);
     this.setRepeatNodes();
   }
   preProcess(nodes: type.node[], fatherNode?: type.node) {
-    nodes.forEach((node) => {
-      if (fatherNode) node.fatherNode = fatherNode;
+    nodes.forEach((node, index) => {
+      if (this.nodeSet.has(node.id)) {
+        const cloneNode = {} as type.node;
+        DeepCopy(node, cloneNode, 'fatherNode');
+        nodes[index] = cloneNode;
+        node = nodes[index];
+        if (this.isMatchClone(cloneNode) && !this.isMatchIgnore(cloneNode)) {
+          const cloneNodeId = this.getCloneNodeId(cloneNode.id)!;
+          if (this.graph.edges) {
+            this.changeEdgeNodeId(node.id, fatherNode!.id, cloneNodeId);
+          }
+          node.id = cloneNodeId;
+        }
+      }
+      if (fatherNode) nodes[index].fatherNode = fatherNode;
       if (this.nodeSet.has(node.id)) {
         if (!this.repeatMap.has(node.id)) {
           this.signRepeat(this.nodeMap.get(node.id)!);
@@ -48,7 +65,7 @@ export default class preProcess {
   dealTriangle(node: type.node) {
     const currentNode = node;
     const lastNode = this.nodeMap.get(node.id)!;
-
+    if (currentNode.fatherNode === lastNode.fatherNode) return false;
     let tag = currentNode;
 
     while (tag.fatherNode!.type !== 'container') {
@@ -82,7 +99,15 @@ export default class preProcess {
           id = grandeNodeId;
         }
       });
-      this.repeatNodes.set(nodeId, id!);
+      if (repeatMap.size === 1) {
+        this.nodeMap.get(nodeId)!.show = true;
+      } else {
+        if (max === 0) {
+          this.repeatNodes.delete(nodeId);
+        } else {
+          this.repeatNodes.set(nodeId, id!);
+        }
+      }
     });
   }
 
@@ -214,5 +239,64 @@ export default class preProcess {
       end++;
     }
     return { start, end };
+  }
+
+  getCloneNodeId(nodeId: type.nodeId) {
+    if (!this.graph.repeatCloneConfig)
+      return EmitError('repeatCloneConfig is not defined');
+    if (!this.graph.cloneNodesMap!.has(nodeId)) {
+      this.graph.cloneNodesMap?.set(nodeId, new Set());
+    }
+    const cloneSet = this.graph.cloneNodesMap!.get(nodeId)!;
+
+    const size = cloneSet.size;
+    const cloneNodeId =
+      nodeId + 'clone' + (size + 1).toString().padStart(5, '0');
+    cloneSet.add(cloneNodeId);
+    return cloneNodeId;
+  }
+
+  isMatchClone(node: type.node) {
+    if (!this.graph.repeatCloneConfig || !this.graph.repeatCloneConfig.match)
+      return false;
+    const configs = this.graph.repeatCloneConfig.match;
+    for (const key in configs) {
+      const configList = configs[key];
+      if (Object.prototype.hasOwnProperty.call(node, key)) {
+        if (configList.indexOf(node[key as keyof type.node]) > -1) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  isMatchIgnore(node: type.node) {
+    if (!this.graph.repeatCloneConfig || !this.graph.repeatCloneConfig.ignore)
+      return false;
+    const configs = this.graph.repeatCloneConfig.ignore;
+    for (const key in configs) {
+      const configList = configs[key];
+      if (Object.prototype.hasOwnProperty.call(node, key)) {
+        if (configList.indexOf(node[key as keyof type.node]) > -1) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  changeEdgeNodeId(
+    nodeId: type.nodeId,
+    fatherNodeId: type.nodeId,
+    cloneNodeId: type.nodeId
+  ) {
+    this.graph.edges.forEach((edge) => {
+      if (edge.source_id === nodeId && edge.target_id === fatherNodeId) {
+        edge.source_id = cloneNodeId;
+      } else if (edge.target_id === nodeId && edge.source_id === fatherNodeId) {
+        edge.target_id = cloneNodeId;
+      }
+    });
   }
 }

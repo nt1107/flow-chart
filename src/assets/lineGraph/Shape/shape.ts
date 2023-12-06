@@ -23,7 +23,12 @@ export default class Shape implements shapeType.ShapeType {
       height: diameter
     };
   }
-
+  default(contentWidth: number, contentHeight: number) {
+    return {
+      width: contentWidth + 20,
+      height: contentHeight + 10
+    };
+  }
   customShape(
     this: shapeType.ShapeType,
     shape: type.renderType,

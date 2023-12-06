@@ -5,8 +5,7 @@ import preProcess from './preProcess';
 import Shape from './Shape/shape';
 import Container from './container';
 import transformToTree from './transformToTree';
-import { EmitError, DeepCopy } from './helper';
-import { pure, Helper } from './help/containerHelper';
+import { Helper } from './help/helper';
 import cyRender from './cyRender';
 
 class Graph {
@@ -82,16 +81,18 @@ class Graph {
         0 + i * this.gap.vertical
       ]);
     } else {
-      this.bbox.x = Array.from(
-        { length: [this.data as type.node[]].length },
-        (_, i) => [0 + i * this.gap.horizontal, 0 + i * this.gap.horizontal]
-      );
+      const data = this.data as type.node[];
+      this.bbox.x = Array.from({ length: data.length }, (_, i) => [
+        0 + i * this.gap.horizontal,
+        0 + i * this.gap.horizontal
+      ]);
       this.bbox.y = [[0, 0]];
     }
   }
 
   addNode(node: type.node, fatherNodeId?: type.nodeId) {
-    if (this.nodeSet.has(node.id)) return EmitError('This node already exists');
+    if (this.nodeSet.has(node.id))
+      return Helper.EmitError('This node already exists');
     this.isEdit = true;
     this.nodeSet.add(node.id);
     if (fatherNodeId) {
@@ -99,11 +100,11 @@ class Graph {
       for (let i = 0; i < this.containers.length; i++) {
         const currentNode = this.containers[i].node;
         fatherNode = this.findNode(currentNode, fatherNodeId);
-        if (fatherNode) return fatherNode.container!.addNode(node, fatherNode);
+        // if (fatherNode) return fatherNode.container!.addNode(node, fatherNode);
       }
       if (!fatherNode) {
         this.nodeSet.delete(node.id);
-        return EmitError('The specified node does not exist');
+        return Helper.EmitError('The specified node does not exist');
       }
     }
   }
@@ -148,7 +149,7 @@ class Graph {
       shape: this.shape,
       graph: this
     };
-    if (!Array.isArray(this.data)) return EmitError('data is not Array');
+    if (!Array.isArray(this.data)) return Helper.EmitError('data is not Array');
     this.data.forEach((node: type.node) => {
       node.isRoot = true;
       this.containers.push(new Container(node, this.lines, baseOptions));
@@ -175,7 +176,7 @@ class Graph {
     );
     if (index < 0) return;
     let container: Container;
-    DeepCopy(baseContainer.bbox, boundary);
+    Helper.DeepCopy(baseContainer.bbox, boundary);
 
     if (direction === 'right') {
       while (++index < this.containers.length) {
@@ -193,7 +194,7 @@ class Graph {
           },
           []
         );
-        DeepCopy(container.bbox, boundary);
+        Helper.DeepCopy(container.bbox, boundary);
       }
     } else {
       while (--index >= 0) {
@@ -211,13 +212,14 @@ class Graph {
           },
           []
         );
-        DeepCopy(container.bbox, boundary);
+        Helper.DeepCopy(container.bbox, boundary);
       }
     }
   }
 
   setRenderList() {
-    this.data.forEach((node) => {
+    const data = this.data as type.node[];
+    data.forEach((node) => {
       this.addRenderData(node);
     });
   }
@@ -259,7 +261,9 @@ class Graph {
 
   beforeRender(callback: Function) {
     if (typeof callback !== 'function') {
-      return EmitError('beforeRender must take a function as an argument ');
+      return Helper.EmitError(
+        'beforeRender must take a function as an argument '
+      );
     }
     this.hook = callback;
   }

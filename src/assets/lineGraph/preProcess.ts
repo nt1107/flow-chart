@@ -1,6 +1,6 @@
 import * as type from './type';
-import { DeepCopy, EmitError } from './helper';
 import Graph from './index';
+import { Helper } from './help/helper';
 
 export default class preProcess {
   data: type.node[];
@@ -31,7 +31,7 @@ export default class preProcess {
     nodes.forEach((node, index) => {
       if (this.nodeSet.has(node.id)) {
         const cloneNode = {} as type.node;
-        DeepCopy(node, cloneNode, 'fatherNode');
+        Helper.DeepCopy(node, cloneNode, 'fatherNode');
         nodes[index] = cloneNode;
         node = nodes[index];
         if (this.isMatchClone(cloneNode) && !this.isMatchIgnore(cloneNode)) {
@@ -243,7 +243,7 @@ export default class preProcess {
 
   getCloneNodeId(nodeId: type.nodeId) {
     if (!this.graph.repeatCloneConfig)
-      return EmitError('repeatCloneConfig is not defined');
+      return Helper.EmitError('repeatCloneConfig is not defined');
     if (!this.graph.cloneNodesMap!.has(nodeId)) {
       this.graph.cloneNodesMap?.set(nodeId, new Set());
     }

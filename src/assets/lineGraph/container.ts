@@ -1,8 +1,7 @@
 import * as type from './type';
 import type Graph from './index';
 import { ShapeType } from './Shape/type';
-import { EmitError } from './helper';
-import { pure, Helper } from './help/containerHelper';
+import { pure, Helper } from './help/helper';
 
 class Container {
   node: type.node;
@@ -43,7 +42,9 @@ class Container {
 
   parse() {
     if (!this.node.children?.length) {
-      return EmitError('container node must contains at least one child node');
+      return Helper.EmitError(
+        'container node must contains at least one child node'
+      );
     }
     this.parseNode(this.node);
     this.addEventLine(this.node.children!);
@@ -645,6 +646,7 @@ class Container {
       this.addLine(childNodes[i - 1], childNodes[i]);
     }
   }
+
   addLine(sourceNode: type.node, targetNode: type.node) {
     this.lines.push({
       data: {
@@ -655,6 +657,19 @@ class Container {
         label: targetNode.lineLabel
       }
     });
+  }
+
+  mergeLeftRightVheight(node: type.node) {
+    if (!node.children) return;
+    let leftVheight = 0,
+      rightVheight = 0;
+    if (node.left) {
+      leftVheight = this.getChildrenVheight(node.left);
+    }
+    if (node.right) {
+      rightVheight = this.getChildrenVheight(node.right);
+    }
+    return Math.max(leftVheight, rightVheight);
   }
 
   // addNode(node: type.node, fatherNode: type.node) {
@@ -799,19 +814,6 @@ class Container {
   //     this.adjustEventNodePostionY(index + 1);
   //   }
   // }
-
-  mergeLeftRightVheight(node: type.node) {
-    if (!node.children) return;
-    let leftVheight = 0,
-      rightVheight = 0;
-    if (node.left) {
-      leftVheight = this.getChildrenVheight(node.left);
-    }
-    if (node.right) {
-      rightVheight = this.getChildrenVheight(node.right);
-    }
-    return Math.max(leftVheight, rightVheight);
-  }
 
   // update(node: type.node) {
   //   const newLine = this.lines[this.lines.length - 1];

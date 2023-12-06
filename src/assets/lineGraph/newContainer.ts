@@ -183,6 +183,7 @@ class Container {
             this.setChildrenContainerX,
             [container]
           );
+          this.setBboxX(childNode);
         } else {
           if (!childNode.hide) {
             if (this.dealRepeatHide(node, childNode)) return;
@@ -546,13 +547,18 @@ class Container {
 
   setBboxX(node: type.node) {
     const direction = node.direction;
-    if (direction === 'bottom') {
-      this.bbox.x[0] = Math.min(this.bbox.x[0], node.x! - node.width! / 2);
-      this.bbox.x[1] = Math.max(this.bbox.x[1], node.x! + node.width! / 2);
-    } else if (direction === 'left') {
-      this.bbox.x[0] = Math.min(this.bbox.x[0], node.x! - node.width! / 2);
-    } else if (direction === 'right') {
-      this.bbox.x[1] = Math.max(this.bbox.x[1], node.x! + node.width! / 2);
+    if (node.type === 'container') {
+      this.bbox.x[0] = Math.min(this.bbox.x[0], node.container!.bbox.x[0]);
+      this.bbox.x[1] = Math.max(this.bbox.x[1], node.container!.bbox.x[1]);
+    } else {
+      if (direction === 'bottom') {
+        this.bbox.x[0] = Math.min(this.bbox.x[0], node.x! - node.width! / 2);
+        this.bbox.x[1] = Math.max(this.bbox.x[1], node.x! + node.width! / 2);
+      } else if (direction === 'left') {
+        this.bbox.x[0] = Math.min(this.bbox.x[0], node.x! - node.width! / 2);
+      } else if (direction === 'right') {
+        this.bbox.x[1] = Math.max(this.bbox.x[1], node.x! + node.width! / 2);
+      }
     }
   }
 

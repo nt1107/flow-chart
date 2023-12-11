@@ -150,3 +150,16 @@ export type repeatCloneConfig = {
   ignore?: Record<string, any[]>;
   match?: Record<string, any[]>;
 };
+
+export type leftRightFunc = (
+  arg0: node,
+  arg1: node,
+  arg2: splitEdge[]
+) => 'left' | 'right';
+
+export type graphOptions = {
+  shapeMap: typeMap;
+  repeatCloneConfig?: repeatCloneConfig;
+  layout?: layout;
+  leftRihgt: Function;
+};

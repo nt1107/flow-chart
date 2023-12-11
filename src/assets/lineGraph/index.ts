@@ -33,13 +33,9 @@ class Graph {
   edges: type.splitEdge[];
   repeatCloneConfig?: type.repeatCloneConfig;
   cloneNodesMap?: Map<type.nodeId, Set<type.nodeId>>;
+  leftRight: undefined | Function;
 
-  constructor(
-    data: type.node[] | type.splitData,
-    shapeMap: type.typeMap,
-    repeatCloneConfig?: type.repeatCloneConfig,
-    layout?: type.layout
-  ) {
+  constructor(data: type.node[] | type.splitData, options: type.graphOptions) {
     this.data = data;
     this.renderData = [];
     this.stringLen = 15;
@@ -50,7 +46,7 @@ class Graph {
     };
     this.process = 'render';
     this.mode = 'render';
-    this.shapeMap = shapeMap;
+    this.shapeMap = options.shapeMap;
     this.lines = [];
     this.shape = new Shape();
     this.nodeSet = new Set();
@@ -62,14 +58,29 @@ class Graph {
     this.editNodes = new Set();
     this.bbox = { x: [[0, 0]], y: [[0, 0]] };
     this.edges = [];
-    if (repeatCloneConfig) {
-      this.repeatCloneConfig = repeatCloneConfig;
+    if (typeof options.leftRihgt === 'function') {
+      this.leftRight = options.leftRihgt;
+    }
+    if (options.repeatCloneConfig) {
+      this.repeatCloneConfig = options.repeatCloneConfig;
       this.cloneNodesMap = new Map();
     }
+    // this.setContainers(options.layout);
     this.preProcess();
-    this.setBbox(layout);
+    this.setBbox(options.layout);
   }
 
+  // setContainers(layout?: type.layout) {
+  //   if (layout) {
+  //     this.containers = Array.from({ length: layout.rows }, (_) =>
+  //       Array.from({ length: layout.colomn })
+  //     );
+  //   } else {
+  //     this.containers = Array.from({ length: 1 }, (_) => {
+  //       Array.from({ length:  }) as Container[];
+  //     });
+  //   }
+  // }
   setBbox(layout?: type.layout) {
     if (layout) {
       this.bbox.x = Array.from({ length: layout.colomn }, (_, i) => [
@@ -98,7 +109,7 @@ class Graph {
     if (fatherNodeId) {
       let fatherNode;
       for (let i = 0; i < this.containers.length; i++) {
-        const currentNode = this.containers[i].node;
+        const currentNode = this.containers[i][0].node;
         fatherNode = this.findNode(currentNode, fatherNodeId);
         // if (fatherNode) return fatherNode.container!.addNode(node, fatherNode);
       }
@@ -150,13 +161,27 @@ class Graph {
       graph: this
     };
     if (!Array.isArray(this.data)) return Helper.EmitError('data is not Array');
-    this.data.forEach((node: type.node) => {
-      node.isRoot = true;
+    // this.data.forEach((node: type.node) => {
+    //   node.isRoot = true;
+    //   this.containers.forEach((row) => {
+    //     for (const index in row) {
+    //       row[index] = new Container(node, this.lines, baseOptions);
+    //     }
+    //   });
+    // });
+    // this.containers.forEach((row, rowIndex) => {
+    //   for (const colIndex in row) {
+    //     if (Number(colIndex) < row.length - 1) {
+    //       this.setContainerPosition('right', row[colIndex]);
+    //     }
+    //   }
+    //   if (rowIndex < this.containers.length - 1) {
+    //     this.setRowsY('bottom', row);
+    //   }
+    // });
+    this.data.forEach((node) => {
       this.containers.push(new Container(node, this.lines, baseOptions));
     });
-    if (this.data.length > 1) {
-      this.setContainerPosition('right', this.containers[0]);
-    }
     this.setRenderList();
     this.setLine();
     if (this.hook) {
@@ -216,6 +241,8 @@ class Graph {
       }
     }
   }
+
+  // setRowsY(direction: 'bottom' | 'top', row: Container[]) {}
 
   setRenderList() {
     const data = this.data as type.node[];

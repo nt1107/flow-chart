@@ -117,7 +117,7 @@ class Container {
     const that = this;
     Object.defineProperty(node, 'x', {
       set(value: number) {
-        if (value === oldX) return;
+        // if (value === oldX) return;
         oldX = value;
         if (that.graph.isEdit) {
           that.graph.editNodes.add(node);
@@ -139,21 +139,25 @@ class Container {
     let oldY = node.y;
     Object.defineProperty(node, 'y', {
       set(value: number) {
-        if (oldY === value) return;
-        oldY = value;
+        // if (oldY === value) return;
         if (that.graph.isEdit) {
           that.graph.editNodes.add(node);
         }
-        that.setBboxY(node);
         if (that.graph.process === 'render' && that.graph.mode === 'render') {
+          oldY = value;
+          that.setBboxY(node);
           that.setY(node);
-          if (node.isEvent) {
-            that.bbox.y[1] = value + node.vheight! / 2 + that.gap.vertical;
-          }
         } else if (
           that.graph.process === 'render' &&
           that.graph.mode === 'adjustY'
         ) {
+          if (node.type === 'container') {
+            const yOffset = value - oldY!;
+            that.bbox.y[0] += yOffset;
+            that.bbox.y[1] += yOffset;
+          }
+          oldY = value;
+          that.setBboxY(node);
           that.setChildrenYPre(node);
         }
       },
@@ -187,6 +191,7 @@ class Container {
             [container]
           );
           this.setBboxX(childNode);
+          this.setBboxY(childNode);
         } else {
           if (!childNode.hide) {
             if (this.dealRepeatHide(node, childNode)) return;
@@ -569,9 +574,13 @@ class Container {
   }
 
   setBboxY(node: type.node) {
-    if (node.type === 'container') return;
-    this.bbox.y[0] = Math.min(this.bbox.y[0], node.y! - node.vheight / 2);
-    this.bbox.y[1] = Math.max(this.bbox.y[1], node.y! + node.vheight / 2);
+    if (node.type === 'container') {
+      this.bbox.y[0] = Math.min(this.bbox.y[0], node.container!.bbox.y[0]);
+      this.bbox.y[1] = Math.max(this.bbox.y[1], node.container!.bbox.y[1]);
+    } else {
+      this.bbox.y[0] = Math.min(this.bbox.y[0], node.y! - node.vheight! / 2);
+      this.bbox.y[1] = Math.max(this.bbox.y[1], node.y! + node.vheight! / 2);
+    }
   }
   calcX(direction: type.direction, nodeWidth: number, fatherNode?: type.node) {
     const fatherX = fatherNode?.x || 0;
@@ -601,13 +610,30 @@ class Container {
 
   eventNodeAddChild(node: type.node, index?: number) {
     const fatherNode = node.fatherNode!;
-    index = index === undefined ? fatherNode.children!.length - 1 : index;
-    if (index % 2 === 0) {
-      fatherNode.left = fatherNode.left || [];
-      fatherNode.left.push(node);
+    if (typeof this.graph.leftRight === 'function') {
+      const result = this.graph.leftRight!(node, fatherNode, this.graph.edges);
+      if (result === 'left') {
+        fatherNode.left || (fatherNode.left = []);
+        if (fatherNode.left.indexOf(node) === -1) {
+          fatherNode.left.push(node);
+        }
+      } else if (result === 'right') {
+        fatherNode.right || (fatherNode.right = []);
+        if (fatherNode.right.indexOf(node) === -1) {
+          fatherNode.right.push(node);
+        }
+      }
     } else {
-      fatherNode.right = fatherNode.right || [];
-      fatherNode.right.push(node);
+      index = index === undefined ? fatherNode.children!.length - 1 : index;
+      if (fatherNode.left && fatherNode.left.indexOf(node) > -1) return;
+      if (fatherNode.right && fatherNode.right.indexOf(node) > -1) return;
+      if (index % 2 === 0) {
+        fatherNode.left = fatherNode.left || [];
+        fatherNode.left.push(node);
+      } else {
+        fatherNode.right = fatherNode.right || [];
+        fatherNode.right.push(node);
+      }
     }
   }
 
@@ -626,7 +652,7 @@ class Container {
       if (fatherNode.type === 'container') {
         direction = 'bottom';
       } else if (fatherNode.isEvent) {
-        if (index % 2 === 0) {
+        if (fatherNode.left && fatherNode.left.indexOf(node) > -1) {
           direction = 'left';
         } else {
           direction = 'right';

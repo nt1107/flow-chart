@@ -4,7 +4,7 @@
       <div id="cy"></div>
     </div>
     <div class="right_content">
-      <el-button @click="addNode">addNode</el-button>
+      <el-button @click="download">download</el-button>
     </div>
   </div>
 </template>
@@ -28,11 +28,29 @@ const shapeTypeMap: type.typeMap = {
 
 const repeatCloneConfig: type.repeatCloneConfig = {
   match: {
-    type: ['person']
+    type: ['person'],
+    id: ['（2020）陕刑终267号-court-1']
   }
 };
 
-const graph = new Graph(mockData, shapeTypeMap, repeatCloneConfig);
+const options: type.graphOptions = {
+  shapeMap: shapeTypeMap,
+  repeatCloneConfig: repeatCloneConfig,
+  // layout: { rows: 2, colomn: 1 },
+  leftRihgt: (
+    node: type.node,
+    fatherNode: type.node,
+    edges: type.splitEdge[]
+  ) => {
+    for (const edge of edges) {
+      if (edge.source_id === node.id && edge.target_id === fatherNode.id) {
+        return 'left';
+      }
+    }
+    return 'right';
+  }
+};
+const graph = new Graph(mockData, options);
 graph.registerShape(
   'cut-rectangle',
   (contentWidth: number, contentHeight: number) => {
@@ -72,6 +90,16 @@ const addNode = () => {
     },
     11
   );
+};
+
+const download = () => {
+  const png64 = cy.png({
+    full: true
+  });
+  let a = document.createElement('a');
+  a.href = png64;
+  a.download = 'graph.png';
+  a.click();
 };
 
 onMounted(() => {
@@ -118,7 +146,7 @@ onMounted(() => {
     'line-height': 1.2,
     color: 'black',
     'text-halign': 'center',
-    'text-valign': 'center',
+    'text-valign': 'top',
     'text-wrap': 'wrap'
   });
   cy.style().selector('.classPerson').css({
@@ -152,14 +180,14 @@ onMounted(() => {
   height: 100%;
   display: flex;
   .left_content {
-    width: 1500px;
+    width: 100%;
     #cy {
-      width: 1500px;
+      width: 100%;
       height: 100%;
     }
   }
   .right_content {
-    flex: 1;
+    width: 50px;
   }
 }
 </style>

@@ -9,31 +9,34 @@ const data: type.node[] = [
       {
         id: 1,
         label: '1',
-        type: 'event',
-        children: [
-          {
-            id: 59,
-            type: 'container',
-            label: '受贿关系图',
-            children: [
-              {
-                id: 60,
-                label: '盛盛公司',
-                type: 'event',
-                children: [
-                  {
-                    id: 61,
-                    type: 'description',
-                    label: '王大仙'
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+        type: 'event'
+      }
+    ]
+  },
+  {
+    id: 2,
+    label: '2',
+    type: 'container',
+    children: [
+      {
+        id: 3,
+        label: '3',
+        type: 'event'
       }
     ]
   }
+  // {
+  //   id: 4,
+  //   label: '4',
+  //   type: 'container',
+  //   children: [
+  //     {
+  //       id: 5,
+  //       label: '5',
+  //       type: 'event'
+  //     }
+  //   ]
+  // }
 ];
 
 export default data;

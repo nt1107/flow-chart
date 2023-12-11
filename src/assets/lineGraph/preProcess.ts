@@ -42,7 +42,9 @@ export default class preProcess {
           node.id = cloneNodeId;
         }
       }
-      if (fatherNode) nodes[index].fatherNode = fatherNode;
+      if (fatherNode) {
+        nodes[index].fatherNode = fatherNode;
+      }
       if (this.nodeSet.has(node.id)) {
         if (!this.repeatMap.has(node.id)) {
           this.signRepeat(this.nodeMap.get(node.id)!);
@@ -57,6 +59,15 @@ export default class preProcess {
         this.nodeSet.add(node.id);
       }
       if (node.children) {
+        this.preProcess(node.children, node);
+      } else if (node.left || node.right) {
+        node.children = [];
+        if (node.left?.length) {
+          node.left.forEach((childNode) => node.children!.push(childNode));
+        }
+        if (node.right?.length) {
+          node.right.forEach((childNode) => node.children!.push(childNode));
+        }
         this.preProcess(node.children, node);
       }
     });

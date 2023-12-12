@@ -29,7 +29,7 @@ const shapeTypeMap: type.typeMap = {
 const repeatCloneConfig: type.repeatCloneConfig = {
   match: {
     type: ['person'],
-    id: ['（2020）陕刑终267号-court-1']
+    id: ['（2020）陕刑终267号-court-2', '（2020）陕刑终267号-court-1']
   }
 };
 
@@ -79,7 +79,6 @@ graph.beforeRender((list: type.renderNode[]) => {
   });
 });
 const elements = graph.parse();
-console.log(elements);
 const addNode = () => {
   graph.addNode(
     {

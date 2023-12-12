@@ -63,6 +63,7 @@ class Container {
       : this.fontSize;
 
     if (node.label) {
+      if (typeof node.label !== 'string') node.label = String(node.label);
       strArray = pure.splitString(node.label, this.stringLen);
     } else {
       strArray = [''];

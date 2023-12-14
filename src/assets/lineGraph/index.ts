@@ -182,6 +182,10 @@ class Graph {
     this.data.forEach((node) => {
       this.containers.push(new Container(node, this.lines, baseOptions));
     });
+
+    if (this.data.length > 1) {
+      this.setContainerPosition('right', this.containers[0]);
+    }
     this.setRenderList();
     this.setLine();
     if (this.hook) {

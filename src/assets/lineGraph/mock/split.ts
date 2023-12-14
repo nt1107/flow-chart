@@ -37,6 +37,17 @@ const data: type.splitData = {
     },
     {
       attributes: {
+        id: '0',
+        relation: '',
+        relation_type: '0'
+      },
+      edge_type: 'org_event_relation',
+      label: '',
+      source_id: '（2020）陕刑终267号-court-2',
+      target_id: '（2020）陕刑终267号-judge_result-0'
+    },
+    {
+      attributes: {
         event_relation: '组成',
         event_relation_type: '5',
         id: '1'
@@ -439,50 +450,6 @@ const data: type.splitData = {
     },
     {
       attributes: {
-        id: '0',
-        relation: '依照法律',
-        relation_type: '1'
-      },
-      edge_type: 'event_raw_law_item_relation',
-      label: '依照法律',
-      source_id: '（2020）陕刑终267号-reason-3',
-      target_id: '（2020）陕刑终267号-raw_law_item-0'
-    },
-    {
-      attributes: {
-        id: '1',
-        relation: '依照法律',
-        relation_type: '1'
-      },
-      edge_type: 'event_raw_law_item_relation',
-      label: '依照法律',
-      source_id: '（2020）陕刑终267号-reason-3',
-      target_id: '（2020）陕刑终267号-raw_law_item-1'
-    },
-    {
-      attributes: {
-        id: '2',
-        relation: '依照法律',
-        relation_type: '1'
-      },
-      edge_type: 'event_raw_law_item_relation',
-      label: '依照法律',
-      source_id: '（2020）陕刑终267号-reason-3',
-      target_id: '（2020）陕刑终267号-raw_law_item-2'
-    },
-    {
-      attributes: {
-        id: '3',
-        relation: '依照法律',
-        relation_type: '1'
-      },
-      edge_type: 'event_raw_law_item_relation',
-      label: '依照法律',
-      source_id: '（2020）陕刑终267号-reason-3',
-      target_id: '（2020）陕刑终267号-raw_law_item-3'
-    },
-    {
-      attributes: {
         id: '6',
         relation: '罪刑',
         relation_type: '1'
@@ -535,11 +502,162 @@ const data: type.splitData = {
       target_id: '（2020）陕刑终267号-item-9'
     },
     {
-      attributes: {},
-      edge_type: 'lawspace_contain',
-      label: 'lawspace_contain',
-      source_id: '（2020）陕刑终267号-reason-3',
-      target_id: 'Vertex_law_549e5382263f5d866bfb07a0a987445c'
+      attributes: {
+        relation: '辩护',
+        relation_type: '0'
+      },
+      edge_type: 'person_event_relation',
+      label: '辩护',
+      source_id: '（2020）陕刑终267号-主犯-翁某甲',
+      target_id: '（2020）陕刑终267号-reason-14'
+    },
+    {
+      attributes: {
+        relation: '辩护',
+        relation_type: '0'
+      },
+      edge_type: 'person_event_relation',
+      label: '辩护',
+      source_id: '（2020）陕刑终267号-辩护人-马某乙',
+      target_id: '（2020）陕刑终267号-reason-14'
+    },
+    {
+      attributes: {
+        id: '0',
+        relation: '有期徒刑',
+        relation_duration: '__NULL__',
+        relation_from_time: '__NULL__',
+        relation_to_time: '__NULL__',
+        relation_type: '1'
+      },
+      edge_type: 'person_item_relation',
+      label: '',
+      source_id: '（2020）陕刑终267号-主犯-翁某甲',
+      target_id: '（2020）陕刑终267号-item-16'
+    },
+    {
+      attributes: {
+        id: '0',
+        relation: '处罚金',
+        relation_duration: '__NULL__',
+        relation_from_time: '__NULL__',
+        relation_to_time: '__NULL__',
+        relation_type: '1'
+      },
+      edge_type: 'person_item_relation',
+      label: '',
+      source_id: '（2020）陕刑终267号-主犯-翁某甲',
+      target_id: '（2020）陕刑终267号-item-17'
+    },
+    {
+      attributes: {
+        id: '1',
+        relation: '刑期',
+        relation_type: '1'
+      },
+      edge_type: 'event_item_relation',
+      label: '刑期',
+      source_id: '（2020）陕刑终267号-judge_result-6',
+      target_id: '（2020）陕刑终267号-item-20'
+    },
+    {
+      attributes: {
+        event_relation: '组成',
+        event_relation_type: '5',
+        id: '1'
+      },
+      edge_type: 'jr_event_relation',
+      label: '',
+      source_id: '（2020）陕刑终267号-judge_result-3',
+      target_id: '（2020）陕刑终267号-judge_result-4'
+    },
+    {
+      attributes: {
+        event_relation: '组成',
+        event_relation_type: '5',
+        id: '1'
+      },
+      edge_type: 'jr_event_relation',
+      label: '',
+      source_id: '（2020）陕刑终267号-judge_result-0',
+      target_id: '（2020）陕刑终267号-judge_result-1'
+    },
+    {
+      attributes: {
+        event_relation: '组成',
+        event_relation_type: '5',
+        id: '2'
+      },
+      edge_type: 'jr_event_relation',
+      label: '',
+      source_id: '（2020）陕刑终267号-judge_result-0',
+      target_id: '（2020）陕刑终267号-judge_result-2'
+    },
+    {
+      attributes: {
+        event_relation: '组成',
+        event_relation_type: '5',
+        id: '3'
+      },
+      edge_type: 'jr_event_relation',
+      label: '',
+      source_id: '（2020）陕刑终267号-judge_result-0',
+      target_id: '（2020）陕刑终267号-judge_result-3'
+    },
+    {
+      attributes: {
+        id: '1',
+        relation: '罚金',
+        relation_type: '1'
+      },
+      edge_type: 'event_item_relation',
+      label: '罚金',
+      source_id: '（2020）陕刑终267号-judge_result-7',
+      target_id: '（2020）陕刑终267号-item-21'
+    },
+    {
+      attributes: {
+        event_relation: '组成',
+        event_relation_type: '5',
+        id: '1'
+      },
+      edge_type: 'jr_event_relation',
+      label: '',
+      source_id: '（2020）陕刑终267号-judge_result-4',
+      target_id: '（2020）陕刑终267号-judge_result-5'
+    },
+    {
+      attributes: {
+        event_relation: '组成',
+        event_relation_type: '5',
+        id: '2'
+      },
+      edge_type: 'jr_event_relation',
+      label: '',
+      source_id: '（2020）陕刑终267号-judge_result-4',
+      target_id: '（2020）陕刑终267号-judge_result-6'
+    },
+    {
+      attributes: {
+        event_relation: '组成',
+        event_relation_type: '5',
+        id: '3'
+      },
+      edge_type: 'jr_event_relation',
+      label: '',
+      source_id: '（2020）陕刑终267号-judge_result-4',
+      target_id: '（2020）陕刑终267号-judge_result-7'
+    },
+    {
+      attributes: {
+        event_relation: '组成',
+        event_relation_type: '5',
+        id: '4'
+      },
+      edge_type: 'jr_event_relation',
+      label: '',
+      source_id: '（2020）陕刑终267号-judge_result-4',
+      target_id: '（2020）陕刑终267号-judge_result-8'
     },
     {
       attributes: {},
@@ -553,244 +671,34 @@ const data: type.splitData = {
       edge_type: 'lawspace_contain',
       label: 'lawspace_contain',
       source_id: '（2020）陕刑终267号-reason-3',
-      target_id: 'Vertex_law_549e5382263f5d866bfb07a0a987445c'
+      target_id: 'b0de94d6724f4149a47e530efcb8afa4'
     },
     {
       attributes: {},
       edge_type: 'lawspace_contain',
       label: 'lawspace_contain',
-      source_id: '（2020）陕刑终267号-reason-3',
-      target_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224'
-    },
-    {
-      attributes: {},
-      edge_type: 'lawspace_contain',
-      label: 'lawspace_contain',
-      source_id: '（2020）陕刑终267号-reason-3',
-      target_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224'
-    },
-    {
-      attributes: {},
-      edge_type: 'lawspace_contain',
-      label: 'lawspace_contain',
-      source_id: '（2020）陕刑终267号-reason-3',
-      target_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224'
-    },
-    {
-      attributes: {},
-      edge_type: 'lawspace_contain',
-      label: 'lawspace_contain',
-      source_id: '（2020）陕刑终267号-reason-3',
-      target_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224'
-    },
-    {
-      attributes: {},
-      edge_type: 'lawspace_contain',
-      label: 'lawspace_contain',
-      source_id: '（2020）陕刑终267号-reason-3',
-      target_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224'
-    },
-    {
-      attributes: {},
-      edge_type: 'lawspace_contain',
-      label: 'lawspace_contain',
-      source_id: '（2020）陕刑终267号-reason-3',
-      target_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224'
+      source_id: '（2020）陕刑终267号-judge_result-4',
+      target_id: '83b5dca171f44782b041defe53d72312'
     },
     {
       attributes: {},
       edge_type: 'contains',
       label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f'
+      source_id: 'b0de94d6724f4149a47e530efcb8afa4',
+      target_id: '73644c1b8d2f49d79bd945feb6ce5015'
     },
     {
       attributes: {},
       edge_type: 'contains',
       label: 'contains',
-      source_id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f',
-      target_id: 'Vertex_article_4180ae8991e090cab3d4bf7b62f9fe1e'
+      source_id: '73644c1b8d2f49d79bd945feb6ce5015',
+      target_id: 'edcbdf4990f24d86afe1c8377453f485'
     },
     {
       attributes: {},
       edge_type: 'contains',
       label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f',
-      target_id: 'Vertex_article_4180ae8991e090cab3d4bf7b62f9fe1e'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f',
-      target_id: 'Vertex_article_4180ae8991e090cab3d4bf7b62f9fe1e'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f',
-      target_id: 'Vertex_article_4180ae8991e090cab3d4bf7b62f9fe1e'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f',
-      target_id: 'Vertex_article_4180ae8991e090cab3d4bf7b62f9fe1e'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f',
-      target_id: 'Vertex_article_4180ae8991e090cab3d4bf7b62f9fe1e'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
-      target_id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e',
-      target_id: 'Vertex_article_56043b606738d11e52798c7407206fee'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
-      target_id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e',
-      target_id: 'Vertex_article_56043b606738d11e52798c7407206fee'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
-      target_id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e',
-      target_id: 'Vertex_article_56043b606738d11e52798c7407206fee'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
-      target_id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e',
-      target_id: 'Vertex_article_56043b606738d11e52798c7407206fee'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
-      target_id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e',
-      target_id: 'Vertex_article_56043b606738d11e52798c7407206fee'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
+      source_id: 'b0de94d6724f4149a47e530efcb8afa4',
       target_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56'
     },
     {
@@ -839,69 +747,6 @@ const data: type.splitData = {
       attributes: {},
       edge_type: 'contains',
       label: 'contains',
-      source_id: 'Vertex_law_549e5382263f5d866bfb07a0a987445c',
-      target_id: 'Vertex_title_47f6cf74936adfe55999089abdc5319c'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_47f6cf74936adfe55999089abdc5319c',
-      target_id: 'Vertex_chapter_998cba3c1742d9c344d21b88b42c74d3'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_chapter_998cba3c1742d9c344d21b88b42c74d3',
-      target_id: 'Vertex_section_5ce4f8316cce2368b89fbf002d2cf55f'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_section_5ce4f8316cce2368b89fbf002d2cf55f',
-      target_id: 'Vertex_article_95cfdb65f9d42fece9e0858f4ea12106'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_549e5382263f5d866bfb07a0a987445c',
-      target_id: 'Vertex_title_47f6cf74936adfe55999089abdc5319c'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_47f6cf74936adfe55999089abdc5319c',
-      target_id: 'Vertex_chapter_998cba3c1742d9c344d21b88b42c74d3'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_chapter_998cba3c1742d9c344d21b88b42c74d3',
-      target_id: 'Vertex_section_5ce4f8316cce2368b89fbf002d2cf55f'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_section_5ce4f8316cce2368b89fbf002d2cf55f',
-      target_id: 'Vertex_article_95cfdb65f9d42fece9e0858f4ea12106'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
       source_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
       target_id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d'
     },
@@ -916,108 +761,423 @@ const data: type.splitData = {
       attributes: {},
       edge_type: 'contains',
       label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56'
+      source_id: '83b5dca171f44782b041defe53d72312',
+      target_id: '58841ae5ae3b4d76a2e1f9bcf04b550e'
     },
     {
       attributes: {},
       edge_type: 'contains',
       label: 'contains',
-      source_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
-      target_id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d',
-      target_id: 'Vertex_article_815caa9bf43cdadeb3daa2a601638664'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
-      target_id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d',
-      target_id: 'Vertex_article_815caa9bf43cdadeb3daa2a601638664'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
-      target_id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d',
-      target_id: 'Vertex_article_815caa9bf43cdadeb3daa2a601638664'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
-      target_id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d',
-      target_id: 'Vertex_article_815caa9bf43cdadeb3daa2a601638664'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-      target_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
-      target_id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d'
-    },
-    {
-      attributes: {},
-      edge_type: 'contains',
-      label: 'contains',
-      source_id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d',
-      target_id: 'Vertex_article_815caa9bf43cdadeb3daa2a601638664'
+      source_id: '58841ae5ae3b4d76a2e1f9bcf04b550e',
+      target_id: 'ae92277c35d74d3fb762f9b1595d18cf'
     }
   ],
+  law_item_relation: {
+    edges: {
+      '（2020）陕刑终267号-judge_result-4': [
+        {
+          attributes: {
+            creationTime:
+              'utc datetime: 2023-12-08T07:24:16.000000, timezone_offset: 0'
+          },
+          edge_type: 'contains',
+          source_id: '83b5dca171f44782b041defe53d72312',
+          target_id: '58841ae5ae3b4d76a2e1f9bcf04b550e'
+        },
+        {
+          attributes: {
+            creationTime:
+              'utc datetime: 2023-12-08T07:24:22.000000, timezone_offset: 0'
+          },
+          edge_type: 'contains',
+          source_id: '58841ae5ae3b4d76a2e1f9bcf04b550e',
+          target_id: 'ae92277c35d74d3fb762f9b1595d18cf'
+        }
+      ],
+      '（2020）陕刑终267号-reason-3': [
+        {
+          attributes: {
+            creationTime:
+              'utc datetime: 2023-12-08T07:24:16.000000, timezone_offset: 0'
+          },
+          edge_type: 'contains',
+          source_id: 'b0de94d6724f4149a47e530efcb8afa4',
+          target_id: '73644c1b8d2f49d79bd945feb6ce5015'
+        },
+        {
+          attributes: {
+            creationTime:
+              'utc datetime: 2023-12-08T07:24:22.000000, timezone_offset: 0'
+          },
+          edge_type: 'contains',
+          source_id: '73644c1b8d2f49d79bd945feb6ce5015',
+          target_id: 'edcbdf4990f24d86afe1c8377453f485'
+        },
+        {
+          attributes: {
+            creationTime:
+              'utc datetime: 2023-12-08T07:19:54.000000, timezone_offset: 0'
+          },
+          edge_type: 'contains',
+          source_id: 'b0de94d6724f4149a47e530efcb8afa4',
+          target_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56'
+        },
+        {
+          attributes: {
+            creationTime:
+              'utc datetime: 2023-12-08T07:20:34.000000, timezone_offset: 0'
+          },
+          edge_type: 'contains',
+          source_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
+          target_id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e'
+        },
+        {
+          attributes: {
+            creationTime:
+              'utc datetime: 2023-12-08T07:20:50.000000, timezone_offset: 0'
+          },
+          edge_type: 'contains',
+          source_id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e',
+          target_id: 'Vertex_article_56043b606738d11e52798c7407206fee'
+        },
+        {
+          attributes: {
+            creationTime:
+              'utc datetime: 2023-12-08T07:26:18.000000, timezone_offset: 0'
+          },
+          edge_type: 'contains',
+          source_id: 'Vertex_law_549e5382263f5d866bfb07a0a987445c',
+          target_id: 'Vertex_title_47f6cf74936adfe55999089abdc5319c'
+        },
+        {
+          attributes: {
+            creationTime:
+              'utc datetime: 2023-12-08T07:27:17.000000, timezone_offset: 0'
+          },
+          edge_type: 'contains',
+          source_id: 'Vertex_title_47f6cf74936adfe55999089abdc5319c',
+          target_id: 'Vertex_chapter_998cba3c1742d9c344d21b88b42c74d3'
+        },
+        {
+          attributes: {
+            creationTime:
+              'utc datetime: 2023-12-08T07:27:22.000000, timezone_offset: 0'
+          },
+          edge_type: 'contains',
+          source_id: 'Vertex_chapter_998cba3c1742d9c344d21b88b42c74d3',
+          target_id: 'Vertex_section_5ce4f8316cce2368b89fbf002d2cf55f'
+        },
+        {
+          attributes: {
+            creationTime:
+              'utc datetime: 2023-12-08T07:27:22.000000, timezone_offset: 0'
+          },
+          edge_type: 'contains',
+          source_id: 'Vertex_section_5ce4f8316cce2368b89fbf002d2cf55f',
+          target_id: 'Vertex_article_95cfdb65f9d42fece9e0858f4ea12106'
+        },
+        {
+          attributes: {
+            creationTime:
+              'utc datetime: 2023-12-08T07:19:54.000000, timezone_offset: 0'
+          },
+          edge_type: 'contains',
+          source_id: 'b0de94d6724f4149a47e530efcb8afa4',
+          target_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56'
+        },
+        {
+          attributes: {
+            creationTime:
+              'utc datetime: 2023-12-08T07:19:55.000000, timezone_offset: 0'
+          },
+          edge_type: 'contains',
+          source_id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
+          target_id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d'
+        },
+        {
+          attributes: {
+            creationTime:
+              'utc datetime: 2023-12-08T07:20:02.000000, timezone_offset: 0'
+          },
+          edge_type: 'contains',
+          source_id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d',
+          target_id: 'Vertex_article_815caa9bf43cdadeb3daa2a601638664'
+        }
+      ]
+    },
+    nodes: {
+      '（2020）陕刑终267号-judge_result-4': {
+        rli_node: [
+          {
+            attributes: {
+              content:
+                '《中华人民共和国刑事诉讼法》\n中华人民共和国刑事诉讼法\n（1979年7月1日第五届全国人民代表大会第二次会议通过 根据1996年3月17日第八届全国人民代表大会第四次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第一次修正 根据2012年3月14日第十一届全国人民代表大会第五次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第二次修正 根据2018年10月26日第十三届全国人民代表大会常务委员会第六次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第三次修正）',
+              effectiveDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              id: '__NULL__',
+              issueDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '《中华人民共和国刑事诉讼法》'
+            },
+            id: '83b5dca171f44782b041defe53d72312',
+            tags: ['law']
+          },
+          {
+            attributes: {
+              content: '第四编 执行',
+              effectiveDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              id: '4',
+              issueDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '第四编'
+            },
+            id: '58841ae5ae3b4d76a2e1f9bcf04b550e',
+            tags: ['title']
+          },
+          {
+            attributes: {
+              content:
+                '第二百六十三条 人民法院在交付执行死刑前，应当通知同级人民检察院派员临场监督。\n死刑采用枪决或者注射等方法执行。\n死刑可以在刑场或者指定的羁押场所内执行。\n指挥执行的审判人员，对罪犯应当验明正身，讯问有无遗言、信札，然后交付执行人员执行死刑。在执行前，如果发现可能有错误，应当暂停执行，报请最高人民法院裁定。\n执行死刑应当公布，不应示众。\n执行死刑后，在场书记员应当写成笔录。交付执行的人民法院应当将执行死刑情况报告最高人民法院。\n执行死刑后，交付执行的人民法院应当通知罪犯家属。',
+              effectiveDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              id: '263',
+              issueDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '第二百六十三条'
+            },
+            id: 'ae92277c35d74d3fb762f9b1595d18cf',
+            tags: ['article']
+          }
+        ],
+        root_node: [
+          {
+            attributes: {
+              content:
+                '《中华人民共和国刑事诉讼法》\n中华人民共和国刑事诉讼法\n（1979年7月1日第五届全国人民代表大会第二次会议通过 根据1996年3月17日第八届全国人民代表大会第四次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第一次修正 根据2012年3月14日第十一届全国人民代表大会第五次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第二次修正 根据2018年10月26日第十三届全国人民代表大会常务委员会第六次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第三次修正）',
+              effectiveDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              id: '__NULL__',
+              issueDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '《中华人民共和国刑事诉讼法》'
+            },
+            id: '83b5dca171f44782b041defe53d72312',
+            tags: ['law']
+          }
+        ]
+      },
+      '（2020）陕刑终267号-reason-3': {
+        rli_node: [
+          {
+            attributes: {
+              content:
+                '《中华人民共和国刑事诉讼法》\n中华人民共和国刑事诉讼法\n（1979年7月1日第五届全国人民代表大会第二次会议通过 根据1996年3月17日第八届全国人民代表大会第四次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第一次修正 根据2012年3月14日第十一届全国人民代表大会第五次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第二次修正 根据2018年10月26日第十三届全国人民代表大会常务委员会第六次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第三次修正）',
+              effectiveDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              id: '__NULL__',
+              issueDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '《中华人民共和国刑事诉讼法》'
+            },
+            id: 'b0de94d6724f4149a47e530efcb8afa4',
+            tags: ['law']
+          },
+          {
+            attributes: {
+              content: '第四编 执行',
+              effectiveDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              id: '4',
+              issueDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '第四编'
+            },
+            id: '73644c1b8d2f49d79bd945feb6ce5015',
+            tags: ['title']
+          },
+          {
+            attributes: {
+              content:
+                '第二百六十三条 人民法院在交付执行死刑前，应当通知同级人民检察院派员临场监督。\n死刑采用枪决或者注射等方法执行。\n死刑可以在刑场或者指定的羁押场所内执行。\n指挥执行的审判人员，对罪犯应当验明正身，讯问有无遗言、信札，然后交付执行人员执行死刑。在执行前，如果发现可能有错误，应当暂停执行，报请最高人民法院裁定。\n执行死刑应当公布，不应示众。\n执行死刑后，在场书记员应当写成笔录。交付执行的人民法院应当将执行死刑情况报告最高人民法院。\n执行死刑后，交付执行的人民法院应当通知罪犯家属。',
+              effectiveDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              id: '263',
+              issueDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '第二百六十三条'
+            },
+            id: 'edcbdf4990f24d86afe1c8377453f485',
+            tags: ['article']
+          },
+          {
+            attributes: {
+              content: '第一编 总则',
+              effectiveDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              id: '1',
+              issueDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '第一编'
+            },
+            id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
+            tags: ['title']
+          },
+          {
+            attributes: {
+              content: '第五章 证据',
+              effectiveDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              id: '5',
+              issueDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '第五章'
+            },
+            id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e',
+            tags: ['chapter']
+          },
+          {
+            attributes: {
+              content:
+                '第六十四条 对于危害国家安全犯罪、恐怖活动犯罪、黑社会性质的组织犯罪、毒品犯罪等案件，证人、鉴定人、被害人因在诉讼中作证，本人或者其近亲属的人身安全面临危险的，人民法院、人民检察院和公安机关应当采取以下一项或者多项保护措施：\n（一）不公开真实姓名、住址和工作单位等个人信息；\n（二）采取不暴露外貌、真实声音等出庭作证措施；\n（三）禁止特定的人员接触证人、鉴定人、被害人及其近亲属；\n（四）对人身和住宅采取专门性保护措施；\n（五）其他必要的保护措施。\n证人、鉴定人、被害人认为因在诉讼中作证，本人或者其近亲属的人身安全面临危险的，可以向人民法院、人民检察院、公安机关请求予以保护。\n人民法院、人民检察院、公安机关依法采取保护措施，有关单位和个人应当配合。',
+              effectiveDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              id: '64',
+              issueDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '第六十四条'
+            },
+            id: 'Vertex_article_56043b606738d11e52798c7407206fee',
+            tags: ['article']
+          },
+          {
+            attributes: {
+              content:
+                '《中华人民共和国刑法》\n中华人民共和国刑法\n（1979年7月1日第五届全国人民代表大会第二次会议通过 1997年3月14日第八届全国人民代表大会第五次会议修订 根据1998年12月29日第九届全国人民代表大会常务委员会第六次会议通过的《全国人民代表大会常务委员会关于惩治骗购外汇、逃汇和非法买卖外汇犯罪的决定》、1999年12月25日第九届全国人民代表大会常务委员会第十三次会议通过的《中华人民共和国刑法修正案》、2001年8月31日第九届全国人民代表大会常务委员会第二十三次会议通过的《中华人民共和国刑法修正案（二）》、2001年12月29日第九届全国人民代表大会常务委员会第二十五次会议通过的《中华人民共和国刑法修正案（三）》、2002年12月28日第九届全国人民代表大会常务委员会第三十一次会议通过的《中华人民共和国刑法修正案（四）》、2005年2月28日第十届全国人民代表大会常务委员会第十四次会议通过的《中华人民共和国刑法修正案（五）》、2006年6月29日第十届全国人民代表大会常务委员会第二十二次会议通过的《中华人民共和国刑法修正案（六）》、2009年2月28日第十一届全国人民代表大会常务委员会第七次会议通过的《中华人民共和国刑法修正案（七）》、2009年8月27日第十一届全国人民代表大会常务委员会第十次会议通过的《全国人民代表大会常务委员会关于修改部分法律的决定》、2011年2月25日第十一届全国人民代表大会常务委员会第十九次会议通过的《中华人民共和国刑法修正案（八）》、2015年8月29日第十二届全国人民代表大会常务委员会第十六次会议通过的《中华人民共和国刑法修正案（九）》、2017年11月4日第十二届全国人民代表大会常务委员会第三十次会议通过的《中华人民共和国刑法修正案（十）》和2020年12月26日第十三届全国人民代表大会常务委员会第二十四次会议通过的《中华人民共和国刑法修正案（十一）》修正）[刑法、历次刑法修正案、涉及修改刑法的决定的施行日期，分别依据各法律所规定的施行日期确定。]',
+              effectiveDate:
+                'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
+              id: '__NULL__',
+              issueDate:
+                'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '《中华人民共和国刑法》'
+            },
+            id: 'Vertex_law_549e5382263f5d866bfb07a0a987445c',
+            tags: ['law']
+          },
+          {
+            attributes: {
+              content: '第一编 总则',
+              effectiveDate:
+                'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
+              id: '1',
+              issueDate:
+                'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '第一编'
+            },
+            id: 'Vertex_title_47f6cf74936adfe55999089abdc5319c',
+            tags: ['title']
+          },
+          {
+            attributes: {
+              content: '第四章 刑罚的具体运用',
+              effectiveDate:
+                'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
+              id: '4',
+              issueDate:
+                'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '第四章'
+            },
+            id: 'Vertex_chapter_998cba3c1742d9c344d21b88b42c74d3',
+            tags: ['chapter']
+          },
+          {
+            attributes: {
+              content: '第三节 自首和立功',
+              effectiveDate:
+                'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
+              id: '3',
+              issueDate:
+                'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '第三节'
+            },
+            id: 'Vertex_section_5ce4f8316cce2368b89fbf002d2cf55f',
+            tags: ['section']
+          },
+          {
+            attributes: {
+              content:
+                '第六十七条 犯罪以后自动投案，如实供述自己的罪行的，是自首。对于自首的犯罪分子，可以从轻或者减轻处罚。其中，犯罪较轻的，可以免除处罚。\n被采取强制措施的犯罪嫌疑人、被告人和正在服刑的罪犯，如实供述司法机关还未掌握的本人其他罪行的，以自首论。\n犯罪嫌疑人虽不具有前两款规定的自首情节，但是如实供述自己罪行的，可以从轻处罚；因其如实供述自己罪行，避免特别严重后果发生的，可以减轻处罚。',
+              effectiveDate:
+                'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
+              id: '67',
+              issueDate:
+                'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '第六十七条'
+            },
+            id: 'Vertex_article_95cfdb65f9d42fece9e0858f4ea12106',
+            tags: ['article']
+          },
+          {
+            attributes: {
+              content: '第一章 任务和基本原则',
+              effectiveDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              id: '1',
+              issueDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '第一章'
+            },
+            id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d',
+            tags: ['chapter']
+          },
+          {
+            attributes: {
+              content:
+                '第十五条 犯罪嫌疑人、被告人自愿如实供述自己的罪行，承认指控的犯罪事实，愿意接受处罚的，可以依法从宽处理。',
+              effectiveDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              id: '15',
+              issueDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '第十五条'
+            },
+            id: 'Vertex_article_815caa9bf43cdadeb3daa2a601638664',
+            tags: ['article']
+          }
+        ],
+        root_node: [
+          {
+            attributes: {
+              content:
+                '《中华人民共和国刑法》\n中华人民共和国刑法\n（1979年7月1日第五届全国人民代表大会第二次会议通过 1997年3月14日第八届全国人民代表大会第五次会议修订 根据1998年12月29日第九届全国人民代表大会常务委员会第六次会议通过的《全国人民代表大会常务委员会关于惩治骗购外汇、逃汇和非法买卖外汇犯罪的决定》、1999年12月25日第九届全国人民代表大会常务委员会第十三次会议通过的《中华人民共和国刑法修正案》、2001年8月31日第九届全国人民代表大会常务委员会第二十三次会议通过的《中华人民共和国刑法修正案（二）》、2001年12月29日第九届全国人民代表大会常务委员会第二十五次会议通过的《中华人民共和国刑法修正案（三）》、2002年12月28日第九届全国人民代表大会常务委员会第三十一次会议通过的《中华人民共和国刑法修正案（四）》、2005年2月28日第十届全国人民代表大会常务委员会第十四次会议通过的《中华人民共和国刑法修正案（五）》、2006年6月29日第十届全国人民代表大会常务委员会第二十二次会议通过的《中华人民共和国刑法修正案（六）》、2009年2月28日第十一届全国人民代表大会常务委员会第七次会议通过的《中华人民共和国刑法修正案（七）》、2009年8月27日第十一届全国人民代表大会常务委员会第十次会议通过的《全国人民代表大会常务委员会关于修改部分法律的决定》、2011年2月25日第十一届全国人民代表大会常务委员会第十九次会议通过的《中华人民共和国刑法修正案（八）》、2015年8月29日第十二届全国人民代表大会常务委员会第十六次会议通过的《中华人民共和国刑法修正案（九）》、2017年11月4日第十二届全国人民代表大会常务委员会第三十次会议通过的《中华人民共和国刑法修正案（十）》和2020年12月26日第十三届全国人民代表大会常务委员会第二十四次会议通过的《中华人民共和国刑法修正案（十一）》修正）[刑法、历次刑法修正案、涉及修改刑法的决定的施行日期，分别依据各法律所规定的施行日期确定。]',
+              effectiveDate:
+                'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
+              id: '__NULL__',
+              issueDate:
+                'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '《中华人民共和国刑法》'
+            },
+            id: 'Vertex_law_549e5382263f5d866bfb07a0a987445c',
+            tags: ['law']
+          },
+          {
+            attributes: {
+              content:
+                '《中华人民共和国刑事诉讼法》\n中华人民共和国刑事诉讼法\n（1979年7月1日第五届全国人民代表大会第二次会议通过 根据1996年3月17日第八届全国人民代表大会第四次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第一次修正 根据2012年3月14日第十一届全国人民代表大会第五次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第二次修正 根据2018年10月26日第十三届全国人民代表大会常务委员会第六次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第三次修正）',
+              effectiveDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              id: '__NULL__',
+              issueDate:
+                'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+              name: '《中华人民共和国刑事诉讼法》'
+            },
+            id: 'b0de94d6724f4149a47e530efcb8afa4',
+            tags: ['law']
+          }
+        ]
+      }
+    }
+  },
   nodes: [
     {
       attributes: {
@@ -1057,7 +1217,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-court-2',
       label: '陕西省高级人民法院',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'court'
     },
@@ -1089,7 +1249,7 @@ const data: type.splitData = {
       label:
         '陕西省高级人民法院经依法全面审查，对一审判决审理查明的事实及所列证据予以确认。针对检察机关所提抗诉意见、原审被告人翁某甲辩解及其辩护人所提辩护意见，根据本案的事实、证据及相关法律规定，本院评判如下：',
       layout_type: 'event',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1131,7 +1291,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-court-1',
       label: '宝鸡市中级人民法院',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'court'
     },
@@ -1160,7 +1320,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-0',
       label: '宝鸡市中级人民法院，认为：',
       layout_type: 'event',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1189,9 +1349,38 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-16',
       label: '宝鸡市中级人民法é\u0099¢在判决书中列举了认定本案事实的证据',
       layout_type: 'event',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
+    },
+    {
+      attributes: {
+        address: '',
+        content: 'é\u0099\u0095西省高级人民法院认为：',
+        create_time: '1701531082',
+        doc_id: '（2020）陕刑终267号',
+        dt_date: '__NULL__',
+        event_type: '法院认为',
+        id: '（2020）陕刑终267号-judge_result-0',
+        input_unit: 'sentence',
+        is_del: '0',
+        is_gui_main_line: '1',
+        is_valid: '1',
+        label: 'é\u0099\u0095西省高级人民法院认为：',
+        note: '__NULL__',
+        para_id: '-1',
+        sent_id_in_doc: '-1',
+        sent_id_in_para: '-1',
+        str_date: '',
+        subsent_id_in_para: '__NULL__',
+        update_time: '__NULL__'
+      },
+      id: '（2020）陕刑终267号-judge_result-0',
+      label: 'é\u0099\u0095西省高级人民法院认为：',
+      layout_type: 'event',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'judge_result'
     },
     {
       attributes: {
@@ -1218,7 +1407,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-10',
       label: '陕西省人民检察院æ\u0094¯持宝鸡市人民检察院的抗诉意见，认为：',
       layout_type: 'event',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1247,7 +1436,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-11',
       label: '翁某甲等人抢劫被害人兰某某的è¡\u008c为构成入户抢劫',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1277,7 +1466,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-12',
       label: '本案抢劫犯罪的性质、情节较恶劣，当年在案发地一带造成了严重影响',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1306,7 +1495,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-13',
       label: '翁某甲在共同犯罪中地位作用最为突出，对翁某甲应从重判处。',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1335,7 +1524,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-14',
       label: '翁某甲及其辩护人当庭提出',
       layout_type: 'event',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1367,7 +1556,7 @@ const data: type.splitData = {
       label:
         '翁某甲案发后为了逃避法律追究逃跑20年，严重浪费司法资源，期间也未对被害人有任何赔偿无任何悔罪表现，对翁某甲应判处无期徒刑以上刑罚。',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1402,7 +1591,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-item-18',
       label: '无期徒刑以上刑罚',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'item'
     },
@@ -1434,7 +1623,7 @@ const data: type.splitData = {
       label:
         '被告人翁某甲伙同李某甲、翁某某、李某，以非法占有为目的，采取持菜刀、木棍威胁、捆绑、殴打等暴力手段多次强行劫取他人财物，且抢劫财物价值共计人民币42390元，数额巨大，并致两人轻微伤，其行为已构成抢劫罪。',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1466,7 +1655,7 @@ const data: type.splitData = {
       label:
         '根据被告人翁某甲的犯罪事实、犯罪性质、情节和对社会的危害程度，依照《中华人民共和国刑法》第二百六十三条（四）项、第六十四条、第六十七条第三款、《中华人民共和国刑事诉讼法》第十五条之规定，判决：被告人翁某甲犯抢劫罪，判处有期徒刑十三年六个月，并处罚金人民币八千元。',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1495,7 +1684,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-4',
       label: '宝鸡市人民检察院抗诉提出：',
       layout_type: 'event',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1539,7 +1728,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-主犯-翁某甲',
       label: '翁某甲',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'person'
     },
@@ -1581,7 +1770,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-从犯-李某',
       label: '李某',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'person'
     },
@@ -1623,7 +1812,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-从犯-李某甲',
       label: '李某甲',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'person'
     },
@@ -1658,7 +1847,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-item-14',
       label: '菜刀',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'item'
     },
@@ -1693,7 +1882,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-item-15',
       label: '木棍',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'item'
     },
@@ -1728,7 +1917,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-item-6',
       label: '人民币42390元',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'item'
     },
@@ -1763,7 +1952,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-item-7',
       label: '其行为已构成抢劫罪',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'item'
     },
@@ -1795,7 +1984,7 @@ const data: type.splitData = {
       label:
         '检察机关在二审期间重新调取了被害人马某某、兰某某的陈述，证人武某某的证言及部分案发现场照片，相关证据均已在开庭审理时当庭出示并经质证。',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1824,7 +2013,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-18',
       label: '证人武某某的证言及部分案发现场照片',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1853,7 +2042,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-19',
       label: '相关证据均已在开庭审理时当庭出示并经质证',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1885,7 +2074,7 @@ const data: type.splitData = {
       label:
         '翁某甲在共同犯罪中不是主犯，其行为也不构成入户抢劫，原审判决量刑适当，应予维持',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1917,7 +2106,7 @@ const data: type.splitData = {
       label:
         '对于被告人翁某甲在及其辩护人提出在共同犯罪中翁某甲在不是主犯的辩解和辩护意见。经查：',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1949,7 +2138,7 @@ const data: type.splitData = {
       label:
         '同案犯李某甲、翁某某均供述，翁某甲在首先提出抢劫加油站的犯意并召集作案人，安排翁某某、李某甲前去踩点、购买刀具，确定抢劫地点，指使同案犯威胁、捆绑被害人，劫取财物后进行分配并占有大部分赃款赃物，起组织、指挥作用。',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -1981,7 +2170,7 @@ const data: type.splitData = {
       label:
         '翁某甲在在侦查阶段对其在抢劫中的地位作用亦曾详细供述，因此翁某甲在应系主犯。',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -2010,7 +2199,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-25',
       label: '故翁某甲在及其辩护人的辩解和辩护意见不成立，本院不予采纳。',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -2039,7 +2228,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-5',
       label: '被告人翁某甲在犯罪中起主要作用，为主犯',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -2071,7 +2260,7 @@ const data: type.splitData = {
       label:
         '已归案的两名被告人被判处死缓，且两人在犯罪中的作用均轻于翁某甲，原审对翁某甲的量刑系同案不同判。',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -2103,7 +2292,7 @@ const data: type.splitData = {
       label:
         '被告人翁某甲有坦白、认罪认罚从宽两个从轻情节，但二者不应做重复评价',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -2134,7 +2323,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-8',
       label: '翁某甲四次抢劫均参与，且是主犯，罪行较重，对其从宽幅度应从严把握',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -2163,7 +2352,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-22',
       label: '对于检察机关提出应对翁某甲从重处罚的抗诉意见。经查：',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -2195,7 +2384,7 @@ const data: type.splitData = {
       label:
         '被告人翁某甲在伙同李某甲、翁某某等人连续实施抢劫，数额巨大，并致二人轻微伤,当时在当地产生恶劣的社会影响',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -2227,7 +2416,7 @@ const data: type.splitData = {
       label:
         '被告人翁某甲伙同李某甲、翁某某等人在案发后逃避法律追究，被害人的损失没有得到赔偿，犯罪性质恶劣、后果严重,应对其从重判处刑罚',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -2256,7 +2445,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-reason-28',
       label: '故检察机关的抗诉意见成立，本院予以采纳。',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'reason'
     },
@@ -2298,189 +2487,9 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-证人-武某某',
       label: '武某某',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'person'
-    },
-    {
-      attributes: {
-        address: '__NULL__',
-        article: '__NULL__',
-        article_id: '第二百六十三条',
-        chapter: '__NULL__',
-        clause: '__NULL__',
-        clause_id: '__NULL__',
-        content:
-          '依照《中华人民共和国刑法》第二百六十三条（四）项、第六十四条、第六十七条第三款、《中华人民共和国刑事诉讼法》第十五条之规定',
-        create_time: '1701395466',
-        division: '__NULL__',
-        doc_id: '（2020）陕刑终267号',
-        id: '（2020）陕刑终267号-raw_law_item-0',
-        input_unit: '__NULL__',
-        is_del: '0',
-        is_valid: '1',
-        item_time: '__NULL__',
-        label:
-          '依照《中华人民共和国刑法》第二百六十三条（四）项、第六十四条、第六十七条第三款、《中华人民共和国刑事诉讼法》第十五条之规定',
-        law_name: '《中华人民共和国刑法》',
-        law_note: '__NULL__',
-        law_version: '__NULL__',
-        para_id: '__NULL__',
-        paragraph: '__NULL__',
-        paragraph_id: '__NULL__',
-        section: '__NULL__',
-        sent_id_in_doc: '__NULL__',
-        sent_id_in_para: '__NULL__',
-        str_item_time: '__NULL__',
-        subparagraph: '__NULL__',
-        subparagraph_id: '（四）项',
-        subsection: '__NULL__',
-        subsent_id_in_para: '__NULL__',
-        title: '__NULL__',
-        update_time: '__NULL__'
-      },
-      id: '（2020）陕刑终267号-raw_law_item-0',
-      label:
-        '依照《中华人民共和国刑法》第二百六十三条（四）项、第六十四条、第六十七条第三款、《中华人民共和国刑事诉讼法》第十五条之规定',
-      layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
-      property_key: '',
-      type: 'raw_law_item'
-    },
-    {
-      attributes: {
-        address: '__NULL__',
-        article: '__NULL__',
-        article_id: '第六十四条',
-        chapter: '__NULL__',
-        clause: '__NULL__',
-        clause_id: '__NULL__',
-        content:
-          '依照《中华人民共和国刑法》第二百六十三条（四）项、第六十四条、第六十七条第三款、《中华人民共和国刑事诉讼法》第十五条之规定',
-        create_time: '1701395466',
-        division: '__NULL__',
-        doc_id: '（2020）陕刑终267号',
-        id: '（2020）陕刑终267号-raw_law_item-1',
-        input_unit: '__NULL__',
-        is_del: '0',
-        is_valid: '1',
-        item_time: '__NULL__',
-        label:
-          '依照《中华人民共和国刑法》第二百六十三条（四）项、第六十四条、第六十七条第三款、《中华人民共和国刑事诉讼法》第十五条之规定',
-        law_name: '《中华人民共和国刑法》',
-        law_note: '__NULL__',
-        law_version: '__NULL__',
-        para_id: '__NULL__',
-        paragraph: '__NULL__',
-        paragraph_id: '__NULL__',
-        section: '__NULL__',
-        sent_id_in_doc: '__NULL__',
-        sent_id_in_para: '__NULL__',
-        str_item_time: '__NULL__',
-        subparagraph: '__NULL__',
-        subparagraph_id: '__NULL__',
-        subsection: '__NULL__',
-        subsent_id_in_para: '__NULL__',
-        title: '__NULL__',
-        update_time: '__NULL__'
-      },
-      id: '（2020）陕刑终267号-raw_law_item-1',
-      label:
-        '依照《中华人民共和国刑法》第二百六十三条（四）项、第六十四条、第六十七条第三款、《中华人民共和国刑事诉讼法》第十五条之规定',
-      layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
-      property_key: '',
-      type: 'raw_law_item'
-    },
-    {
-      attributes: {
-        address: '__NULL__',
-        article: '__NULL__',
-        article_id: '第六十七条',
-        chapter: '__NULL__',
-        clause: '__NULL__',
-        clause_id: '__NULL__',
-        content:
-          '依照《中华人民共和国刑法》第二百六十三条（四）项、第六十四条、第六十七条第三款、《中华人民共和国刑事诉讼法》第十五条之规定',
-        create_time: '1701395466',
-        division: '__NULL__',
-        doc_id: '（2020）陕刑终267号',
-        id: '（2020）陕刑终267号-raw_law_item-2',
-        input_unit: '__NULL__',
-        is_del: '0',
-        is_valid: '1',
-        item_time: '__NULL__',
-        label:
-          '依照《中华人民共和国刑法》第二百六十三条（四）项、第六十四条、第六十七条第三款、《中华人民共和国刑事诉讼法》第十五条之规定',
-        law_name: '《中华人民共和国刑法》',
-        law_note: '__NULL__',
-        law_version: '__NULL__',
-        para_id: '__NULL__',
-        paragraph: '__NULL__',
-        paragraph_id: '第三款',
-        section: '__NULL__',
-        sent_id_in_doc: '__NULL__',
-        sent_id_in_para: '__NULL__',
-        str_item_time: '__NULL__',
-        subparagraph: '__NULL__',
-        subparagraph_id: '__NULL__',
-        subsection: '__NULL__',
-        subsent_id_in_para: '__NULL__',
-        title: '__NULL__',
-        update_time: '__NULL__'
-      },
-      id: '（2020）陕刑终267号-raw_law_item-2',
-      label:
-        '依照《中华人民共和国刑法》第二百六十三条（四）项、第六十四条、第六十七条第三款、《中华人民共和国刑事诉讼法》第十五条之规定',
-      layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
-      property_key: '',
-      type: 'raw_law_item'
-    },
-    {
-      attributes: {
-        address: '__NULL__',
-        article: '__NULL__',
-        article_id: '第十五条',
-        chapter: '__NULL__',
-        clause: '__NULL__',
-        clause_id: '__NULL__',
-        content:
-          '依照《中华人民共和国刑法》第二百六十三条（四）项、第六十四条、第六十七条第三款、《中华人民共和国刑事诉讼法》第十五条之规定',
-        create_time: '1701395466',
-        division: '__NULL__',
-        doc_id: '（2020）陕刑终267号',
-        id: '（2020）陕刑终267号-raw_law_item-3',
-        input_unit: '__NULL__',
-        is_del: '0',
-        is_valid: '1',
-        item_time: '__NULL__',
-        label:
-          '依照《中华人民共和国刑法》第二百六十三条（四）项、第六十四条、第六十七条第三款、《中华人民共和国刑事诉讼法》第十五条之规定',
-        law_name: '《中华人民共和国刑事诉讼法》',
-        law_note: '__NULL__',
-        law_version: '__NULL__',
-        para_id: '__NULL__',
-        paragraph: '__NULL__',
-        paragraph_id: '__NULL__',
-        section: '__NULL__',
-        sent_id_in_doc: '__NULL__',
-        sent_id_in_para: '__NULL__',
-        str_item_time: '__NULL__',
-        subparagraph: '__NULL__',
-        subparagraph_id: '__NULL__',
-        subsection: '__NULL__',
-        subsent_id_in_para: '__NULL__',
-        title: '__NULL__',
-        update_time: '__NULL__'
-      },
-      id: '（2020）陕刑终267号-raw_law_item-3',
-      label:
-        '依照《中华人民共和国刑法》第二百六十三条（四）项、第六十四条、第六十七条第三款、《中华人民共和国刑事诉讼法》第十五条之规定',
-      layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
-      property_key: '',
-      type: 'raw_law_item'
     },
     {
       attributes: {
@@ -2513,7 +2522,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-item-19',
       label: '入户抢劫',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'item'
     },
@@ -2548,7 +2557,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-item-12',
       label: '强行劫取他人财物',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'item'
     },
@@ -2583,7 +2592,7 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-item-8',
       label: '持菜刀威胁',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'item'
     },
@@ -2618,360 +2627,733 @@ const data: type.splitData = {
       id: '（2020）陕刑终267号-item-9',
       label: '持木棍威胁',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'item'
     },
     {
       attributes: {
-        attributes: {
-          content:
-            '《中华人民共和国刑法》\n中华人民共和国刑法\n（1979年7月1日第五届全国人民代表大会第二次会议通过 1997年3月14日第八届全国人民代表大会第五次会议修订 根据1998年12月29日第九届全国人民代表大会常务委员会第六次会议通过的《全国人民代表大会常务委员会关于惩治骗购外汇、逃汇和非法买卖外汇犯罪的决定》、1999年12月25日第九届全国人民代表大会常务委员会第十三次会议通过的《中华人民共和国刑法修正案》、2001年8月31日第九届全国人民代表大会常务委员会第二十三次会议通过的《中华人民共和国刑法修正案（二）》、2001年12月29日第九届全国人民代表大会常务委员会第二十五次会议通过的《中华人民共和国刑法修正案（三）》、2002年12月28日第九届全国人民代表大会常务委员会第三十一次会议通过的《中华人民共和国刑法修正案（四）》、2005年2月28日第十届全国人民代表大会常务委员会第十四次会议通过的《中华人民共和国刑法修正案（五）》、2006年6月29日第十届全国人民代表大会常务委员会第二十二次会议通过的《中华人民共和国刑法修正案（六）》、2009年2月28日第十一届全国人民代表大会常务委员会第七次会议通过的《中华人民共和国刑法修正案（七）》、2009年8月27日第十一届全国人民代表大会常务委员会第十次会议通过的《全国人民代表大会常务委员会关于修改部分法律的决定》、2011年2月25日第十一届全国人民代表大会常务委员会第十九次会议通过的《中华人民共和国刑法修正案（八）》、2015年8月29日第十二届全国人民代表大会常务委员会第十六次会议通过的《中华人民共和国刑法修正案（九）》、2017年11月4日第十二届全国人民代表大会常务委员会第三十次会议通过的《中华人民共和国刑法修正案（十）》和2020年12月26日第十三届全国人民代表大会常务委员会第二十四次会议通过的《中华人民共和国刑法修正案（十一）》修正）[刑法、历次刑法修正案、涉及修改刑法的决定的施行日期，分别依据各法律所规定的施行日期确定。]',
-          effectiveDate:
-            'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
-          id: 'Vertex_law_549e5382263f5d866bfb07a0a987445c',
-          issueDate:
-            'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
-          label: '《中华人民共和国刑法》',
-          name: '《中华人民共和国刑法》'
-        },
+        address: '',
+        age: '__NULL__',
+        birth_date: '__NULL__',
+        birth_place: '',
+        content: '',
+        create_time: '1701497277',
+        doc_id: '（2020）陕刑终267号',
+        education_level: '',
+        email: '__NULL__',
+        gender: '',
+        household_reg_add: '',
+        id: '（2020）陕刑终267号-辩护人-马某乙',
+        id_card: '__NULL__',
+        input_unit: '__NULL__',
+        is_del: '0',
+        is_valid: '1',
+        job: '',
+        label: '马某乙',
+        legal_role: '辩护人',
+        legal_status: '',
+        marry_status: '__NULL__',
+        name: '马某乙',
+        nationality: '中国',
+        nickname: '__NULL__',
+        para_id: '__NULL__',
+        phone: '__NULL__',
+        sent_id_in_doc: '__NULL__',
+        sent_id_in_para: '__NULL__',
+        str_birth_date: '',
+        subsent_id_in_para: '__NULL__',
+        update_time: '__NULL__',
+        wechat: '__NULL__'
+      },
+      id: '（2020）陕刑终267号-辩护人-马某乙',
+      label: '马某乙',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'person'
+    },
+    {
+      attributes: {
+        address: '__NULL__',
+        content: '__NULL__',
+        create_time: '1701326297',
+        doc_id: '（2020）陕刑终267号',
+        id: '（2020）陕刑终267号-item-16',
+        input_unit: '__NULL__',
+        is_del: '0',
+        is_legal: '0',
+        is_valid: '1',
+        item_detail: '有期徒刑 十三年六个月',
+        item_name: '有期徒刑',
+        item_note: '__NULL__',
+        item_num: '__NULL__',
+        item_purpose: '__NULL__',
+        item_time: '__NULL__',
+        item_total_value: '__NULL__',
+        item_type: '有期徒刑',
+        item_unit_value: '__NULL__',
+        label: '有期徒刑 十三年六个月',
+        para_id: '__NULL__',
+        sent_id_in_doc: '__NULL__',
+        sent_id_in_para: '__NULL__',
+        str_item_time: '__NULL__',
+        subsent_id_in_para: '__NULL__',
+        update_time: '__NULL__'
+      },
+      id: '（2020）陕刑终267号-item-16',
+      label: '有期徒刑 十三年六个月',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'item'
+    },
+    {
+      attributes: {
+        address: '__NULL__',
+        content: '__NULL__',
+        create_time: '1701326311',
+        doc_id: '（2020）陕刑终267号',
+        id: '（2020）陕刑终267号-item-17',
+        input_unit: '__NULL__',
+        is_del: '0',
+        is_legal: '0',
+        is_valid: '1',
+        item_detail: '罚金人民币八千元',
+        item_name: '罚金',
+        item_note: '__NULL__',
+        item_num: '__NULL__',
+        item_purpose: '__NULL__',
+        item_time: '__NULL__',
+        item_total_value: '8000',
+        item_type: '罚金',
+        item_unit_value: '8000',
+        label: '罚金人民币八千元',
+        para_id: '__NULL__',
+        sent_id_in_doc: '__NULL__',
+        sent_id_in_para: '__NULL__',
+        str_item_time: '__NULL__',
+        subsent_id_in_para: '__NULL__',
+        update_time: '__NULL__'
+      },
+      id: '（2020）陕刑终267号-item-17',
+      label: '罚金人民币八千元',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'item'
+    },
+    {
+      attributes: {
+        address: '',
+        content:
+          '原审被告人翁某甲犯抢劫罪，判处有期徒刑十五年（刑期从判决执行之日起计算。判决执行以前先行羁押的，羁押一日折抵刑期一日；指定居所监视居住的，监视居住二日折抵刑期一日，即从2019年11月9日起至2034年11月11日止）',
+        create_time: '1701531082',
+        doc_id: '（2020）陕刑终267号',
+        dt_date: '__NULL__',
+        event_type: '判处有期徒刑',
+        id: '（2020）陕刑终267号-judge_result-6',
+        input_unit: 'sentence',
+        is_del: '0',
+        is_gui_main_line: '0',
+        is_valid: '1',
+        label:
+          '原审被告人翁某甲犯抢劫罪，判处有期徒刑十五年（刑期从判决执行之日起计算。判决执行以前先行羁押的，羁押一日折抵刑期一日；指定居所监视居住的，监视居住二日折抵刑期一日，即从2019年11月9日起至2034年11月11日止）',
+        note: '__NULL__',
+        para_id: '-1',
+        sent_id_in_doc: '-1',
+        sent_id_in_para: '-1',
+        str_date: '',
+        subsent_id_in_para: '__NULL__',
+        update_time: '__NULL__'
+      },
+      id: '（2020）陕刑终267号-judge_result-6',
+      label:
+        '原审被告人翁某甲犯抢劫罪，判处有期徒刑十五年（刑期从判决执行之日起计算。判决执行以前先行羁押的，羁押一日折抵刑期一日；指定居所监视居住的，监视居住二日折抵刑期一日，即从2019年11月9日起至2034年11月11日止）',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'judge_result'
+    },
+    {
+      attributes: {
+        address: '__NULL__',
+        content: '__NULL__',
+        create_time: '1701529137',
+        doc_id: '（2020）陕刑终267号',
+        id: '（2020）陕刑终267号-item-20',
+        input_unit: '__NULL__',
+        is_del: '0',
+        is_legal: '0',
+        is_valid: '1',
+        item_detail: '有期徒刑 十五年',
+        item_name: '刑期',
+        item_note: '__NULL__',
+        item_num: '__NULL__',
+        item_purpose: '__NULL__',
+        item_time: '__NULL__',
+        item_total_value: '__NULL__',
+        item_type: '刑期',
+        item_unit_value: '__NULL__',
+        label: '有期徒刑 十五年',
+        para_id: '__NULL__',
+        sent_id_in_doc: '__NULL__',
+        sent_id_in_para: '__NULL__',
+        str_item_time: '__NULL__',
+        subsent_id_in_para: '__NULL__',
+        update_time: '__NULL__'
+      },
+      id: '（2020）陕刑终267号-item-20',
+      label: '有期徒刑 十五年',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'item'
+    },
+    {
+      attributes: {
+        address: '',
+        content: '惟对被告人翁某甲量刑有轻，应予纠正。',
+        create_time: '1701531082',
+        doc_id: '（2020）陕刑终267号',
+        dt_date: '__NULL__',
+        event_type: '量刑有轻，应予纠正',
+        id: '（2020）陕刑终267号-judge_result-3',
+        input_unit: 'sentence',
+        is_del: '0',
+        is_gui_main_line: '0',
+        is_valid: '1',
+        label: '惟对被告人翁某甲量刑有轻，应予纠正。',
+        note: '__NULL__',
+        para_id: '-1',
+        sent_id_in_doc: '-1',
+        sent_id_in_para: '-1',
+        str_date: '',
+        subsent_id_in_para: '__NULL__',
+        update_time: '__NULL__'
+      },
+      id: '（2020）陕刑终267号-judge_result-3',
+      label: '惟对被告人翁某甲量刑有轻，应予纠正。',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'judge_result'
+    },
+    {
+      attributes: {
+        address: '',
+        content: '终审判决',
+        create_time: '1701531522',
+        doc_id: '（2020）陕刑终267号',
+        dt_date: '__NULL__',
+        event_type: '终审判决',
+        id: '（2020）陕刑终267号-judge_result-4',
+        input_unit: 'sentence',
+        is_del: '0',
+        is_gui_main_line: '0',
+        is_valid: '1',
+        label: '终审判决',
+        note: '__NULL__',
+        para_id: '-1',
+        sent_id_in_doc: '-1',
+        sent_id_in_para: '-1',
+        str_date: '',
+        subsent_id_in_para: '__NULL__',
+        update_time: '__NULL__'
+      },
+      id: '（2020）陕刑终267号-judge_result-4',
+      label: '终审判决',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'judge_result'
+    },
+    {
+      attributes: {
+        address: '',
+        content:
+          '原审被告人翁某甲以非法占有为目的，伙同他人以暴力、胁迫方法抢劫他人财物，数额巨大，其行为构成抢劫罪，依法应予严惩',
+        create_time: '1701531082',
+        doc_id: '（2020）陕刑终267号',
+        dt_date: '__NULL__',
+        event_type: '抢劫罪',
+        id: '（2020）陕刑终267号-judge_result-1',
+        input_unit: 'sentence',
+        is_del: '0',
+        is_gui_main_line: '0',
+        is_valid: '1',
+        label:
+          '原审被告人翁某甲以非法占有为目的，伙同他人以暴力、胁迫方法抢劫他人财物，数额巨大，其行为构成抢劫罪，依法应予严惩',
+        note: '__NULL__',
+        para_id: '-1',
+        sent_id_in_doc: '-1',
+        sent_id_in_para: '-1',
+        str_date: '',
+        subsent_id_in_para: '__NULL__',
+        update_time: '__NULL__'
+      },
+      id: '（2020）陕刑终267号-judge_result-1',
+      label:
+        '原审被告人翁某甲以非法占有为目的，伙同他人以暴力、胁迫方法抢劫他人财物，数额巨大，其行为构成抢劫罪，依法应予严惩',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'judge_result'
+    },
+    {
+      attributes: {
+        address: '',
+        content:
+          '原审判决认定事实清楚，证据确实、充分，定罪准确。审判程序合法。',
+        create_time: '1701531082',
+        doc_id: '（2020）陕刑终267号',
+        dt_date: '__NULL__',
+        event_type: '原审审判程序合法',
+        id: '（2020）陕刑终267号-judge_result-2',
+        input_unit: 'sentence',
+        is_del: '0',
+        is_gui_main_line: '0',
+        is_valid: '1',
+        label: '原审判决认定事实清楚，证据确实、充分，定罪准确。审判程序合法。',
+        note: '__NULL__',
+        para_id: '-1',
+        sent_id_in_doc: '-1',
+        sent_id_in_para: '-1',
+        str_date: '',
+        subsent_id_in_para: '__NULL__',
+        update_time: '__NULL__'
+      },
+      id: '（2020）陕刑终267号-judge_result-2',
+      label: '原审判决认定事实清楚，证据确实、充分，定罪准确。审判程序合法。',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'judge_result'
+    },
+    {
+      attributes: {
+        address: '',
+        content: '处罚金人民币八千元（限判决生效后一个月内缴纳）',
+        create_time: '1701531082',
+        doc_id: '（2020）陕刑终267号',
+        dt_date: '__NULL__',
+        event_type: '处罚金',
+        id: '（2020）陕刑终267号-judge_result-7',
+        input_unit: 'sentence',
+        is_del: '0',
+        is_gui_main_line: '0',
+        is_valid: '1',
+        label: '处罚金人民币八千元（限判决生效后一个月内缴纳）',
+        note: '__NULL__',
+        para_id: '-1',
+        sent_id_in_doc: '-1',
+        sent_id_in_para: '-1',
+        str_date: '',
+        subsent_id_in_para: '__NULL__',
+        update_time: '__NULL__'
+      },
+      id: '（2020）陕刑终267号-judge_result-7',
+      label: '处罚金人民币八千元（限判决生效后一个月内缴纳）',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'judge_result'
+    },
+    {
+      attributes: {
+        address: '__NULL__',
+        content: '__NULL__',
+        create_time: '1701529137',
+        doc_id: '（2020）陕刑终267号',
+        id: '（2020）陕刑终267号-item-21',
+        input_unit: '__NULL__',
+        is_del: '0',
+        is_legal: '0',
+        is_valid: '1',
+        item_detail: '人民币八千元',
+        item_name: '罚金',
+        item_note: '__NULL__',
+        item_num: '__NULL__',
+        item_purpose: '__NULL__',
+        item_time: '__NULL__',
+        item_total_value: '__NULL__',
+        item_type: '罚金',
+        item_unit_value: '__NULL__',
+        label: '人民币八千元',
+        para_id: '__NULL__',
+        sent_id_in_doc: '__NULL__',
+        sent_id_in_para: '__NULL__',
+        str_item_time: '__NULL__',
+        subsent_id_in_para: '__NULL__',
+        update_time: '__NULL__'
+      },
+      id: '（2020）陕刑终267号-item-21',
+      label: '人民币八千元',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'item'
+    },
+    {
+      attributes: {
+        address: '',
+        content: '撤销宝鸡市中级人民法院（2020）陕03刑初20号刑事判决',
+        create_time: '1701531082',
+        doc_id: '（2020）陕刑终267号',
+        dt_date: '__NULL__',
+        event_type: '撤销之前刑事判决',
+        id: '（2020）陕刑终267号-judge_result-5',
+        input_unit: 'sentence',
+        is_del: '0',
+        is_gui_main_line: '0',
+        is_valid: '1',
+        label: '撤销宝鸡市中级人民法院（2020）陕03刑初20号刑事判决',
+        note: '__NULL__',
+        para_id: '-1',
+        sent_id_in_doc: '-1',
+        sent_id_in_para: '-1',
+        str_date: '',
+        subsent_id_in_para: '__NULL__',
+        update_time: '__NULL__'
+      },
+      id: '（2020）陕刑终267号-judge_result-5',
+      label: '撤销宝鸡市中级人民法院（2020）陕03刑初20号刑事判决',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'judge_result'
+    },
+    {
+      attributes: {
+        address: '',
+        content: '未追回的赃款赃物继续追缴，发还被害人。',
+        create_time: '1701531082',
+        doc_id: '（2020）陕刑终267号',
+        dt_date: '__NULL__',
+        event_type: '追缴赃款',
+        id: '（2020）陕刑终267号-judge_result-8',
+        input_unit: 'sentence',
+        is_del: '0',
+        is_gui_main_line: '0',
+        is_valid: '1',
+        label: '未追回的赃款赃物继续追缴，发还被害人。',
+        note: '__NULL__',
+        para_id: '-1',
+        sent_id_in_doc: '-1',
+        sent_id_in_para: '-1',
+        str_date: '',
+        subsent_id_in_para: '__NULL__',
+        update_time: '__NULL__'
+      },
+      id: '（2020）陕刑终267号-judge_result-8',
+      label: '未追回的赃款赃物继续追缴，发还被害人。',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'judge_result'
+    },
+    {
+      attributes: {
+        content:
+          '《中华人民共和国刑法》\n中华人民共和国刑法\n（1979年7月1日第五届全国人民代表大会第二次会议通过 1997年3月14日第八届全国人民代表大会第五次会议修订 根据1998年12月29日第九届全国人民代表大会常务委员会第六次会议通过的《全国人民代表大会常务委员会关于惩治骗购外汇、逃汇和非法买卖外汇犯罪的决定》、1999年12月25日第九届全国人民代表大会常务委员会第十三次会议通过的《中华人民共和国刑法修正案》、2001年8月31日第九届全国人民代表大会常务委员会第二十三次会议通过的《中华人民共和国刑法修正案（二）》、2001年12月29日第九届全国人民代表大会常务委员会第二十五次会议通过的《中华人民共和国刑法修正案（三）》、2002年12月28日第九届全国人民代表大会常务委员会第三十一次会议通过的《中华人民共和国刑法修正案（四）》、2005年2月28日第十届全国人民代表大会常务委员会第十四次会议通过的《中华人民共和国刑法修正案（五）》、2006年6月29日第十届全国人民代表大会常务委员会第二十二次会议通过的《中华人民共和国刑法修正案（六）》、2009年2月28日第十一届全国人民代表大会常务委员会第七次会议通过的《中华人民共和国刑法修正案（七）》、2009年8月27日第十一届全国人民代表大会常务委员会第十次会议通过的《全国人民代表大会常务委员会关于修改部分法律的决定》、2011年2月25日第十一届全国人民代表大会常务委员会第十九次会议通过的《中华人民共和国刑法修正案（八）》、2015年8月29日第十二届全国人民代表大会常务委员会第十六次会议通过的《中华人民共和国刑法修正案（九）》、2017年11月4日第十二届全国人民代表大会常务委员会第三十次会议通过的《中华人民共和国刑法修正案（十）》和2020年12月26日第十三届全国人民代表大会常务委员会第二十四次会议通过的《中华人民共和国刑法修正案（十一）》修正）[刑法、历次刑法修正案、涉及修改刑法的决定的施行日期，分别依据各法律所规定的施行日期确定。]',
+        effectiveDate:
+          'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
         id: 'Vertex_law_549e5382263f5d866bfb07a0a987445c',
+        issueDate:
+          'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
         label: '《中华人民共和国刑法》',
-        layout_type: '',
-        parent: '',
-        property_key: '',
-        type: 'law'
+        name: '《中华人民共和国刑法》'
       },
       id: 'Vertex_law_549e5382263f5d866bfb07a0a987445c',
       label: '《中华人民共和国刑法》',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'law'
     },
     {
       attributes: {
-        attributes: {
-          content:
-            '《中华人民共和国刑事诉讼法》\n中华人民共和国刑事诉讼法\n（1979年7月1日第五届全国人民代表大会第二次会议通过 根据1996年3月17日第八届全国人民代表大会第四次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第一次修正 根据2012年3月14日第十一届全国人民代表大会第五次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第二次修正 根据2018年10月26日第十三届全国人民代表大会常务委员会第六次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第三次修正）',
-          effectiveDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
-          issueDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          label: '《中华人民共和国刑事诉讼法》',
-          name: '《中华人民共和国刑事诉讼法》'
-        },
-        id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
+        content:
+          '《中华人民共和国刑事诉讼法》\n中华人民共和国刑事诉讼法\n（1979年7月1日第五届全国人民代表大会第二次会议通过 根据1996年3月17日第八届全国人民代表大会第四次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第一次修正 根据2012年3月14日第十一届全国人民代表大会第五次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第二次修正 根据2018年10月26日第十三届全国人民代表大会常务委员会第六次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第三次修正）',
+        effectiveDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+        id: 'b0de94d6724f4149a47e530efcb8afa4',
+        issueDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
         label: '《中华人民共和国刑事诉讼法》',
-        layout_type: '',
-        parent: '',
-        property_key: '',
-        type: 'law'
+        name: '《中华人民共和国刑事诉讼法》'
       },
-      id: 'Vertex_law_5c9d1b4194c2dbf9f6561fa2adf4f224',
+      id: 'b0de94d6724f4149a47e530efcb8afa4',
       label: '《中华人民共和国刑事诉讼法》',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'law'
     },
     {
       attributes: {
-        attributes: {
-          content: '第四编 执行',
-          effectiveDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f',
-          issueDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          label: '第四编',
-          name: '第四编'
-        },
-        id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f',
-        label: '第四编',
-        layout_type: '',
-        parent: '',
-        property_key: '',
-        type: 'title'
+        content:
+          '《中华人民共和国刑事诉讼法》\n中华人民共和国刑事诉讼法\n（1979年7月1日第五届全国人民代表大会第二次会议通过 根据1996年3月17日第八届全国人民代表大会第四次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第一次修正 根据2012年3月14日第十一届全国人民代表大会第五次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第二次修正 根据2018年10月26日第十三届全国人民代表大会常务委员会第六次会议《关于修改〈中华人民共和国刑事诉讼法〉的决定》第三次修正）',
+        effectiveDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+        id: '83b5dca171f44782b041defe53d72312',
+        issueDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+        label: '《中华人民共和国刑事诉讼法》',
+        name: '《中华人民共和国刑事诉讼法》'
       },
-      id: 'Vertex_title_a3befc08a0a95f9fd0a8df8c516c2b0f',
+      id: '83b5dca171f44782b041defe53d72312',
+      label: '《中华人民共和国刑事诉讼法》',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'law'
+    },
+    {
+      attributes: {
+        content: '第四编 执行',
+        effectiveDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+        id: '73644c1b8d2f49d79bd945feb6ce5015',
+        issueDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+        label: '第四编',
+        name: '第四编'
+      },
+      id: '73644c1b8d2f49d79bd945feb6ce5015',
       label: '第四编',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'title'
     },
     {
       attributes: {
-        attributes: {
-          content:
-            '第二百六十三条 人民法院在交付执行死刑前，应当通知同级人民检察院派员临场监督。\n死刑采用枪决或者注射等方法执行。\n死刑可以在刑场或者指定的羁押场所内执行。\n指挥执行的审判人员，对罪犯应当验明正身，讯问有无遗言、信札，然后交付执行人员执行死刑。在执行前，如果发现可能有错误，应当暂停执行，报请最高人民法院裁定。\n执行死刑应当公布，不应示众。\n执行死刑后，在场书记员应当写成笔录。交付执行的人民法院应当将执行死刑情况报告最高人民法院。\n执行死刑后，交付执行的人民法院应当通知罪犯家属。',
-          effectiveDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          id: 'Vertex_article_4180ae8991e090cab3d4bf7b62f9fe1e',
-          issueDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          label: '第二百六十三条',
-          name: '第二百六十三条'
-        },
-        id: 'Vertex_article_4180ae8991e090cab3d4bf7b62f9fe1e',
+        content:
+          '第二百六十三条 人民法院在交付执行死刑前，应当通知同级人民检察院派员临场监督。\n死刑采用枪决或者注射等方法执行。\n死刑可以在刑场或者指定的羁押场所内执行。\n指挥执行的审判人员，对罪犯应当验明正身，讯问有无遗言、信札，然后交付执行人员执行死刑。在执行前，如果发现可能有错误，应当暂停执行，报请最高人民法院裁定。\n执行死刑应当公布，不应示众。\n执行死刑后，在场书记员应当写成笔录。交付执行的人民法院应当将执行死刑情况报告最高人民法院。\n执行死刑后，交付执行的人民法院应当通知罪犯家属。',
+        effectiveDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+        id: 'edcbdf4990f24d86afe1c8377453f485',
+        issueDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
         label: '第二百六十三条',
-        layout_type: '',
-        parent: '',
-        property_key: '',
-        type: 'article'
+        name: '第二百六十三条'
       },
-      id: 'Vertex_article_4180ae8991e090cab3d4bf7b62f9fe1e',
+      id: 'edcbdf4990f24d86afe1c8377453f485',
       label: '第二百六十三条',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'article'
     },
     {
       attributes: {
-        attributes: {
-          content: '第一编 总则',
-          effectiveDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
-          issueDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          label: '第一编',
-          name: '第一编'
-        },
+        content: '第一编 总则',
+        effectiveDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
         id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
+        issueDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
         label: '第一编',
-        layout_type: '',
-        parent: '',
-        property_key: '',
-        type: 'title'
+        name: '第一编'
       },
       id: 'Vertex_title_8b1af84829b183bc417f082bd50a5e56',
       label: '第一编',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'title'
     },
     {
       attributes: {
-        attributes: {
-          content: '第五章 证据',
-          effectiveDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e',
-          issueDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          label: '第五章',
-          name: '第五章'
-        },
+        content: '第五章 证据',
+        effectiveDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
         id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e',
+        issueDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
         label: '第五章',
-        layout_type: '',
-        parent: '',
-        property_key: '',
-        type: 'chapter'
+        name: '第五章'
       },
       id: 'Vertex_chapter_bdfd6c10363a8600c01415bb14bb566e',
       label: '第五章',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'chapter'
     },
     {
       attributes: {
-        attributes: {
-          content:
-            '第六十四条 对于危害国家安全犯罪、恐怖活动犯罪、黑社会性质的组织犯罪、毒品犯罪等案件，证人、鉴定人、被害人因在诉讼中作证，本人或者其近亲属的人身安全面临危险的，人民法院、人民检察院和公安机关应当采取以下一项或者多项保护措施：\n（一）不公开真实姓名、住址和工作单位等个人信息；\n（二）采取不暴露外貌、真实声音等出庭作证措施；\n（三）禁止特定的人员接触证人、鉴定人、被害人及其近亲属；\n（四）对人身和住宅采取专门性保护措施；\n（五）其他必要的保护措施。\n证人、鉴定人、被害人认为因在诉讼中作证，本人或者其近亲属的人身安全面临危险的，可以向人民法院、人民检察院、公安机关请求予以保护。\n人民法院、人民检察院、公安机关依法采取保护措施，有关单位和个人应当配合。',
-          effectiveDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          id: 'Vertex_article_56043b606738d11e52798c7407206fee',
-          issueDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          label: '第六十四条',
-          name: '第六十四条'
-        },
+        content:
+          '第六十四条 对于危害国家安全犯罪、恐怖活动犯罪、黑社会性质的组织犯罪、毒品犯罪等案件，证人、鉴定人、被害人因在诉讼中作证，本人或者其近亲属的人身安全面临危险的，人民法院、人民检察院和公安机关应当采取以下一项或者多项保护措施：\n（一）不公开真实姓名、住址和工作单位等个人信息；\n（二）采取不暴露外貌、真实声音等出庭作证措施；\n（三）禁止特定的人员接触证人、鉴定人、被害人及其近亲属；\n（四）对人身和住宅采取专门性保护措施；\n（五）其他必要的保护措施。\n证人、鉴定人、被害人认为因在诉讼中作证，本人或者其近亲属的人身安全面临危险的，可以向人民法院、人民检察院、公安机关请求予以保护。\n人民法院、人民检察院、公安机关依法采取保护措施，有关单位和个人应当配合。',
+        effectiveDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
         id: 'Vertex_article_56043b606738d11e52798c7407206fee',
+        issueDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
         label: '第六十四条',
-        layout_type: '',
-        parent: '',
-        property_key: '',
-        type: 'article'
+        name: '第六十四条'
       },
       id: 'Vertex_article_56043b606738d11e52798c7407206fee',
       label: '第六十四条',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'article'
     },
     {
       attributes: {
-        attributes: {
-          content: '第一编 总则',
-          effectiveDate:
-            'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
-          id: 'Vertex_title_47f6cf74936adfe55999089abdc5319c',
-          issueDate:
-            'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
-          label: '第一编',
-          name: '第一编'
-        },
+        content: '第一编 总则',
+        effectiveDate:
+          'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
         id: 'Vertex_title_47f6cf74936adfe55999089abdc5319c',
+        issueDate:
+          'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
         label: '第一编',
-        layout_type: '',
-        parent: '',
-        property_key: '',
-        type: 'title'
+        name: '第一编'
       },
       id: 'Vertex_title_47f6cf74936adfe55999089abdc5319c',
       label: '第一编',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'title'
     },
     {
       attributes: {
-        attributes: {
-          content: '第四章 刑罚的具体运用',
-          effectiveDate:
-            'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
-          id: 'Vertex_chapter_998cba3c1742d9c344d21b88b42c74d3',
-          issueDate:
-            'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
-          label: '第四章',
-          name: '第四章'
-        },
+        content: '第四章 刑罚的具体运用',
+        effectiveDate:
+          'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
         id: 'Vertex_chapter_998cba3c1742d9c344d21b88b42c74d3',
+        issueDate:
+          'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
         label: '第四章',
-        layout_type: '',
-        parent: '',
-        property_key: '',
-        type: 'chapter'
+        name: '第四章'
       },
       id: 'Vertex_chapter_998cba3c1742d9c344d21b88b42c74d3',
       label: '第四章',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'chapter'
     },
     {
       attributes: {
-        attributes: {
-          content: '第三节 自首和立功',
-          effectiveDate:
-            'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
-          id: 'Vertex_section_5ce4f8316cce2368b89fbf002d2cf55f',
-          issueDate:
-            'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
-          label: '',
-          name: '第三节'
-        },
+        content: '第三节 自首和立功',
+        effectiveDate:
+          'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
         id: 'Vertex_section_5ce4f8316cce2368b89fbf002d2cf55f',
-        label: '',
-        layout_type: '',
-        parent: '',
-        property_key: '',
-        type: 'section'
+        issueDate:
+          'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
+        label: '第三节',
+        name: '第三节'
       },
       id: 'Vertex_section_5ce4f8316cce2368b89fbf002d2cf55f',
-      label: '',
+      label: '第三节',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'section'
     },
     {
       attributes: {
-        attributes: {
-          content:
-            '第六十七条 犯罪以后自动投案，如实供述自己的罪行的，是自首。对于自首的犯罪分子，可以从轻或者减轻处罚。其中，犯罪较轻的，可以免除处罚。\n被采取强制措施的犯罪嫌疑人、被告人和正在服刑的罪犯，如实供述司法机关还未掌握的本人其他罪行的，以自首论。\n犯罪嫌疑人虽不具有前两款规定的自首情节，但是如实供述自己罪行的，可以从轻处罚；因其如实供述自己罪行，避免特别严重后果发生的，可以减轻处罚。',
-          effectiveDate:
-            'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
-          id: 'Vertex_article_95cfdb65f9d42fece9e0858f4ea12106',
-          issueDate:
-            'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
-          label: '第六十七条',
-          name: '第六十七条'
-        },
+        content:
+          '第六十七条 犯罪以后自动投案，如实供述自己的罪行的，是自首。对于自首的犯罪分子，可以从轻或者减轻处罚。其中，犯罪较轻的，可以免除处罚。\n被采取强制措施的犯罪嫌疑人、被告人和正在服刑的罪犯，如实供述司法机关还未掌握的本人其他罪行的，以自首论。\n犯罪嫌疑人虽不具有前两款规定的自首情节，但是如实供述自己罪行的，可以从轻处罚；因其如实供述自己罪行，避免特别严重后果发生的，可以减轻处罚。',
+        effectiveDate:
+          'utc datetime: 2021-02-28T16:00:00.000000, timezone_offset: 0',
         id: 'Vertex_article_95cfdb65f9d42fece9e0858f4ea12106',
+        issueDate:
+          'utc datetime: 2020-10-25T16:00:00.000000, timezone_offset: 0',
         label: '第六十七条',
-        layout_type: '',
-        parent: '',
-        property_key: '',
-        type: 'article'
+        name: '第六十七条'
       },
       id: 'Vertex_article_95cfdb65f9d42fece9e0858f4ea12106',
       label: '第六十七条',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'article'
     },
     {
       attributes: {
-        attributes: {
-          content: '第一章 任务和基本原则',
-          effectiveDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d',
-          issueDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          label: '第一章',
-          name: '第一章'
-        },
+        content: '第一章 任务和基本原则',
+        effectiveDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
         id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d',
+        issueDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
         label: '第一章',
-        layout_type: '',
-        parent: '',
-        property_key: '',
-        type: 'chapter'
+        name: '第一章'
       },
       id: 'Vertex_chapter_cab3c74f63b9d03560b45aaf24a38c8d',
       label: '第一章',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'chapter'
     },
     {
       attributes: {
-        attributes: {
-          content:
-            '第十五条 犯罪嫌疑人、被告人自愿如实供述自己的罪行，承认指控的犯罪事实，愿意接受处罚的，可以依法从宽处理。',
-          effectiveDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          id: 'Vertex_article_815caa9bf43cdadeb3daa2a601638664',
-          issueDate:
-            'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
-          label: '第十五条',
-          name: '第十五条'
-        },
+        content:
+          '第十五条 犯罪嫌疑人、被告人自愿如实供述自己的罪行，承认指控的犯罪事实，愿意接受处罚的，可以依法从宽处理。',
+        effectiveDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
         id: 'Vertex_article_815caa9bf43cdadeb3daa2a601638664',
+        issueDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
         label: '第十五条',
-        layout_type: '',
-        parent: '',
-        property_key: '',
-        type: 'article'
+        name: '第十五条'
       },
       id: 'Vertex_article_815caa9bf43cdadeb3daa2a601638664',
       label: '第十五条',
       layout_type: '',
-      parent: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
       property_key: '',
       type: 'article'
     },
     {
       attributes: {
-        id: 'edbc37ad8ccd423c9aefab2a46ea417a',
+        content: '第四编 执行',
+        effectiveDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+        id: '58841ae5ae3b4d76a2e1f9bcf04b550e',
+        issueDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+        label: '第四编',
+        name: '第四编'
+      },
+      id: '58841ae5ae3b4d76a2e1f9bcf04b550e',
+      label: '第四编',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'title'
+    },
+    {
+      attributes: {
+        content:
+          '第二百六十三条 人民法院在交付执行死刑前，应当通知同级人民检察院派员临场监督。\n死刑采用枪决或者注射等方法执行。\n死刑可以在刑场或者指定的羁押场所内执行。\n指挥执行的审判人员，对罪犯应当验明正身，讯问有无遗言、信札，然后交付执行人员执行死刑。在执行前，如果发现可能有错误，应当暂停执行，报请最高人民法院裁定。\n执行死刑应当公布，不应示众。\n执行死刑后，在场书记员应当写成笔录。交付执行的人民法院应当将执行死刑情况报告最高人民法院。\n执行死刑后，交付执行的人民法院应当通知罪犯家属。',
+        effectiveDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+        id: 'ae92277c35d74d3fb762f9b1595d18cf',
+        issueDate:
+          'utc datetime: 2018-10-25T16:00:00.000000, timezone_offset: 0',
+        label: '第二百六十三条',
+        name: '第二百六十三条'
+      },
+      id: 'ae92277c35d74d3fb762f9b1595d18cf',
+      label: '第二百六十三条',
+      layout_type: '',
+      parent: '7cb3d600c90d464fbea4afee37367b38',
+      property_key: '',
+      type: 'article'
+    },
+    {
+      attributes: {
+        id: '7cb3d600c90d464fbea4afee37367b38',
         label: 'container'
       },
-      id: 'edbc37ad8ccd423c9aefab2a46ea417a',
+      id: '7cb3d600c90d464fbea4afee37367b38',
       label: 'container',
       layout_type: '',
       parent: '',

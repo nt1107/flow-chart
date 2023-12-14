@@ -43,7 +43,7 @@ export const Helper = {
         target[key] = source[key];
       } else if (typeof source[key] === 'object' && source[key] !== null) {
         target[key] = Array.isArray(source[key]) ? [] : {};
-        this.DeepCopy(source[key], target[key]);
+        this.DeepCopy(source[key], target[key], ignore);
       } else {
         target[key] = source[key];
       }
